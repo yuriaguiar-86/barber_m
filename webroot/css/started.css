@@ -1,0 +1,96 @@
+:root {
+    --red: #FA2626;
+    --grey: #A9A9A9;
+    --blue: #0058dd;
+    --black: #1D1D1D;
+    --white: #FFFFFF;
+    --green: #27AE60;
+    --yellow: #DBB801;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 14px;
+    color: var(--white);
+    background: var(--black);
+    font-family: 'Maven Pro', sans-serif;
+}
+
+.containner__main {
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.containner {
+    width: 400px;
+    margin: 50px;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.containner form {
+    width: 100%;
+    margin: 30px;
+}
+
+.containner form label {
+    padding-left: 10px;
+}
+
+.containner form .row {
+    margin: 10px 0;
+}
+
+.containner form input {
+    width: 100%;
+    margin-top: 3px;
+    padding: 8px 10px;
+
+    border: none;
+    outline: none;
+}
+
+.containner form button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 8px 10px;
+
+    border: none;
+    cursor: pointer;
+    color: var(--white);
+    background: var(--green);
+}
+
+.containner a {
+    color: var(--green);
+    text-decoration: none;
+}
+
+.msg__success {
+    background: rgba(39, 174, 95, .5);
+}
+
+.msg__error {
+    background: rgba(250, 38, 38, .5);
+}
+
+.msg__warning {
+    background: rgba(219, 184, 1, .5);
+}
+
+.msg__success, .msg__error, .msg__warning {
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+}
+

@@ -1,0 +1,88 @@
+.custom__table {
+    width: 100%;
+    margin-top: 50px;
+}
+
+.custom__table thead tr,
+.custom__table thead th {
+    padding: 10px;
+    font-size: .9em;
+
+    text-align: left;
+    text-transform: uppercase;
+}
+
+tbody tr:nth-child(even){
+    background-color: rgba(39, 174, 95, 0.01);
+}
+
+.custom__table tbody th,
+.custom__table tbody td {
+    padding: 15px 10px;
+
+    border: none;
+    color: var(--grey);
+
+    transition: .3s all ease;
+    -o-transition: .3s all ease;
+    -webkit-transition: .3s all ease;
+}
+
+.custom__table tbody tr {
+    transition: .3s all ease;
+    -o-transition: .3s all ease;
+    -webkit-transition: .3s all ease;
+}
+
+.custom__table tbody tr:hover td,
+.custom__table tbody tr:focus td {
+    color: var(--white);
+}
+
+.actions {
+    display: flex;
+}
+
+.view, .edit, .delete, .check {
+    margin-right: 15px;
+
+    display: flex;
+    align-items: center;
+}
+
+.custom__table tbody tr a {
+    color: var(--grey);
+    text-decoration: none;
+}
+
+.custom__table tbody tr:hover a,
+.custom__table tbody tr:focus a {
+    transition: .3s all ease;
+    -o-transition: .3s all ease;
+    -webkit-transition: .3s all ease;
+}
+
+.custom__table tbody tr:hover .action__view,
+.custom__table tbody tr:focus .action__view {
+    color: var(--green);
+}
+
+.custom__table tbody tr:hover .action__edit,
+.custom__table tbody tr:focus .action__edit {
+    color: var(--yellow);
+}
+
+.custom__table tbody tr:hover .action__delete,
+.custom__table tbody tr:focus .action__delete {
+    color: var(--red);
+}
+
+.custom__table tbody tr:hover .action__check,
+.custom__table tbody tr:focus .action__check {
+    color: var(--blue);
+}
+
+.table__empty {
+    padding: 10px;
+    background: var(--grey);
+}

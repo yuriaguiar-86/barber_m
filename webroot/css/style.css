@@ -1,0 +1,51 @@
+
+:root {
+    --red: #FA2626;
+    --grey: #A9A9A9;
+    --blue: #0058dd;
+    --black: #1D1D1D;
+    --white: #FFFFFF;
+    --green: #27AE60;
+    --yellow: #DBB801;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 14px;
+    color: var(--white);
+    background: var(--black);
+    font-family: 'Maven Pro', sans-serif;
+}
+
+.containner__main {
+    margin: 100px;
+}
+
+.subtitle__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.subtitle__button h1 {
+    font-size: 1.8em;
+}
+
+.subtitle__button small {
+    font-size: .6em;
+    color: var(--grey);
+}
+
+.subtitle__button p a {
+    padding: 10px;
+    border-radius: 10px;
+
+    color: var(--white);
+    text-decoration: none;
+    background: var(--green);
+}

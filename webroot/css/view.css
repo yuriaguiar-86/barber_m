@@ -1,0 +1,30 @@
+
+.profile {
+    display: flex;
+    flex-direction: row;
+}
+
+.profile p {
+    margin-left: 10px;
+}
+
+.update__password {
+    background: var(--yellow) !important;
+}
+
+.data__person {
+    margin-top: 50px;
+}
+
+.data__row {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.data__row h4 {
+    margin-right: 10px;
+}
+
+.data__person dd {
+    color: var(--grey);
+}
