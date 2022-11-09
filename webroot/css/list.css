@@ -82,7 +82,8 @@ tbody tr:nth-child(even){
     color: var(--blue);
 }
 
-.table__empty {
+.values__empty {
     padding: 10px;
+    margin-top: 20px;
     background: var(--grey);
 }

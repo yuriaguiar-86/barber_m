@@ -1,67 +1,80 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Controller $controller
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Controller'), ['action' => 'edit', $controller->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Controller'), ['action' => 'delete', $controller->id], ['confirm' => __('Are you sure you want to delete # {0}?', $controller->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Controllers'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Controller'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Actions'), ['controller' => 'Actions', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Action'), ['controller' => 'Actions', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="controllers view large-9 medium-8 columns content">
-    <h3><?= h($controller->name) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($controller->name) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Surname') ?></th>
-            <td><?= h($controller->surname) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($controller->id) ?></td>
-        </tr>
-    </table>
-    <div class="row">
-        <h4><?= __('Description') ?></h4>
-        <?= $this->Text->autoParagraph(h($controller->description)); ?>
+<section>
+    <div class="subtitle__button">
+        <h1>Controladores <small>visualização</small></h1>
+
+        <div class="profile">
+            <p><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $controller->surname, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?></p>
+            <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Controllers', 'action' => 'edit', $controller->id], ['class' => 'update']); ?></p>
+            <p><?= $this->Html->link(__('Listagem'), ['controller' => 'Controllers', 'action' => 'index']); ?></p>
+        </div>
     </div>
-    <div class="related">
-        <h4><?= __('Related Actions') ?></h4>
-        <?php if (!empty($controller->actions)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Action Map') ?></th>
-                <th scope="col"><?= __('Surname') ?></th>
-                <th scope="col"><?= __('Description') ?></th>
-                <th scope="col"><?= __('Controller Id') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($controller->actions as $actions): ?>
-            <tr>
-                <td><?= h($actions->id) ?></td>
-                <td><?= h($actions->action_map) ?></td>
-                <td><?= h($actions->surname) ?></td>
-                <td><?= h($actions->description) ?></td>
-                <td><?= h($actions->controller_id) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Actions', 'action' => 'view', $actions->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Actions', 'action' => 'edit', $actions->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Actions', 'action' => 'delete', $actions->id], ['confirm' => __('Are you sure you want to delete # {0}?', $actions->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+
+    <div class="data__person">
+        <dl>
+            <div class="data__row">
+                <h4>#</h4>
+                <dd><?= $controller->id; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Nome</h4>
+                <dd><?= $controller->name; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Apelido</h4>
+                <dd><?= $controller->surname; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Descrição</h4>
+                <dd><?= !empty($controller->description) ? $controller->description : '-'; ?></dd>
+            </div>
+        </dl>
+    </div>
+
+    <aside class="toghetter">
+        <h2> Funcionalidades</h2>
+
+        <?php if (!empty($controller->actions)) : ?>
+            <table class="custom__table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>Apelido</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach ($controller->actions as $action) : ?>
+                        <tr>
+                            <td><?= $this->Number->format($action->id) ?></td>
+                            <td><?= $action->name; ?></td>
+                            <td><?= $action->surname; ?></td>
+                            <td><?= !empty($action->description) ? $action->description : '-'; ?></td>
+
+                            <td class="actions">
+                                <div class="view">
+                                    <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Actions', 'action' => 'view', $action->id], ['class' => 'action__view', 'escape' => false]); ?>
+                                </div>
+                                <div class="edit">
+                                    <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Actions', 'action' => 'edit', $action->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                                </div>
+                                <div class="delete">
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'action__delete sweetdelete', 'data-name' => $action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $action->surname)]); ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <p class="values__empty">Nenhuma funcionalidade vinculada!</p>
         <?php endif; ?>
-    </div>
-</div>
+    </aside>
+</section>
+
+<?= $this->Html->script('sweetalert'); ?>

@@ -1,10 +1,10 @@
 <section>
   <div class="subtitle__button">
-    <h1>Meu perfil <small>Dados pessoais</small></h1>
+    <h1>Meu perfil <small>dados pessoais</small></h1>
 
     <div class="profile">
-      <p><?= $this->Html->link(__('Trocar senha'), ['controller' => 'Users', 'action' => 'updatePassword'], ['class' => 'update__password']); ?></p>
-      <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Users', 'action' => 'editProfile'], ['class' => '']); ?></p>
+      <p><?= $this->Html->link(__('Trocar senha'), ['controller' => 'Users', 'action' => 'updatePassword'], ['class' => 'update']); ?></p>
+      <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Users', 'action' => 'editProfile']); ?></p>
     </div>
   </div>
 

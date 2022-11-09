@@ -17,8 +17,8 @@
                 </tr>
             </thead>
 
-                <tbody>
-                    <?php foreach ($controllers as $controller) : ?>
+            <tbody>
+                <?php foreach ($controllers as $controller) : ?>
                     <tr>
                         <td><?= $this->Number->format($controller->id) ?></td>
                         <td><?= $controller->name; ?></td>
@@ -41,13 +41,7 @@
             </tbody>
         </table>
     <?php else : ?>
-        <table class="custom__table table__empty">
-            <thead>
-                <tr>
-                    <th>Nenhum controlador encontrado!</th>
-                </tr>
-            </thead>
-        </table>
+        <p class="values__empty">Nenhum controlador encontrado!</p>
     <?php endif; ?>
 
     <?php if (!empty($controllers)) : ?>

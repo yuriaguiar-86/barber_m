@@ -1,0 +1,48 @@
+.all__forms {
+    margin-top: 50px;
+}
+
+.all__forms label {
+    padding-left: 10px;
+}
+
+.all__forms .row {
+    margin: 10px 0;
+}
+
+.all__forms input,
+.all__forms textarea {
+    width: 100%;
+    margin-top: 3px;
+    padding: 8px 10px;
+
+    border: none;
+    outline: none;
+}
+
+.all__forms button {
+    margin-top: 20px;
+    padding: 8px 10px;
+
+    border: none;
+    cursor: pointer;
+    color: var(--white);
+}
+
+.button__save {
+    background: var(--green);
+}
+
+.button__edit {
+    background: var(--yellow);
+}
+
+.all__forms p {
+    text-align: right;
+    color: var(--grey);
+    margin-bottom: 20px;
+}
+
+.fields__required {
+    color: var(--red);
+}
