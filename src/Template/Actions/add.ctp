@@ -1,31 +1,36 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Action $action
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Actions'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Controllers'), ['controller' => 'Controllers', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Controller'), ['controller' => 'Controllers', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Roles'), ['controller' => 'Roles', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Role'), ['controller' => 'Roles', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="actions form large-9 medium-8 columns content">
-    <?= $this->Form->create($action) ?>
-    <fieldset>
-        <legend><?= __('Add Action') ?></legend>
-        <?php
-            echo $this->Form->control('action_map');
-            echo $this->Form->control('surname');
-            echo $this->Form->control('description');
-            echo $this->Form->control('controller_id', ['options' => $controllers]);
-            echo $this->Form->control('roles._ids', ['options' => $roles]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<section>
+    <div class="subtitle__button">
+        <h1>Funcionalidades <small>cadastro</small></h1>
+
+        <p><?= $this->Html->link(__('Listagem'), ['controller' => 'Actions', 'action' => 'index']); ?></p>
+    </div>
+
+    <?= $this->Flash->render(); ?>
+    <?= $this->Form->create($action, ['class' => 'all__forms']); ?>
+
+    <p><span class="fields__required">*</span> campos obrigatórios</p>
+
+    <div class="row">
+        <label>Nome <span class="fields__required">*</span></label>
+        <?= $this->Form->control('action_map', ['label' => false, 'required']); ?>
+    </div>
+
+    <div class="more__fields">
+        <div class="row right">
+            <label>Apelido <span class="fields__required">*</span></label>
+            <?= $this->Form->control('surname', ['label' => false, 'required']); ?>
+        </div>
+        <div class="row">
+            <label>Controlador <span class="fields__required">*</span></label>
+            <?= $this->Form->control('controller_id', ['options' => $controllers, 'label' => false, 'required']); ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <label>Descrição</label>
+        <?= $this->Form->control('description', ['label' => false]); ?>
+    </div>
+
+    <?= $this->Form->button(__('Cadastrar'), ['class' => 'button__save']); ?>
+    <?= $this->Form->end(); ?>
+</section>

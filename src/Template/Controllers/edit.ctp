@@ -25,6 +25,6 @@
         <?= $this->Form->control('description', ['label' => false]); ?>
     </div>
 
-    <?= $this->Form->button(__('Editar'), ['class' => 'button__edit']); ?>
+    <?= $this->Form->button(__('Atualizar'), ['class' => 'button__edit']); ?>
     <?= $this->Form->end(); ?>
 </section>

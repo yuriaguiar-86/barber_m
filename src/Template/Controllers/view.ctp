@@ -3,7 +3,7 @@
         <h1>Controladores <small>visualização</small></h1>
 
         <div class="profile">
-            <p><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $controller->surname, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?></p>
+            <?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $controller->surname, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?>
             <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Controllers', 'action' => 'edit', $controller->id], ['class' => 'update']); ?></p>
             <p><?= $this->Html->link(__('Listagem'), ['controller' => 'Controllers', 'action' => 'index']); ?></p>
         </div>
@@ -34,7 +34,7 @@
     </div>
 
     <aside class="toghetter">
-        <h2> Funcionalidades</h2>
+        <h2>Funcionalidades</h2>
 
         <?php if (!empty($controller->actions)) : ?>
             <table class="custom__table">
@@ -52,7 +52,7 @@
                     <?php foreach ($controller->actions as $action) : ?>
                         <tr>
                             <td><?= $this->Number->format($action->id) ?></td>
-                            <td><?= $action->name; ?></td>
+                            <td><?= $action->action_map; ?></td>
                             <td><?= $action->surname; ?></td>
                             <td><?= !empty($action->description) ? $action->description : '-'; ?></td>
 

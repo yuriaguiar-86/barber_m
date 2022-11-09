@@ -15,7 +15,7 @@
 
 .delete_in_view {
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
 
     color: var(--white);
     text-decoration: none;
@@ -40,7 +40,7 @@
 }
 
 .toghetter {
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 .toghetter table {

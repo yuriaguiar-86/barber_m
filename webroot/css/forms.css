@@ -7,10 +7,20 @@
 }
 
 .all__forms .row {
+    width: 100%;
     margin: 10px 0;
 }
 
+.all__forms .right {
+    margin-right: 10px;
+}
+
+.more__fields {
+    display: flex;
+}
+
 .all__forms input,
+.all__forms select,
 .all__forms textarea {
     width: 100%;
     margin-top: 3px;
@@ -38,9 +48,10 @@
 }
 
 .all__forms p {
+    margin-bottom: 20px;
+
     text-align: right;
     color: var(--grey);
-    margin-bottom: 20px;
 }
 
 .fields__required {
