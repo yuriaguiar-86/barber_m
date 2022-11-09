@@ -114,7 +114,7 @@ class ControllersController extends AppController {
 
             return $this->redirect(['controller' => 'Controllers', 'action' => 'index']);
         } catch(Exception $exc) {
-            $this->Flash->error(__('Entre em contato com o administrador!'));
+            $this->Flash->error(__('Entre em contato com o administrador!'.$exc));
             return $this->redirect($this->referer());
         }
     }

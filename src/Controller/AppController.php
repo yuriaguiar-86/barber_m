@@ -54,7 +54,7 @@ class AppController extends Controller
             ],
             'loginRedirect' => [
                 'controller' => 'Users',
-                'action' => 'profile'
+                'action' => 'home'
             ],
             'loginAction' => [
                 'controller' => 'Users',
@@ -62,7 +62,7 @@ class AppController extends Controller
             ],
             'logoutRedirect' => [
                 'controller' => 'Users',
-                'action' => 'home',
+                'action' => 'login',
             ],
             'authError' => 'Permissão negada!',
             'unauthorizedRedirect' => [

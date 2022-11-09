@@ -49,3 +49,23 @@ body {
     text-decoration: none;
     background: var(--green);
 }
+
+.msg__success {
+    background: rgba(39, 174, 95, .5);
+}
+
+.msg__error {
+    background: rgba(250, 38, 38, .5);
+}
+
+.msg__warning {
+    background: rgba(219, 184, 1, .5);
+}
+
+.msg__success,
+.msg__error,
+.msg__warning {
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+}
