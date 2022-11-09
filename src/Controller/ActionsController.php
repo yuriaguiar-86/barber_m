@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Exception;
 
 /**
  * Actions Controller
@@ -10,21 +11,21 @@ use App\Controller\AppController;
  *
  * @method \App\Model\Entity\Action[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class ActionsController extends AppController
-{
+class ActionsController extends AppController {
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null
      */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Controllers'],
-        ];
-        $actions = $this->paginate($this->Actions);
-
-        $this->set(compact('actions'));
+    public function index() {
+        try {
+            $this->paginate = ['contain' => ['Controllers']];
+            $actions = $this->paginate($this->Actions);
+            $this->set(compact('actions'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -34,13 +35,17 @@ class ActionsController extends AppController
      * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
-        $action = $this->Actions->get($id, [
-            'contain' => ['Controllers', 'Roles'],
-        ]);
+    public function view($id = null) {
+        try {
+            $action = $this->Actions->get($id, [
+                'contain' => ['Controllers', 'Roles']
+            ]);
 
-        $this->set('action', $action);
+            $this->set('action', $action);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -48,21 +53,27 @@ class ActionsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
-        $action = $this->Actions->newEntity();
-        if ($this->request->is('post')) {
-            $action = $this->Actions->patchEntity($action, $this->request->getData());
-            if ($this->Actions->save($action)) {
-                $this->Flash->success(__('The action has been saved.'));
+    public function add() {
+        try {
+            $action = $this->Actions->newEntity();
 
-                return $this->redirect(['action' => 'index']);
+            if ($this->request->is('post')) {
+                $action = $this->Actions->patchEntity($action, $this->request->getData());
+
+                if ($this->Actions->save($action)) {
+                    $this->Flash->success(__('A funcionalidade foi cadastrada com sucesso.'));
+                    return $this->redirect(['controller' => 'Actions', 'action' => 'index']);
+                }
+                $this->Flash->error(__('A funcionalidade não foi cadastrada! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The action could not be saved. Please, try again.'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        } finally {
+            $controllers = $this->Actions->Controllers->find('list', ['limit' => 200]);
+            $roles = $this->Actions->Roles->find('list', ['limit' => 200]);
+            $this->set(compact('action', 'controllers', 'roles'));
         }
-        $controllers = $this->Actions->Controllers->find('list', ['limit' => 200]);
-        $roles = $this->Actions->Roles->find('list', ['limit' => 200]);
-        $this->set(compact('action', 'controllers', 'roles'));
     }
 
     /**
@@ -72,23 +83,27 @@ class ActionsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
-        $action = $this->Actions->get($id, [
-            'contain' => ['Roles'],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $action = $this->Actions->patchEntity($action, $this->request->getData());
-            if ($this->Actions->save($action)) {
-                $this->Flash->success(__('The action has been saved.'));
+    public function edit($id = null) {
+        try {
+            $action = $this->Actions->get($id, ['contain' => ['Roles']]);
 
-                return $this->redirect(['action' => 'index']);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $action = $this->Actions->patchEntity($action, $this->request->getData());
+
+                if ($this->Actions->save($action)) {
+                    $this->Flash->success(__('A funcionalidade foi editada com sucesso.'));
+                    return $this->redirect(['controller' => 'Actions', 'action' => 'index']);
+                }
+                $this->Flash->error(__('A funcionalidade não foi editada! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The action could not be saved. Please, try again.'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        } finally {
+            $controllers = $this->Actions->Controllers->find('list', ['limit' => 200]);
+            $roles = $this->Actions->Roles->find('list', ['limit' => 200]);
+            $this->set(compact('action', 'controllers', 'roles'));
         }
-        $controllers = $this->Actions->Controllers->find('list', ['limit' => 200]);
-        $roles = $this->Actions->Roles->find('list', ['limit' => 200]);
-        $this->set(compact('action', 'controllers', 'roles'));
     }
 
     /**
@@ -98,16 +113,19 @@ class ActionsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $action = $this->Actions->get($id);
-        if ($this->Actions->delete($action)) {
-            $this->Flash->success(__('The action has been deleted.'));
-        } else {
-            $this->Flash->error(__('The action could not be deleted. Please, try again.'));
-        }
+    public function delete($id = null) {
+        try {
+            $this->request->allowMethod(['post', 'delete']);
+            $action = $this->Actions->get($id);
 
-        return $this->redirect(['action' => 'index']);
+            $this->Actions->delete($action) ?
+            $this->Flash->success(__('A funcionalidade foi apagada com sucesso.')) :
+            $this->Flash->error(__('A funcionalidade não foi apagada! Por favor, tente novamente.'));
+
+            return $this->redirect(['controller' => 'Actions', 'action' => 'index']);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 }

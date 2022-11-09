@@ -3,7 +3,6 @@ namespace App\Controller;
 
 use Cake\Event\Event;
 use App\Controller\AppController;
-use App\Controller\TypeRolesENUM;
 use Cake\Http\Exception\BadRequestException;
 use Exception;
 
@@ -14,8 +13,8 @@ use Exception;
  *
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class UsersController extends AppController
-{
+class UsersController extends AppController {
+
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
         $this->Auth->allow(['register', 'logout', 'login']);
@@ -26,14 +25,15 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Roles'],
-        ];
-        $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
+    public function index() {
+        try {
+            $this->paginate = ['contain' => ['Roles']];
+            $users = $this->paginate($this->Users);
+            $this->set(compact('users'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -43,13 +43,17 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
-        $user = $this->Users->get($id, [
-            'contain' => ['Roles', 'DaysTimes', 'Schedules'],
-        ]);
+    public function view($id = null) {
+        try {
+            $user = $this->Users->get($id, [
+                'contain' => ['Roles', 'DaysTimes', 'Schedules'],
+            ]);
 
-        $this->set('user', $user);
+            $this->set('user', $user);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -57,21 +61,27 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
-        $user = $this->Users->newEntity();
-        if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+    public function add() {
+        try {
+            $user = $this->Users->newEntity();
 
-                return $this->redirect(['action' => 'index']);
+            if ($this->request->is('post')) {
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('O usuário foi cadastrado com sucesso.'));
+                    return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+                }
+                $this->Flash->error(__('O usuário não foi cadastrado! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        } finally {
+            $roles = $this->Users->Roles->find('list', ['limit' => 200]);
+            $daysTimes = $this->Users->DaysTimes->find('list', ['limit' => 200]);
+            $this->set(compact('user', 'roles', 'daysTimes'));
         }
-        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-        $daysTimes = $this->Users->DaysTimes->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'roles', 'daysTimes'));
     }
 
     /**
@@ -81,23 +91,27 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
-        $user = $this->Users->get($id, [
-            'contain' => ['DaysTimes'],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+    public function edit($id = null) {
+        try {
+            $user = $this->Users->get($id, ['contain' => ['DaysTimes']]);
 
-                return $this->redirect(['action' => 'index']);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('O usuário foi editado com sucesso.'));
+                    return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+                }
+                $this->Flash->error(__('O usuário não foi editado! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        } finally {
+            $roles = $this->Users->Roles->find('list', ['limit' => 200]);
+            $daysTimes = $this->Users->DaysTimes->find('list', ['limit' => 200]);
+            $this->set(compact('user', 'roles', 'daysTimes'));
         }
-        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-        $daysTimes = $this->Users->DaysTimes->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'roles', 'daysTimes'));
     }
 
     /**
@@ -107,17 +121,20 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
-        } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
-        }
+    public function delete($id = null) {
+        try {
+            $this->request->allowMethod(['post', 'delete']);
+            $user = $this->Users->get($id);
 
-        return $this->redirect(['action' => 'index']);
+            $this->Users->delete($user) ?
+            $this->Flash->success(__('O usuário foi apagado com sucesso.')) :
+            $this->Flash->error(__('O usuário não foi apagado! Por favor, tente novamente.'));
+
+            return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     public function login() {
@@ -174,7 +191,14 @@ class UsersController extends AppController
         }
     }
 
-    public function dashboard() { }
+    public function dashboard() {
+        try {
+
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
+    }
 
     public function profile() {
         try {
@@ -187,7 +211,14 @@ class UsersController extends AppController
         }
     }
 
-    public function editProfile() { }
+    public function editProfile() {
+        try {
+
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
+    }
 
     public function home() {
         try {
@@ -200,5 +231,12 @@ class UsersController extends AppController
         }
     }
 
-    public function updatePassword() { }
+    public function updatePassword() {
+        try {
+
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
+    }
 }

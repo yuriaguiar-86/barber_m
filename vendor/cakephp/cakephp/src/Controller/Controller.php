@@ -156,7 +156,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      * @var array
      * @see \Cake\Controller\Component\PaginatorComponent
      */
-    public $paginate = [];
+    public $paginate = ['limit' => 10];
 
     /**
      * Set to true to automatically render the view
