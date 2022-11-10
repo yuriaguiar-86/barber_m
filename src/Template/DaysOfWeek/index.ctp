@@ -1,47 +1,54 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\DaysOfWeek[]|\Cake\Collection\CollectionInterface $daysOfWeek
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Days Of Week'), ['action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="daysOfWeek index large-9 medium-8 columns content">
-    <h3><?= __('Days Of Week') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($daysOfWeek as $daysOfWeek): ?>
-            <tr>
-                <td><?= $this->Number->format($daysOfWeek->id) ?></td>
-                <td><?= h($daysOfWeek->name) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $daysOfWeek->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $daysOfWeek->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $daysOfWeek->id], ['confirm' => __('Are you sure you want to delete # {0}?', $daysOfWeek->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+<section>
+    <div class="subtitle__button">
+        <h1>Dias da semana <small>listagem</small></h1>
+
+        <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'DaysOfWeek', 'action' => 'add']); ?></p>
     </div>
-</div>
+
+    <?php if (!empty($daysOfWeek)) : ?>
+        <table class="custom__table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($daysOfWeek as $day) : ?>
+                <tr>
+                    <td><?= $this->Number->format($day->id) ?></td>
+                    <td><?= $day->name; ?></td>
+
+                    <td class="actions">
+                        <div class="view">
+                            <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'DaysOfWeek', 'action' => 'view', $day->id], ['class' => 'action__view', 'escape' => false]); ?>
+                        </div>
+                        <div class="edit">
+                            <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'DaysOfWeek', 'action' => 'edit', $day->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                        </div>
+                        <div class="delete">
+                            <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'DaysOfWeek', 'action' => 'delete', $day->id], ['class' => 'action__delete sweetdelete', 'data-name' => $day->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja dia da semana {0}?', $day->name)]); ?>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else : ?>
+        <table class="custom__table table__empty">
+            <thead>
+                <tr>
+                    <th>Nenhum dia da semana encontrado!</th>
+                </tr>
+            </thead>
+        </table>
+    <?php endif; ?>
+
+    <?php if (!empty($roles)) : ?>
+        <?= $this->element('pagination'); ?>
+    <?php endif; ?>
+</section>
+
+<?= $this->Html->script('sweetalert'); ?>

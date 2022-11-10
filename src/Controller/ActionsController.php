@@ -99,9 +99,8 @@ class ActionsController extends AppController {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
-            $controllers = $this->Actions->Controllers->find('list', ['limit' => 200]);
-            $roles = $this->Actions->Roles->find('list', ['limit' => 200]);
-            $this->set(compact('action', 'controllers', 'roles'));
+            $controllers = $this->Actions->Controllers->find('list');
+            $this->set(compact('action', 'controllers'));
         }
     }
 

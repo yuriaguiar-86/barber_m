@@ -1,29 +1,20 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\DaysOfWeek $daysOfWeek
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $daysOfWeek->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $daysOfWeek->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Days Of Week'), ['action' => 'index']) ?></li>
-    </ul>
-</nav>
-<div class="daysOfWeek form large-9 medium-8 columns content">
-    <?= $this->Form->create($daysOfWeek) ?>
-    <fieldset>
-        <legend><?= __('Edit Days Of Week') ?></legend>
-        <?php
-            echo $this->Form->control('name');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<section>
+    <div class="subtitle__button">
+        <h1>Dias da semana <small>edição</small></h1>
+
+        <p><?= $this->Html->link(__('Listagem'), ['controller' => 'DaysOfWeek', 'action' => 'index']); ?></p>
+    </div>
+
+    <?= $this->Flash->render(); ?>
+    <?= $this->Form->create($daysOfWeek, ['class' => 'all__forms']); ?>
+
+    <p><span class="fields__required">*</span> campos obrigatórios</p>
+
+    <div class="row">
+        <label>Nome <span class="fields__required">*</span></label>
+        <?= $this->Form->control('name', ['label' => false, 'required']); ?>
+    </div>
+
+    <?= $this->Form->button(__('Atualizar'), ['class' => 'button__edit']); ?>
+    <?= $this->Form->end(); ?>
+</section>

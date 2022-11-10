@@ -16,37 +16,37 @@
       </div>
 
       <div class="data__row">
-        <h4>Usuário:</h4>
+        <h4>Usuário</h4>
         <dd><?= $user['username']; ?></dd>
       </div>
 
       <div class="data__row">
-        <h4>Nome:</h4>
+        <h4>Nome</h4>
         <dd><?= $user['name']; ?></dd>
       </div>
 
       <div class="data__row">
-        <h4>E-mail:</h4>
+        <h4>E-mail</h4>
         <dd><?= $user['email']; ?></dd>
       </div>
 
       <div class="data__row">
-        <h4>Telefone:</h4>
+        <h4>Telefone</h4>
         <dd><?= $user['personal_phone']; ?></dd>
       </div>
 
       <div class="data__row">
-        <h4>Outro telefone:</h4>
+        <h4>Outro telefone</h4>
         <dd><?= !empty($user['other_phone']) ? $user['other_phone'] : '-'; ?></dd>
       </div>
 
       <div class="data__row">
-        <h4>Data do cadastro:</h4>
+        <h4>Data do cadastro</h4>
         <dd><?= $user['created']->format('d/m/Y H:m:s'); ?></dd>
       </div>
 
       <div class="data__row">
-        <h4>Data de atualização:</h4>
+        <h4>Data de atualização</h4>
         <dd><?= $user['modified']->format('d/m/Y H:m:s'); ?></dd>
       </div>
     </dl>

@@ -47,6 +47,11 @@
     background: var(--yellow);
 }
 
+.all__forms .information__roles {
+    margin: 10px 0;
+    text-align: left;
+}
+
 .all__forms p {
     margin-bottom: 20px;
 
@@ -56,4 +61,82 @@
 
 .fields__required {
     color: var(--red);
+}
+
+.all__forms .controllers {
+    margin-top: 30px;
+}
+
+.all__forms .controllers p {
+    margin-bottom: 30px;
+}
+
+.all__forms .icons__module {
+    display: flex;
+}
+
+.all__forms .icons__module i {
+    margin-right: 10px;
+}
+
+.allcheck,
+.uncheck {
+    cursor: pointer;
+}
+
+/* CHECKBOX */
+.all__forms .input__services {
+    display: flex;
+    flex-direction: column;
+}
+
+.all__forms .input__services h4 {
+    margin-bottom: 15px;
+}
+
+.all__forms .checkbox__service {
+    display: none;
+}
+
+.all__forms .checkbox__service + label {
+    padding-left: 35px;
+    margin-bottom: 20px;
+
+    display: block;
+    cursor: pointer;
+    position: relative;
+
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.all__forms .checkbox__service + label:before {
+    top: 0;
+    left: 0;
+    opacity: .6;
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--green);
+
+    content: '';
+    display: block;
+    position: absolute;
+
+    transition: all .30s, border-color .20s;
+    -webkit-transition: all .30s, border-color .20s;
+}
+
+.all__forms .checkbox__service:checked + label:before {
+    top: -5px;
+    left: 5px;
+    opacity: 1;
+    width: 10px;
+    border-radius: 0;
+
+    border-top-color: transparent;
+    border-left-color: transparent;
+
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }

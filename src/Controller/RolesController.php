@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Http\Exception\BadRequestException;
 use Exception;
 
 /**
@@ -12,6 +13,12 @@ use Exception;
  * @method \App\Model\Entity\Role[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class RolesController extends AppController {
+
+    public function initialize() {
+        $this->loadModel('Actions_Roles');
+        return parent::initialize();
+    }
+
     /**
      * Index method
      *
@@ -36,10 +43,7 @@ class RolesController extends AppController {
      */
     public function view($id = null) {
         try {
-            $role = $this->Roles->get($id, [
-                'contain' => ['Actions', 'Users']
-            ]);
-
+            $role = $this->Roles->get($id, ['contain' => ['Actions']]);
             $this->set('role', $role);
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
@@ -55,21 +59,46 @@ class RolesController extends AppController {
     public function add() {
         try {
             $role = $this->Roles->newEntity();
+            $controllers = $this->Roles->Actions->Controllers->find('all', ['contain' => ['Actions']])->toList();
+
+            $this->validateExistActions();
 
             if ($this->request->is('post')) {
-                $role = $this->Roles->patchEntity($role, $this->request->getData());
+                $role = $this->Roles->patchEntity($role, $this->request->getData(), [
+                    'associated' => ['Actions']
+                ]);
 
-                if ($this->Roles->save($role)) {
+                $this->isSelectActions();
+
+                if ($this->Roles->save($role, ['associated' => ['Actions']])) {
                     $this->Flash->success(__('O tipo de perfil foi cadastrado com sucesso.'));
                     return $this->redirect(['controller' => 'Roles', 'action' => 'index']);
                 }
                 $this->Flash->error(__('O tipo de perfil não foi cadastrado! Por favor, tente novamente.'));
             }
-            $actions = $this->Roles->Actions->find('list', ['limit' => 200]);
-            $this->set(compact('role', 'actions'));
+        } catch(BadRequestException $exc) {
+            $this->Flash->error(__('O tipo de perfil não foi criada! Por favor, revise as informações e tente novamente.'));
+            $this->Flash->warning(__($exc->getMessage()));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
+        } finally {
+            $this->set(compact('role', 'controllers'));
+        }
+    }
+
+    private function validateExistActions() {
+        $actions = $this->Roles->Actions->find('all', ['contain' => ['Controllers']])->toList();
+
+        if(empty($actions)) {
+            $this->Flash->warning(__('Para criar um novo perfil, primeiro é necessário que seja cadastrado a(s) funcionalidade(s)!'));
+            return $this->redirect($this->referer());
+        }
+    }
+
+    private function isSelectActions() {
+        if (!isset($this->request->getData()['actions']) || empty($this->request->getData()['actions'])) {
+            throw new BadRequestException('Selecione ao menos 01 (uma) funcionalidade a ser associada ao perfil.');
         }
     }
 
@@ -85,19 +114,27 @@ class RolesController extends AppController {
             $role = $this->Roles->get($id, ['contain' => ['Actions']]);
 
             if ($this->request->is(['patch', 'post', 'put'])) {
-                $role = $this->Roles->patchEntity($role, $this->request->getData());
+                $role = $this->Roles->patchEntity($role, $this->request->getData(), [
+                    'associated' => ['Actions']
+                ]);
 
-                if ($this->Roles->save($role)) {
+                $this->isSelectActions();
+
+                if ($this->Roles->save($role, ['associated' => ['Actions']])) {
                     $this->Flash->success(__('O tipo de perfil foi editado com sucesso.'));
                     return $this->redirect(['controller' => 'Roles', 'action' => 'index']);
                 }
                 $this->Flash->error(__('O tipo de perfil não foi editado! Por favor, tente novamente.'));
             }
-            $actions = $this->Roles->Actions->find('list', ['limit' => 200]);
-            $this->set(compact('role', 'actions'));
+            $this->set(compact('role'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
+        } finally {
+            $actions = $this->Roles->Actions->find('all', ['contain' => ['Controllers']])->toList();
+            $controllers = $this->Roles->Actions->Controllers->find('all', ['contain' => ['Actions']])->toList();
+            $actions_roles = $this->Actions_Roles->find('list', ['valueField' => 'action_id'])->where(['role_id' => $id])->toList();
+            $this->set(compact('actions', 'controllers', 'actions_roles'));
         }
     }
 

@@ -1,28 +1,27 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\DaysOfWeek $daysOfWeek
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Days Of Week'), ['action' => 'edit', $daysOfWeek->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Days Of Week'), ['action' => 'delete', $daysOfWeek->id], ['confirm' => __('Are you sure you want to delete # {0}?', $daysOfWeek->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Days Of Week'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Days Of Week'), ['action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="daysOfWeek view large-9 medium-8 columns content">
-    <h3><?= h($daysOfWeek->name) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($daysOfWeek->name) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($daysOfWeek->id) ?></td>
-        </tr>
-    </table>
-</div>
+<section>
+    <div class="subtitle__button">
+        <h1>Dias da semana <small>visualização</small></h1>
+
+        <div class="profile">
+            <?= $this->Form->postLink(__('Apagar'), ['controller' => 'DaysOfWeek', 'action' => 'delete', $daysOfWeek->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $daysOfWeek->name, 'confirm' => __('Tem certeza que deseja apagar o dia da semana {0}?', $daysOfWeek->name)]); ?>
+            <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'DaysOfWeek', 'action' => 'edit', $daysOfWeek->id], ['class' => 'update']); ?></p>
+            <p><?= $this->Html->link(__('Listagem'), ['controller' => 'DaysOfWeek', 'action' => 'index']); ?></p>
+        </div>
+    </div>
+
+    <div class="data__person">
+        <dl>
+            <div class="data__row">
+                <h4>#</h4>
+                <dd><?= $daysOfWeek->id; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Nome</h4>
+                <dd><?= $daysOfWeek->name; ?></dd>
+            </div>
+        </dl>
+    </div>
+</section>
+
+<?= $this->Html->script('sweetalert'); ?>

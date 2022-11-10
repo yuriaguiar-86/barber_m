@@ -1,28 +1,27 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\TimesOfDay $timesOfDay
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Times Of Day'), ['action' => 'edit', $timesOfDay->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Times Of Day'), ['action' => 'delete', $timesOfDay->id], ['confirm' => __('Are you sure you want to delete # {0}?', $timesOfDay->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Times Of Day'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Times Of Day'), ['action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="timesOfDay view large-9 medium-8 columns content">
-    <h3><?= h($timesOfDay->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($timesOfDay->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Time') ?></th>
-            <td><?= $this->Number->format($timesOfDay->time) ?></td>
-        </tr>
-    </table>
-</div>
+<section>
+    <div class="subtitle__button">
+        <h1>Horários de atendimento <small>visualização</small></h1>
+
+        <div class="profile">
+            <?= $this->Form->postLink(__('Apagar'), ['controller' => 'TimesOfDay', 'action' => 'delete', $timesOfDay->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $timesOfDay->time, 'confirm' => __('Tem certeza que deseja apagar o horário de atendimento {0}?', $timesOfDay->time)]); ?>
+            <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'TimesOfDay', 'action' => 'edit', $timesOfDay->id], ['class' => 'update']); ?></p>
+            <p><?= $this->Html->link(__('Listagem'), ['controller' => 'TimesOfDay', 'action' => 'index']); ?></p>
+        </div>
+    </div>
+
+    <div class="data__person">
+        <dl>
+            <div class="data__row">
+                <h4>#</h4>
+                <dd><?= $timesOfDay->id; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Nome</h4>
+                <dd><?= $timesOfDay->time; ?></dd>
+            </div>
+        </dl>
+    </div>
+</section>
+
+<?= $this->Html->script('sweetalert'); ?>

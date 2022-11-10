@@ -1,130 +1,105 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Roles'), ['controller' => 'Roles', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Role'), ['controller' => 'Roles', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Schedules'), ['controller' => 'Schedules', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Schedule'), ['controller' => 'Schedules', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Days Times'), ['controller' => 'DaysTimes', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Days Time'), ['controller' => 'DaysTimes', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="users view large-9 medium-8 columns content">
-    <h3><?= h($user->name) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Username') ?></th>
-            <td><?= h($user->username) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($user->password) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Reset Password') ?></th>
-            <td><?= h($user->reset_password) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($user->name) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Email') ?></th>
-            <td><?= h($user->email) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Personal Phone') ?></th>
-            <td><?= h($user->personal_phone) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Other Phone') ?></th>
-            <td><?= h($user->other_phone) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Role') ?></th>
-            <td><?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($user->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($user->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($user->modified) ?></td>
-        </tr>
-    </table>
-    <div class="related">
-        <h4><?= __('Related Days Times') ?></h4>
-        <?php if (!empty($user->days_times)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Day Of Week Id') ?></th>
-                <th scope="col"><?= __('Time Of Day Id') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($user->days_times as $daysTimes): ?>
-            <tr>
-                <td><?= h($daysTimes->id) ?></td>
-                <td><?= h($daysTimes->day_of_week_id) ?></td>
-                <td><?= h($daysTimes->time_of_day_id) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'DaysTimes', 'action' => 'view', $daysTimes->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'DaysTimes', 'action' => 'edit', $daysTimes->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'DaysTimes', 'action' => 'delete', $daysTimes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $daysTimes->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
+<section>
+    <div class="subtitle__button">
+        <h1>Usuários <small>visualização</small></h1>
+
+        <div class="profile">
+            <?= $this->Form->postLink(__('Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $user->name, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?>
+            <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Users', 'action' => 'edit', $user->id], ['class' => 'update']); ?></p>
+            <p><?= $this->Html->link(__('Listagem'), ['controller' => 'Users', 'action' => 'index']); ?></p>
+        </div>
     </div>
-    <div class="related">
-        <h4><?= __('Related Schedules') ?></h4>
-        <?php if (!empty($user->schedules)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('User Id') ?></th>
-                <th scope="col"><?= __('Employee Id') ?></th>
-                <th scope="col"><?= __('Days Of Work Id') ?></th>
-                <th scope="col"><?= __('Types Of Payment Id') ?></th>
-                <th scope="col"><?= __('Finished') ?></th>
-                <th scope="col"><?= __('Created') ?></th>
-                <th scope="col"><?= __('Modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($user->schedules as $schedules): ?>
-            <tr>
-                <td><?= h($schedules->id) ?></td>
-                <td><?= h($schedules->user_id) ?></td>
-                <td><?= h($schedules->employee_id) ?></td>
-                <td><?= h($schedules->days_of_work_id) ?></td>
-                <td><?= h($schedules->types_of_payment_id) ?></td>
-                <td><?= h($schedules->finished) ?></td>
-                <td><?= h($schedules->created) ?></td>
-                <td><?= h($schedules->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Schedules', 'action' => 'view', $schedules->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Schedules', 'action' => 'edit', $schedules->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Schedules', 'action' => 'delete', $schedules->id], ['confirm' => __('Are you sure you want to delete # {0}?', $schedules->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
+
+    <div class="data__person">
+        <dl>
+            <div class="data__row">
+                <h4>#</h4>
+                <dd><?= $user->id; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Usuário</h4>
+                <dd><?= $user->username; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Nome</h4>
+                <dd><?= $user->name; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>E-mail</h4>
+                <dd><?= $user->email; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Telefone</h4>
+                <dd><?= $user->personal_phone; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Outro telefone</h4>
+                <dd><?= !empty($user->other_phone) ? $user->other_phone : '-'; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Tipo de permissão</h4>
+                <dd><?= $user->role->name; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Data do cadastro</h4>
+                <dd><?= $user->created->format('d/m/Y H:m:s'); ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Data de atualização</h4>
+                <dd><?= $user->modified->format('d/m/Y H:m:s'); ?></dd>
+            </div>
+        </dl>
     </div>
-</div>
+
+    <aside class="toghetter">
+        <h2>Agendamentos</h2>
+
+        <?php if (!empty($user->schedules)) : ?>
+            <table class="custom__table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Funcionário</th>
+                        <!-- <th>Pagamento</th> -->
+                        <!-- <th>Serviços</th> -->
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach ($user->schedules as $schedule) : ?>
+                        <tr>
+                            <td><?= $this->Number->format($schedule->id) ?></td>
+                            <td><?= $schedule->employee->name; ?></td>
+                            <!-- <td></?= $action->types_of_payment->name; ?></td> -->
+                            <!-- <td></?= $action->types_of_service->name; ?></td> -->
+
+                            <td class="actions">
+                                <div class="view">
+                                    <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Schedules', 'action' => 'view', $schedule->id], ['class' => 'action__view', 'escape' => false]); ?>
+                                </div>
+                                <div class="edit">
+                                    <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Schedules', 'action' => 'edit', $schedule->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                                </div>
+                                <div class="delete">
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'action__delete sweetdelete', 'data-name' => $user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do {0}?', $user->name)]); ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <p class="values__empty">Nenhuma agedamento realizado!</p>
+        <?php endif; ?>
+    </aside>
+</section>
+
+<?= $this->Html->script('sweetalert'); ?>

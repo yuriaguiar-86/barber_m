@@ -79,7 +79,7 @@ class UsersController extends AppController {
             return $this->redirect($this->referer());
         } finally {
             $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-            $daysTimes = $this->Users->DaysTimes->find('list', ['limit' => 200]);
+            $daysTimes = $this->Users->DaysTimes->find('all')->toList();
             $this->set(compact('user', 'roles', 'daysTimes'));
         }
     }

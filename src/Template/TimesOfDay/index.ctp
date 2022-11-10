@@ -1,47 +1,54 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\TimesOfDay[]|\Cake\Collection\CollectionInterface $timesOfDay
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Times Of Day'), ['action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="timesOfDay index large-9 medium-8 columns content">
-    <h3><?= __('Times Of Day') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('time') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($timesOfDay as $timesOfDay): ?>
-            <tr>
-                <td><?= $this->Number->format($timesOfDay->id) ?></td>
-                <td><?= $this->Number->format($timesOfDay->time) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $timesOfDay->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $timesOfDay->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $timesOfDay->id], ['confirm' => __('Are you sure you want to delete # {0}?', $timesOfDay->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+<section>
+    <div class="subtitle__button">
+        <h1>Horários de atendimento <small>listagem</small></h1>
+
+        <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'TimesOfDay', 'action' => 'add']); ?></p>
     </div>
-</div>
+
+    <?php if (!empty($timesOfDay)) : ?>
+        <table class="custom__table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Horário</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($timesOfDay as $clock) : ?>
+                <tr>
+                    <td><?= $this->Number->format($clock->id) ?></td>
+                    <td><?= $clock->time; ?></td>
+
+                    <td class="actions">
+                        <div class="view">
+                            <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'TimesOfDay', 'action' => 'view', $clock->id], ['class' => 'action__view', 'escape' => false]); ?>
+                        </div>
+                        <div class="edit">
+                            <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'TimesOfDay', 'action' => 'edit', $clock->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                        </div>
+                        <div class="delete">
+                            <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'TimesOfDay', 'action' => 'delete', $clock->id], ['class' => 'action__delete sweetdelete', 'data-name' => $clock->time, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o horário {0}?', $clock->time)]); ?>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else : ?>
+        <table class="custom__table table__empty">
+            <thead>
+                <tr>
+                    <th>Nenhum horário de atendimento encontrado!</th>
+                </tr>
+            </thead>
+        </table>
+    <?php endif; ?>
+
+    <?php if (!empty($roles)) : ?>
+        <?= $this->element('pagination'); ?>
+    <?php endif; ?>
+</section>
+
+<?= $this->Html->script('sweetalert'); ?>

@@ -107,7 +107,7 @@ class AppController extends Controller
         }
 
         foreach($actions_maps as $action_map) {
-            if(strcasecmp($controller, $action_map['controller']['name']) == 0 && strcasecmp($action, $action_map['map']) == 0) {
+            if(strcasecmp($controller, $action_map['controller']['name']) == 0 && strcasecmp($action, $action_map['action_map']) == 0) {
                 return true;
             }
         }

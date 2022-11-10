@@ -22,6 +22,8 @@
         <?= $this->Form->control('other_phone', ['label' => false]); ?>
     </div>
 
+    <h3 class="subtitle">Dados de acesso</h3>
+
     <div class="row">
         <label>Usuário</label>
         <?= $this->Form->control('username', ['label' => false, 'required']); ?>
@@ -40,5 +42,5 @@
     <?= $this->Form->button(__('Criar conta')); ?>
     <?= $this->Form->end(); ?>
 
-    <p>Já possui cadastro? <?= $this->Html->link(__('Efetuar login'), ['controller' => 'Users', 'action' => 'login']); ?></p>
+    <p class="router">Já possui cadastro? <?= $this->Html->link(__('Efetuar login'), ['controller' => 'Users', 'action' => 'login']); ?></p>
 </section>

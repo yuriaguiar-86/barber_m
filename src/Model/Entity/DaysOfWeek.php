@@ -21,6 +21,6 @@ class DaysOfWeek extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
+        'name' => true
     ];
 }
