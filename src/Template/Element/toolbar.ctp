@@ -18,7 +18,7 @@
         <ul class="dropdown">
           <li><?= $this->Html->link(__('Usuários'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'header__link']); ?></li>
           <li><?= $this->Html->link(__('Dias da semana'), ['controller' => 'DaysOfWeek', 'action' => 'index'], ['class' => 'header__link']); ?></li>
-          <li><?= $this->Html->link(__('Horários do dia'), ['controller' => 'TimesOfDay', 'action' => 'index'], ['class' => 'header__link']); ?></li>
+          <li><?= $this->Html->link(__('Horários de funcionamento'), ['controller' => 'TimesOfDay', 'action' => 'index'], ['class' => 'header__link']); ?></li>
           <li><?= $this->Html->link(__('Tipos de perfis'), ['controller' => 'Roles', 'action' => 'index'], ['class' => 'header__link']); ?></li>
           <li><?= $this->Html->link(__('Funcionalidades'), ['controller' => 'Actions', 'action' => 'index'], ['class' => 'header__link']); ?></li>
           <li><?= $this->Html->link(__('Controladores'), ['controller' => 'Controllers', 'action' => 'index'], ['class' => 'header__link']); ?></li>

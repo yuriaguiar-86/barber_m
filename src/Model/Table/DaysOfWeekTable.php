@@ -33,6 +33,12 @@ class DaysOfWeekTable extends Table
         $this->setTable('days_of_week');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->belongsToMany('TimesOfDay', [
+            'foreignKey' => 'day_of_week_id',
+            'targetForeignKey' => 'time_of_day_id',
+            'joinTable' => 'days_times',
+        ]);
     }
 
     /**

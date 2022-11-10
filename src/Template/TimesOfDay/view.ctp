@@ -1,6 +1,6 @@
 <section>
     <div class="subtitle__button">
-        <h1>Horários de atendimento <small>visualização</small></h1>
+        <h1>Horários de funcionamento <small>visualização</small></h1>
 
         <div class="profile">
             <?= $this->Form->postLink(__('Apagar'), ['controller' => 'TimesOfDay', 'action' => 'delete', $timesOfDay->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $timesOfDay->time, 'confirm' => __('Tem certeza que deseja apagar o horário de atendimento {0}?', $timesOfDay->time)]); ?>

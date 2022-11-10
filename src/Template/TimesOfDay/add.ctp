@@ -1,6 +1,6 @@
 <section>
     <div class="subtitle__button">
-        <h1>Horários de atendimento <small>cadastro</small></h1>
+        <h1>Horários de funcionamento <small>cadastro</small></h1>
 
         <p><?= $this->Html->link(__('Listagem'), ['controller' => 'TimesOfDay', 'action' => 'index']); ?></p>
     </div>

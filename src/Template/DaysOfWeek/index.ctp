@@ -11,7 +11,7 @@
                 <tr>
                     <th>#</th>
                     <th>Nome</th>
-                    <th></th>
+                    <th>Horários de funcionamento</th>
                 </tr>
             </thead>
 
@@ -20,6 +20,12 @@
                 <tr>
                     <td><?= $this->Number->format($day->id) ?></td>
                     <td><?= $day->name; ?></td>
+
+                    <td>
+                        <?php foreach ($day->times_of_day as $clock) : ?>
+                            <?= $clock->time; ?>:00H &nbsp;&nbsp;
+                        <?php endforeach; ?>
+                    </td>
 
                     <td class="actions">
                         <div class="view">
@@ -46,7 +52,7 @@
         </table>
     <?php endif; ?>
 
-    <?php if (!empty($roles)) : ?>
+    <?php if (!empty($daysOfWeek)) : ?>
         <?= $this->element('pagination'); ?>
     <?php endif; ?>
 </section>

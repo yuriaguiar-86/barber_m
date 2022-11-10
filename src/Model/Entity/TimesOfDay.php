@@ -22,5 +22,6 @@ class TimesOfDay extends Entity
      */
     protected $_accessible = [
         'time' => true,
+        'days_of_week' => true
     ];
 }

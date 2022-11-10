@@ -12,6 +12,12 @@ use Exception;
  * @method \App\Model\Entity\DaysOfWeek[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class DaysOfWeekController extends AppController {
+
+    public function initialize() {
+        $this->loadModel('DaysTimes');
+        return parent::initialize();
+    }
+
     /**
      * Index method
      *
@@ -19,6 +25,7 @@ class DaysOfWeekController extends AppController {
      */
     public function index() {
         try {
+            $this->paginate = ['contain' => ['TimesOfDay']];
             $daysOfWeek = $this->paginate($this->DaysOfWeek);
             $this->set(compact('daysOfWeek'));
         } catch(Exception $exc) {
@@ -36,7 +43,9 @@ class DaysOfWeekController extends AppController {
      */
     public function view($id = null) {
         try {
-            $daysOfWeek = $this->DaysOfWeek->get($id);
+            $daysOfWeek = $this->DaysOfWeek->get($id, [
+                'contain' => ['TimesOfDay']
+            ]);
             $this->set('daysOfWeek', $daysOfWeek);
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
@@ -54,18 +63,22 @@ class DaysOfWeekController extends AppController {
             $daysOfWeek = $this->DaysOfWeek->newEntity();
 
             if ($this->request->is('post')) {
-                $daysOfWeek = $this->DaysOfWeek->patchEntity($daysOfWeek, $this->request->getData());
+                $daysOfWeek = $this->DaysOfWeek->patchEntity($daysOfWeek, $this->request->getData(), [
+                    'associated' => ['TimesOfDay']
+                ]);
 
-                if ($this->DaysOfWeek->save($daysOfWeek)) {
+                if ($this->DaysOfWeek->save($daysOfWeek, ['associated' => ['TimesOfDay']])) {
                     $this->Flash->success(__('O dia da semana foi cadastrado com sucesso.'));
                     return $this->redirect(['controller' => 'DaysOfWeek', 'action' => 'index']);
                 }
                 $this->Flash->error(__('O dia da semana não foi cadastrado! Por favor, tente novamente.'));
             }
-            $this->set(compact('daysOfWeek'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
+        } finally {
+            $times = $this->DaysOfWeek->TimesOfDay->find('all')->toList();
+            $this->set(compact('daysOfWeek', 'times'));
         }
     }
 
@@ -81,18 +94,23 @@ class DaysOfWeekController extends AppController {
             $daysOfWeek = $this->DaysOfWeek->get($id);
 
             if ($this->request->is(['patch', 'post', 'put'])) {
-                $daysOfWeek = $this->DaysOfWeek->patchEntity($daysOfWeek, $this->request->getData());
+                $daysOfWeek = $this->DaysOfWeek->patchEntity($daysOfWeek, $this->request->getData(), [
+                    'associated' => ['TimesOfDay']
+                ]);
 
-                if ($this->DaysOfWeek->save($daysOfWeek)) {
+                if ($this->DaysOfWeek->save($daysOfWeek, ['associated' => ['TimesOfDay']])) {
                     $this->Flash->success(__('O dia da semana foi editado com sucesso.'));
                     return $this->redirect(['controller' => 'DaysOfWeek', 'action' => 'index']);
                 }
                 $this->Flash->error(__('O dia da semana não foi editado! Por favor, tente novamente.'));
             }
-            $this->set(compact('daysOfWeek'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
+        } finally {
+            $times = $this->DaysOfWeek->TimesOfDay->find('all')->toList();
+            $day_times = $this->DaysTimes->find('list', ['valueField' => 'time_of_day_id '])->where(['day_of_week_id' => $id])->toList();
+            $this->set(compact('daysOfWeek', 'times', 'day_times'));
         }
     }
 

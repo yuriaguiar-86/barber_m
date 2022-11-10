@@ -1,6 +1,6 @@
 <section>
     <div class="subtitle__button">
-        <h1>Horários de atendimento <small>listagem</small></h1>
+        <h1>Horários de funcionamento <small>listagem</small></h1>
 
         <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'TimesOfDay', 'action' => 'add']); ?></p>
     </div>
@@ -19,7 +19,7 @@
                 <?php foreach ($timesOfDay as $clock) : ?>
                 <tr>
                     <td><?= $this->Number->format($clock->id) ?></td>
-                    <td><?= $clock->time; ?></td>
+                    <td><?= $clock->time; ?>:00H</td>
 
                     <td class="actions">
                         <div class="view">
@@ -40,13 +40,13 @@
         <table class="custom__table table__empty">
             <thead>
                 <tr>
-                    <th>Nenhum horário de atendimento encontrado!</th>
+                    <th>Nenhum horário de funcionamento encontrado!</th>
                 </tr>
             </thead>
         </table>
     <?php endif; ?>
 
-    <?php if (!empty($roles)) : ?>
+    <?php if (!empty($timesOfDay)) : ?>
         <?= $this->element('pagination'); ?>
     <?php endif; ?>
 </section>
