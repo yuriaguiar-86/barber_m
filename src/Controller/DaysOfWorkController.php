@@ -60,10 +60,10 @@ class DaysOfWorkController extends AppController {
                 $daysOfWork = $this->DaysOfWork->patchEntity($daysOfWork, $this->request->getData());
 
                 if ($this->DaysOfWork->save($daysOfWork)) {
-                    $this->Flash->success(__('O dia de trabalho foi cadastrado com sucesso.'));
+                    $this->Flash->success(__('O dia de folga foi cadastrado com sucesso.'));
                     return $this->redirect(['controller' =>'DaysOfWork', 'action' => 'index']);
                 }
-                $this->Flash->error(__('O dia de trabalho não foi cadastrado! Por favor, tente novamente.'));
+                $this->Flash->error(__('O dia de folga não foi cadastrado! Por favor, tente novamente.'));
             }
             $this->set(compact('daysOfWork'));
         } catch(Exception $exc) {
@@ -87,10 +87,10 @@ class DaysOfWorkController extends AppController {
                 $daysOfWork = $this->DaysOfWork->patchEntity($daysOfWork, $this->request->getData());
 
                 if ($this->DaysOfWork->save($daysOfWork)) {
-                    $this->Flash->success(__('O dia de trabalho foi editado com sucesso.'));
+                    $this->Flash->success(__('O dia de folga foi editado com sucesso.'));
                     return $this->redirect(['controller' =>'DaysOfWork', 'action' => 'index']);
                 }
-                $this->Flash->error(__('O dia de trabalho não foi editado! Por favor, tente novamente.'));
+                $this->Flash->error(__('O dia de folga não foi editado! Por favor, tente novamente.'));
             }
             $this->set(compact('daysOfWork'));
         } catch(Exception $exc) {
@@ -112,8 +112,8 @@ class DaysOfWorkController extends AppController {
             $daysOfWork = $this->DaysOfWork->get($id);
 
             $this->DaysOfWork->delete($daysOfWork) ?
-            $this->Flash->success(__('O dia de trabalho foi apagado com sucesso.')) :
-            $this->Flash->error(__('O dia de trabalho não foi apagado! Por favor, tente novamente.'));
+            $this->Flash->success(__('O dia de folga foi apagado com sucesso.')) :
+            $this->Flash->error(__('O dia de folga não foi apagado! Por favor, tente novamente.'));
 
             return $this->redirect(['controller' =>'DaysOfWork', 'action' => 'index']);
         } catch(Exception $exc) {

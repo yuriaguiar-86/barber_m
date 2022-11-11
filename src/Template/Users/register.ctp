@@ -14,12 +14,12 @@
 
     <div class="row">
         <label>Telefone</label>
-        <?= $this->Form->control('personal_phone', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('personal_phone', ['label' => false, 'class' => 'phone', 'required']); ?>
     </div>
 
     <div class="row">
         <label>Outro telefone</label>
-        <?= $this->Form->control('other_phone', ['label' => false]); ?>
+        <?= $this->Form->control('other_phone', ['label' => false, 'class' => 'phone']); ?>
     </div>
 
     <h3 class="subtitle">Dados de acesso</h3>
@@ -44,3 +44,5 @@
 
     <p class="router">Já possui cadastro? <?= $this->Html->link(__('Efetuar login'), ['controller' => 'Users', 'action' => 'login']); ?></p>
 </section>
+
+<?= $this->Html->script('masks'); ?>

@@ -1,51 +1,56 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\DaysOfWork[]|\Cake\Collection\CollectionInterface $daysOfWork
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Days Of Work'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Schedules'), ['controller' => 'Schedules', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Schedule'), ['controller' => 'Schedules', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="daysOfWork index large-9 medium-8 columns content">
-    <h3><?= __('Days Of Work') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('not_work') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($daysOfWork as $daysOfWork): ?>
-            <tr>
-                <td><?= $this->Number->format($daysOfWork->id) ?></td>
-                <td><?= h($daysOfWork->not_work) ?></td>
-                <td><?= h($daysOfWork->created) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $daysOfWork->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $daysOfWork->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $daysOfWork->id], ['confirm' => __('Are you sure you want to delete # {0}?', $daysOfWork->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+<section>
+    <div class="subtitle__button">
+        <h1>Dias de folga <small>listagem</small></h1>
+
+        <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'DaysOfWork', 'action' => 'add']); ?></p>
     </div>
-</div>
+
+    <?php if (!empty($daysOfWork)) : ?>
+        <table class="custom__table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Dia da folga</th>
+                    <th>Descrição</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($daysOfWork as $day) : ?>
+                <tr>
+                    <td><?= $this->Number->format($day->id) ?></td>
+                    <td><?= $day->not_work->format('d/m/Y'); ?></td>
+                    <td><?= !empty($day->description) ? $day->description : '-'; ?></td>
+
+                    <td class="actions">
+                        <div class="view">
+                            <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'DaysOfWork', 'action' => 'view', $day->id], ['class' => 'action__view', 'escape' => false]); ?>
+                        </div>
+                        <div class="edit">
+                            <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'DaysOfWork', 'action' => 'edit', $day->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                        </div>
+                        <div class="delete">
+                            <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'DaysOfWork', 'action' => 'delete', $day->id], ['class' => 'action__delete sweetdelete', 'data-name' => $day->not_work->format('d/m/Y'), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a folga do dia {0}?', $day->not_work->format('d/m/Y'))]); ?>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else : ?>
+        <table class="custom__table table__empty">
+            <thead>
+                <tr>
+                    <th>Nenhum dia de folga encontrado!</th>
+                </tr>
+            </thead>
+        </table>
+    <?php endif; ?>
+
+    <?php if (!empty($daysOfWork)) : ?>
+        <?= $this->element('pagination'); ?>
+    <?php endif; ?>
+</section>
+
+<?= $this->Html->script('sweetalert'); ?>

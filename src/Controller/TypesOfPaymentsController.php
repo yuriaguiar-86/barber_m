@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Exception;
 
 /**
  * TypesOfPayments Controller
@@ -10,18 +11,20 @@ use App\Controller\AppController;
  *
  * @method \App\Model\Entity\TypesOfPayment[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class TypesOfPaymentsController extends AppController
-{
+class TypesOfPaymentsController extends AppController {
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null
      */
-    public function index()
-    {
-        $typesOfPayments = $this->paginate($this->TypesOfPayments);
-
-        $this->set(compact('typesOfPayments'));
+    public function index() {
+        try {
+            $typesOfPayments = $this->paginate($this->TypesOfPayments);
+            $this->set(compact('typesOfPayments'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -31,13 +34,14 @@ class TypesOfPaymentsController extends AppController
      * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
-        $typesOfPayment = $this->TypesOfPayments->get($id, [
-            'contain' => ['Schedules'],
-        ]);
-
-        $this->set('typesOfPayment', $typesOfPayment);
+    public function view($id = null) {
+        try {
+            $typesOfPayment = $this->TypesOfPayments->get($id);
+            $this->set('typesOfPayment', $typesOfPayment);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -45,19 +49,24 @@ class TypesOfPaymentsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
-        $typesOfPayment = $this->TypesOfPayments->newEntity();
-        if ($this->request->is('post')) {
-            $typesOfPayment = $this->TypesOfPayments->patchEntity($typesOfPayment, $this->request->getData());
-            if ($this->TypesOfPayments->save($typesOfPayment)) {
-                $this->Flash->success(__('The types of payment has been saved.'));
+    public function add() {
+        try {
+            $typesOfPayment = $this->TypesOfPayments->newEntity();
 
-                return $this->redirect(['action' => 'index']);
+            if ($this->request->is('post')) {
+                $typesOfPayment = $this->TypesOfPayments->patchEntity($typesOfPayment, $this->request->getData());
+
+                if ($this->TypesOfPayments->save($typesOfPayment)) {
+                    $this->Flash->success(__('O tipo de pagamento foi cadastrado.'));
+                    return $this->redirect(['controller' => 'TypesOfPayments', 'action' => 'index']);
+                }
+                $this->Flash->error(__('O tipo de pagamento não foi cadastrado! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The types of payment could not be saved. Please, try again.'));
+            $this->set(compact('typesOfPayment'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
         }
-        $this->set(compact('typesOfPayment'));
     }
 
     /**
@@ -67,21 +76,24 @@ class TypesOfPaymentsController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
-        $typesOfPayment = $this->TypesOfPayments->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $typesOfPayment = $this->TypesOfPayments->patchEntity($typesOfPayment, $this->request->getData());
-            if ($this->TypesOfPayments->save($typesOfPayment)) {
-                $this->Flash->success(__('The types of payment has been saved.'));
+    public function edit($id = null) {
+        try {
+            $typesOfPayment = $this->TypesOfPayments->get($id);
 
-                return $this->redirect(['action' => 'index']);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $typesOfPayment = $this->TypesOfPayments->patchEntity($typesOfPayment, $this->request->getData());
+
+                if ($this->TypesOfPayments->save($typesOfPayment)) {
+                    $this->Flash->success(__('O tipo de pagamento foi editado.'));
+                    return $this->redirect(['controller' => 'TypesOfPayments', 'action' => 'index']);
+                }
+                $this->Flash->error(__('O tipo de pagamento não foi editado! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The types of payment could not be saved. Please, try again.'));
+            $this->set(compact('typesOfPayment'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
         }
-        $this->set(compact('typesOfPayment'));
     }
 
     /**
@@ -91,16 +103,19 @@ class TypesOfPaymentsController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $typesOfPayment = $this->TypesOfPayments->get($id);
-        if ($this->TypesOfPayments->delete($typesOfPayment)) {
-            $this->Flash->success(__('The types of payment has been deleted.'));
-        } else {
-            $this->Flash->error(__('The types of payment could not be deleted. Please, try again.'));
-        }
+    public function delete($id = null) {
+        try {
+            $this->request->allowMethod(['post', 'delete']);
+            $typesOfPayment = $this->TypesOfPayments->get($id);
 
-        return $this->redirect(['action' => 'index']);
+            $this->TypesOfPayments->delete($typesOfPayment) ?
+            $this->Flash->success(__('O tipo de pagamento foi apagado.')) :
+            $this->Flash->error(__('O tipo de pagamento não foi apagado! Por favor, tente novamente.'));
+
+            return $this->redirect(['controller' => 'TypesOfPayments', 'action' => 'index']);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 }

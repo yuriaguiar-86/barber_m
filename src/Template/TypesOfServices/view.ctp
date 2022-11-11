@@ -1,81 +1,37 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\TypesOfService $typesOfService
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Types Of Service'), ['action' => 'edit', $typesOfService->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Types Of Service'), ['action' => 'delete', $typesOfService->id], ['confirm' => __('Are you sure you want to delete # {0}?', $typesOfService->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Types Of Services'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Types Of Service'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Schedules'), ['controller' => 'Schedules', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Schedule'), ['controller' => 'Schedules', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="typesOfServices view large-9 medium-8 columns content">
-    <h3><?= h($typesOfService->name) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($typesOfService->name) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($typesOfService->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Price') ?></th>
-            <td><?= $this->Number->format($typesOfService->price) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($typesOfService->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($typesOfService->modified) ?></td>
-        </tr>
-    </table>
-    <div class="row">
-        <h4><?= __('Description') ?></h4>
-        <?= $this->Text->autoParagraph(h($typesOfService->description)); ?>
+<section>
+    <div class="subtitle__button">
+        <h1>Tipos de serviços <small>visualização</small></h1>
+
+        <div class="profile">
+            <?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $typesOfService->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $typesOfService->name, 'confirm' => __('Tem certeza que deseja apagar o serviço {0}?', $typesOfService->name)]); ?>
+            <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'TypesOfServices', 'action' => 'edit', $typesOfService->id], ['class' => 'update']); ?></p>
+            <p><?= $this->Html->link(__('Listagem'), ['controller' => 'TypesOfServices', 'action' => 'index']); ?></p>
+        </div>
     </div>
-    <div class="related">
-        <h4><?= __('Related Schedules') ?></h4>
-        <?php if (!empty($typesOfService->schedules)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('User Id') ?></th>
-                <th scope="col"><?= __('Employee Id') ?></th>
-                <th scope="col"><?= __('Days Of Work Id') ?></th>
-                <th scope="col"><?= __('Types Of Payment Id') ?></th>
-                <th scope="col"><?= __('Finished') ?></th>
-                <th scope="col"><?= __('Created') ?></th>
-                <th scope="col"><?= __('Modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($typesOfService->schedules as $schedules): ?>
-            <tr>
-                <td><?= h($schedules->id) ?></td>
-                <td><?= h($schedules->user_id) ?></td>
-                <td><?= h($schedules->employee_id) ?></td>
-                <td><?= h($schedules->days_of_work_id) ?></td>
-                <td><?= h($schedules->types_of_payment_id) ?></td>
-                <td><?= h($schedules->finished) ?></td>
-                <td><?= h($schedules->created) ?></td>
-                <td><?= h($schedules->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Schedules', 'action' => 'view', $schedules->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Schedules', 'action' => 'edit', $schedules->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Schedules', 'action' => 'delete', $schedules->id], ['confirm' => __('Are you sure you want to delete # {0}?', $schedules->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-        <?php endif; ?>
+
+    <div class="data__person">
+        <dl>
+            <div class="data__row">
+                <h4>#</h4>
+                <dd><?= $typesOfService->id; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Nome</h4>
+                <dd><?= $typesOfService->name; ?></dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Preço</h4>
+                <dd>R$ <?= $typesOfService->price; ?>,00</dd>
+            </div>
+
+            <div class="data__row">
+                <h4>Descrição</h4>
+                <dd><?= !empty($typesOfService->description) ? $typesOfService->description : '-'; ?></dd>
+            </div>
+        </dl>
     </div>
-</div>
+</section>
+
+<?= $this->Html->script('sweetalert'); ?>

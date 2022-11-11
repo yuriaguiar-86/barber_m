@@ -20,6 +20,12 @@ class UsersController extends AppController {
         $this->Auth->allow(['register', 'logout', 'login']);
     }
 
+    public function initialize() {
+        $this->loadModel('DaysOfWeek');
+        $this->loadModel('UsersDaysTimes');
+        return parent::initialize();
+    }
+
     /**
      * Index method
      *
@@ -66,9 +72,11 @@ class UsersController extends AppController {
             $user = $this->Users->newEntity();
 
             if ($this->request->is('post')) {
-                $user = $this->Users->patchEntity($user, $this->request->getData());
+                $user = $this->Users->patchEntity($user, $this->request->getData(), [
+                    'associated' => ['DaysTimes']
+                ]);
 
-                if ($this->Users->save($user)) {
+                if ($this->Users->save($user, ['associated' => ['DaysTimes']])) {
                     $this->Flash->success(__('O usuário foi cadastrado com sucesso.'));
                     return $this->redirect(['controller' => 'Users', 'action' => 'index']);
                 }
@@ -78,8 +86,8 @@ class UsersController extends AppController {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
-            $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-            $daysTimes = $this->Users->DaysTimes->find('all')->toList();
+            $roles = $this->Users->Roles->find('list');
+            $daysTimes = $this->DaysOfWeek->find('all', ['contain' => ['TimesOfDay']])->toList();
             $this->set(compact('user', 'roles', 'daysTimes'));
         }
     }
@@ -96,9 +104,11 @@ class UsersController extends AppController {
             $user = $this->Users->get($id, ['contain' => ['DaysTimes']]);
 
             if ($this->request->is(['patch', 'post', 'put'])) {
-                $user = $this->Users->patchEntity($user, $this->request->getData());
+                $user = $this->Users->patchEntity($user, $this->request->getData(), [
+                    'associated' => ['DaysTimes']
+                ]);
 
-                if ($this->Users->save($user)) {
+                if ($this->Users->save($user, ['associated' => ['DaysTimes']])) {
                     $this->Flash->success(__('O usuário foi editado com sucesso.'));
                     return $this->redirect(['controller' => 'Users', 'action' => 'index']);
                 }
@@ -108,9 +118,10 @@ class UsersController extends AppController {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
-            $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-            $daysTimes = $this->Users->DaysTimes->find('list', ['limit' => 200]);
-            $this->set(compact('user', 'roles', 'daysTimes'));
+            $roles = $this->Users->Roles->find('list');
+            $daysTimes = $this->DaysOfWeek->find('all', ['contain' => ['TimesOfDay']])->toList();
+            $usersDays = $this->UsersDaysTimes->find('list', ['valueField' => 'days_time_id'])->where(['user_id' => $id])->toList();
+            $this->set(compact('user', 'roles', 'daysTimes', 'usersDays'));
         }
     }
 
@@ -213,10 +224,27 @@ class UsersController extends AppController {
 
     public function editProfile() {
         try {
+            $id = $this->getIdUserLogged();
+            $user = $this->Users->get($id);
 
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $user = $this->Users->patchEntity($user, $this->request->getData(), [
+                    'associated' => ['DaysTimes']
+                ]);
+
+                if ($this->Users->save($user, ['associated' => ['DaysTimes']])) {
+                    $this->Flash->success(__('A conta foi editada com sucesso.'));
+                    return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+                }
+                $this->Flash->error(__('A conta não foi editada! Por favor, tente novamente.'));
+            }
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
+        } finally {
+            $daysTimes = $this->DaysOfWeek->find('all', ['contain' => ['TimesOfDay']])->toList();
+            $usersDays = $this->UsersDaysTimes->find('list', ['valueField' => 'days_time_id'])->where(['user_id' => $id])->toList();
+            $this->set(compact('user', 'daysTimes', 'usersDays'));
         }
     }
 

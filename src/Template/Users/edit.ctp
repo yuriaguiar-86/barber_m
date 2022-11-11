@@ -23,11 +23,11 @@
     <div class="more__fields">
         <div class="row right">
             <label>Telefone <span class="fields__required">*</span></label>
-            <?= $this->Form->control('personal_phone', ['label' => false, 'required']); ?>
+            <?= $this->Form->control('personal_phone', ['label' => false, 'required', 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
         </div>
         <div class="row right">
             <label>Outro telefone</label>
-            <?= $this->Form->control('name', ['label' => false, 'required']); ?>
+            <?= $this->Form->control('other_phone', ['label' => false, 'required', 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
         </div>
         <div class="row">
             <label>Tipo de perfil <span class="fields__required">*</span></label>
@@ -54,6 +54,7 @@
         </div>
     </section>
 
+    <!-- Apresentar somente se selecionar employee -->
     <section class="controllers">
         <?php $cont = 0; ?>
 
@@ -65,26 +66,26 @@
                 <div class="icons__module">
                     <i class="fa-solid fa-check allcheck" aria-hidden="true" title="Marcar todos"></i>
                     <i class="fa-regular fa-square uncheck" aria-hidden="true" title="Desmarcar todos"></i>
-                    <h4>Horários que atende</h4>
+                    <h4><?= $day->name ?></h4>
                 </div>
 
-                <?php if (!empty($day->times)) : ?>
-                    <?php foreach ($day->times as $clock) : ?>
+                <?php if (!empty($day->times_of_day)) : ?>
+                    <?php foreach ($day->times_of_day as $clock) : ?>
 
-                        <input type="checkbox" id="box-<?= $clock->id; ?>" name="days_times[_ids][]" value="<?= $clock->id; ?>" class="checkbox__service" />
-                        <label for="box-<?= $clock->id; ?>"><?= $clock->time; ?></label>
+                        <input type="checkbox" id="box-<?= $clock->id; ?>" name="days_times[_ids][]" value="<?= $clock->id; ?>" class="checkbox__service" checked="<?= in_array($clock->id, $usersDays); ?>" />
+                        <label for="box-<?= $clock->id; ?>"><?= $clock->time; ?>:00H</label>
                         <?php $cont++; ?>
 
                     <?php endforeach; ?>
                 <?php else : ?>
-                    <p class="information__roles">Nenhumhorário cadastrado nesse dia!</p>
+                    <p class="information__roles">Nenhum horário cadastrado nesse dia!</p>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
     </section>
 
-    <?= $this->Form->button(__('Cadastrar'), ['class' => 'button__edit']); ?>
+    <?= $this->Form->button(__('Atualizar'), ['class' => 'button__edit']); ?>
     <?= $this->Form->end(); ?>
 </section>
 
-<?= $this->Html->script('roles'); ?>
+<?= $this->Html->script(['roles', 'masks']); ?>

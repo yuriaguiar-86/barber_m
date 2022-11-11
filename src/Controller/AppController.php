@@ -77,6 +77,10 @@ class AppController extends Controller
         exit;
     }
 
+    public function getIdUserLogged() {
+        return $this->Auth->user('id');
+    }
+
     public function beforeRender(Event $event) {
         parent::beforeRender($event);
 

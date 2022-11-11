@@ -1,34 +1,31 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\TypesOfService $typesOfService
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $typesOfService->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $typesOfService->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Types Of Services'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Schedules'), ['controller' => 'Schedules', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Schedule'), ['controller' => 'Schedules', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="typesOfServices form large-9 medium-8 columns content">
-    <?= $this->Form->create($typesOfService) ?>
-    <fieldset>
-        <legend><?= __('Edit Types Of Service') ?></legend>
-        <?php
-            echo $this->Form->control('name');
-            echo $this->Form->control('price');
-            echo $this->Form->control('description');
-            echo $this->Form->control('schedules._ids', ['options' => $schedules]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<section>
+    <div class="subtitle__button">
+        <h1>Tipos de serviços <small>edição</small></h1>
+
+        <p><?= $this->Html->link(__('Listagem'), ['controller' => 'TypesOfServices', 'action' => 'index']); ?></p>
+    </div>
+
+    <?= $this->Flash->render(); ?>
+    <?= $this->Form->create($typesOfService, ['class' => 'all__forms']); ?>
+
+    <p><span class="fields__required">*</span> campos obrigatórios</p>
+
+    <div class="more__fields">
+        <div class="row right">
+            <label>Nome <span class="fields__required">*</span></label>
+            <?= $this->Form->control('name', ['label' => false, 'required']); ?>
+        </div>
+        <div class="row">
+            <label>Preço em R$ <span class="fields__required">*</span></label>
+            <?= $this->Form->control('price', ['label' => false, 'required']); ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <label>Descrição</label>
+        <?= $this->Form->control('description', ['label' => false]); ?>
+    </div>
+
+    <?= $this->Form->button(__('Atualizar'), ['class' => 'button__edit']); ?>
+    <?= $this->Form->end(); ?>
+</section>

@@ -1,53 +1,56 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\TypesOfPayment[]|\Cake\Collection\CollectionInterface $typesOfPayments
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Types Of Payment'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Schedules'), ['controller' => 'Schedules', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Schedule'), ['controller' => 'Schedules', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="typesOfPayments index large-9 medium-8 columns content">
-    <h3><?= __('Types Of Payments') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($typesOfPayments as $typesOfPayment): ?>
-            <tr>
-                <td><?= $this->Number->format($typesOfPayment->id) ?></td>
-                <td><?= h($typesOfPayment->name) ?></td>
-                <td><?= h($typesOfPayment->created) ?></td>
-                <td><?= h($typesOfPayment->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $typesOfPayment->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $typesOfPayment->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $typesOfPayment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $typesOfPayment->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+<section>
+    <div class="subtitle__button">
+        <h1>Tipos de pagamentos <small>listagem</small></h1>
+
+        <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'TypesOfPayments', 'action' => 'add']); ?></p>
     </div>
-</div>
+
+    <?php if (!empty($typesOfPayments)) : ?>
+        <table class="custom__table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($typesOfPayments as $payment) : ?>
+                <tr>
+                    <td><?= $this->Number->format($payment->id); ?></td>
+                    <td><?= $payment->name; ?></td>
+                    <td><?= !empty($payment->description) ? $payment->description : '-'; ?></td>
+
+                    <td class="actions">
+                        <div class="view">
+                            <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'TypesOfPayments', 'action' => 'view', $payment->id], ['class' => 'action__view', 'escape' => false]); ?>
+                        </div>
+                        <div class="edit">
+                            <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'TypesOfPayments', 'action' => 'edit', $payment->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                        </div>
+                        <div class="delete">
+                            <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'TypesOfPayments', 'action' => 'delete', $payment->id], ['class' => 'action__delete sweetdelete', 'data-name' => $payment->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de pagamento {0}?', $payment->name)]); ?>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else : ?>
+        <table class="custom__table table__empty">
+            <thead>
+                <tr>
+                    <th>Nenhum tipo de pagamento encontrado!</th>
+                </tr>
+            </thead>
+        </table>
+    <?php endif; ?>
+
+    <?php if (!empty($typesOfPayments)) : ?>
+        <?= $this->element('pagination'); ?>
+    <?php endif; ?>
+</section>
+
+<?= $this->Html->script('sweetalert'); ?>

@@ -1,32 +1,27 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\DaysOfWork $daysOfWork
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $daysOfWork->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $daysOfWork->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Days Of Work'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Schedules'), ['controller' => 'Schedules', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Schedule'), ['controller' => 'Schedules', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="daysOfWork form large-9 medium-8 columns content">
-    <?= $this->Form->create($daysOfWork) ?>
-    <fieldset>
-        <legend><?= __('Edit Days Of Work') ?></legend>
-        <?php
-            echo $this->Form->control('not_work');
-            echo $this->Form->control('description');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<section>
+    <div class="subtitle__button">
+        <h1>Dias de folga <small>edição</small></h1>
+
+        <p><?= $this->Html->link(__('Listagem'), ['controller' => 'DaysOfWork', 'action' => 'index']); ?></p>
+    </div>
+
+    <?= $this->Flash->render(); ?>
+    <?= $this->Form->create($daysOfWork, ['class' => 'all__forms']); ?>
+
+    <p><span class="fields__required">*</span> campos obrigatórios</p>
+
+    <div class="row">
+        <label>Data <span class="fields__required">*</span></label>
+        <?= $this->Form->control('not_work', ['type' => 'text', 'placeholder' => '99/99/9999', 'label' => false, 'required', 'class' => 'calendar']); ?>
+    </div>
+
+    <div class="row">
+        <label>Descrição <span class="fields__required">*</span></label>
+        <?= $this->Form->control('description', ['label' => false]); ?>
+    </div>
+
+    <?= $this->Form->button(__('Atualizar'), ['class' => 'button__edit']); ?>
+    <?= $this->Form->end(); ?>
+</section>
+
+<?= $this->Html->script(['masks']); ?>
