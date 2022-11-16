@@ -43,5 +43,7 @@ class Schedule extends Entity
         'days_of_work' => true,
         'types_of_payment' => true,
         'types_of_services' => true,
+        'date' => true,
+        'time' => true
     ];
 }

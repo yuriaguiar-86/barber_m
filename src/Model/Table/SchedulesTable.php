@@ -26,16 +26,14 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class SchedulesTable extends Table
-{
+class SchedulesTable extends Table {
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('schedules');
@@ -73,8 +71,7 @@ class SchedulesTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
@@ -92,13 +89,17 @@ class SchedulesTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['employee_id'], 'Users'));
         $rules->add($rules->existsIn(['days_of_work_id'], 'DaysOfWork'));
         $rules->add($rules->existsIn(['types_of_payment_id'], 'TypesOfPayments'));
 
         return $rules;
+    }
+
+    public function findTimesRegistered($date, $employee) {
+        $query = $this->find('list', ['valueField' => 'time'])->select('time')->where(['Schedules.date' => $date, 'Schedules.employee_id' => $employee]);
+        return $query->toList();
     }
 }

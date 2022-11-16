@@ -1,36 +1,137 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Schedule $schedule
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Schedules'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Days Of Work'), ['controller' => 'DaysOfWork', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Days Of Work'), ['controller' => 'DaysOfWork', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Types Of Payments'), ['controller' => 'TypesOfPayments', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Types Of Payment'), ['controller' => 'TypesOfPayments', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Types Of Services'), ['controller' => 'TypesOfServices', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Types Of Service'), ['controller' => 'TypesOfServices', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="schedules form large-9 medium-8 columns content">
-    <?= $this->Form->create($schedule) ?>
-    <fieldset>
-        <legend><?= __('Add Schedule') ?></legend>
-        <?php
-            echo $this->Form->control('user_id');
-            echo $this->Form->control('employee_id', ['options' => $users]);
-            echo $this->Form->control('days_of_work_id', ['options' => $daysOfWork]);
-            echo $this->Form->control('types_of_payment_id', ['options' => $typesOfPayments]);
-            echo $this->Form->control('finished');
-            echo $this->Form->control('types_of_services._ids', ['options' => $typesOfServices]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<?= $this->Html->css(['times']); ?>
+
+<section>
+    <div class="subtitle__button">
+        <h1>Agendamentos <small>cadastro</small></h1>
+
+        <p><?= $this->Html->link(__('Listagem'), ['controller' => 'Schedules', 'action' => 'index']); ?></p>
+    </div>
+
+    <?= $this->Flash->render(); ?>
+    <?= $this->Form->create($schedule, ['class' => 'all__forms']); ?>
+
+    <p><span class="fields__required">*</span> campos obrigatórios</p>
+
+    <div class="more__fields">
+        <div class="row right">
+            <label>Profissional <span class="fields__required">*</span></label>
+            <?= $this->Form->control('employee_id', ['label' => false, 'options' => $users, 'class' => 'employee', 'required']); ?>
+        </div>
+        <div class="row right">
+            <label>Data do agendamento <span class="fields__required">*</span></label>
+            <?= $this->Form->control('date_schedule', ['label' => false, 'placeholder' => '99/99/9999', 'class' => 'calendar times-free', 'required']); ?>
+        </div>
+        <div class="row">
+            <label>Forma de pagamento <span class="fields__required">*</span></label>
+            <?= $this->Form->control('types_of_payment_id', ['options' => $typesOfPayments, 'label' => false, 'required']); ?>
+        </div>
+    </div>
+
+    <section class="controllers">
+        <h2>Horários disponíveis</h2>
+
+        <div class="containner__times">
+            <div>
+                <input type="radio" id="control_01" name="select" value="1" checked class="input__times" />
+                <label for="control_01" class="label__times">
+                    <span>10:00H</span>
+                </label>
+            </div>
+
+            <div>
+                <input type="radio" id="control_02" name="select" value="2" class="input__times" />
+                <label for="control_02" class="label__times">
+                    <span>11:00H</span>
+                </label>
+            </div>
+
+            <div>
+                <input type="radio" id="control_03" name="select" value="3" class="input__times" />
+                <label for="control_03" class="label__times">
+                    <span>13:00H</span>
+                </label>
+            </div>
+
+            <div>
+                <input type="radio" id="control_04" name="select" value="4" class="input__times" />
+                <label for="control_04" class="label__times">
+                    <span>14:00H</span>
+                </label>
+            </div>
+
+            <div>
+                <input type="radio" id="control_05" name="select" value="5" class="input__times" />
+                <label for="control_05" class="label__times">
+                    <span>17:00H</span>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <section class="controllers">
+        <h2>Serviços <span class="fields__required">*</span></h2>
+
+        <?php $cont = 0; ?>
+        <?php if (!empty($typesOfServices)) : ?>
+            <p class="information__roles">Selecione um ou mais de um serviço que deseja.</p>
+
+            <div class="input__services">
+                <?php foreach ($typesOfServices as $service) : ?>
+
+                    <input type="checkbox" id="box-<?= $service->id; ?>" name="types_of_services[_ids][]" value="<?= $service->id; ?>" class="checkbox__service" />
+                    <label for="box-<?= $service->id; ?>"><?= $service->name; ?></label>
+                    <?php $cont++; ?>
+
+                <?php endforeach; ?>
+            </div>
+        <?php else : ?>
+            <p class="information__roles">Nenhum serviço encontrado!</p>
+        <?php endif; ?>
+    </section>
+
+    <?= $this->Form->button(__('Agendar'), ['class' => 'button__save']); ?>
+    <?= $this->Form->end(); ?>
+</section>
+
+<script>
+    $(document).ready(function() {
+        $('.calendar').blur(function() {
+            let date_select = $('.calendar').val();
+            let employee_select = $('.employee').val();
+
+            $.ajax({
+                method: 'GET',
+                url: '<?= $this->Url->build(['controller' => 'Schedules', 'action' => 'getTimesFree']); ?>',
+                data: {
+                    date: date_select,
+                    employee_id: employee_select
+                },
+                dataType: 'json',
+
+                success: function(timesFree) {
+                    $.each(timesFree, function(index, value) {
+                        $('.containner__times').append(`
+                            <div>
+                                <input type="radio" id="control_${index}" name="select" value="${value.id}" checked class="input__times" />
+                                <label for="control_${index}" class="label__times">
+                                    <span>${value.time}</span>
+                                </label>
+                            </div>
+                            `
+                        );
+                    });
+                },
+                error:function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<p>Algo coisa deu errado.</p> <p>Tente novamente mais tarde!</p>',
+                        confirmButtonColor: '#A9A9A9'
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<?= $this->Html->script(['roles', 'masks']); ?>

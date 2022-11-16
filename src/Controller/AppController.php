@@ -106,7 +106,7 @@ class AppController extends Controller
         $controller = $this->request->getParam('controller');
         $actions_maps = $this->Auth->user()['role']['actions'];
 
-        if(in_array($action, ['profile', 'home'])) {
+        if(in_array($action, ['profile', 'editProfile', 'home'])) {
             return true;
         }
 
@@ -115,6 +115,6 @@ class AppController extends Controller
                 return true;
             }
         }
-        return true; // Alterar para false quando finalizar
+        return false;
     }
 }

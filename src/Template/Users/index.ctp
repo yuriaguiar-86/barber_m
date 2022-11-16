@@ -2,7 +2,9 @@
     <div class="subtitle__button">
         <h1>Usuários <small>listagem</small></h1>
 
-        <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Users', 'action' => 'add']); ?></p>
+        <?php if ($this->AppView->visible('Users', 'add')) : ?>
+            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Users', 'action' => 'add']); ?></p>
+        <?php endif; ?>
     </div>
 
     <?php if (!empty($users)) : ?>
@@ -20,25 +22,33 @@
 
             <tbody>
                 <?php foreach ($users as $user) : ?>
-                <tr>
-                    <td><?= $this->Number->format($user->id) ?></td>
-                    <td><?= $user->name; ?></td>
-                    <td><?= $user->email; ?></td>
-                    <td><?= $user->personal_phone; ?></td>
-                    <td><?= $user->role->name; ?></td>
+                    <tr>
+                        <td><?= $this->Number->format($user->id) ?></td>
+                        <td><?= $user->name; ?></td>
+                        <td><?= $user->email; ?></td>
+                        <td><?= $user->personal_phone; ?></td>
+                        <td><?= $user->role->name; ?></td>
 
-                    <td class="actions">
-                        <div class="view">
-                            <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Users', 'action' => 'view', $user->id], ['class' => 'action__view', 'escape' => false]); ?>
-                        </div>
-                        <div class="edit">
-                            <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Users', 'action' => 'edit', $user->id], ['class' => 'action__edit', 'escape' => false]); ?>
-                        </div>
-                        <div class="delete">
-                            <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'action__delete sweetdelete', 'data-name' => $user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?>
-                        </div>
-                    </td>
-                </tr>
+                        <td class="actions">
+                            <?php if ($this->AppView->visible('Users', 'view')) : ?>
+                                <div class="view">
+                                    <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Users', 'action' => 'view', $user->id], ['class' => 'action__view', 'escape' => false]); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($this->AppView->visible('Users', 'edit')) : ?>
+                                <div class="edit">
+                                    <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Users', 'action' => 'edit', $user->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($this->AppView->visible('Users', 'delete')) : ?>
+                                <div class="delete">
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'action__delete sweetdelete', 'data-name' => $user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?>
+                                </div>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>

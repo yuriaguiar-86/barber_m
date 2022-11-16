@@ -2,7 +2,9 @@
     <div class="subtitle__button">
         <h1>Controladores <small>listagem</small></h1>
 
-        <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Controllers', 'action' => 'add']); ?></p>
+        <?php if ($this->AppView->visible('Controllers', 'add')) : ?>
+            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Controllers', 'action' => 'add']); ?></p>
+        <?php endif; ?>
     </div>
 
     <?php if (!empty($controllers)) : ?>
@@ -26,15 +28,23 @@
                         <td><?= !empty($controller->description) ? $controller->description : '-'; ?></td>
 
                         <td class="actions">
-                            <div class="view">
-                                <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Controllers', 'action' => 'view', $controller->id], ['class' => 'action__view', 'escape' => false]); ?>
-                            </div>
-                            <div class="edit">
-                                <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Controllers', 'action' => 'edit', $controller->id], ['class' => 'action__edit', 'escape' => false]); ?>
-                            </div>
-                            <div class="delete">
-                                <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'action__delete sweetdelete', 'data-name' => $controller->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?>
-                            </div>
+                            <?php if ($this->AppView->visible('Controllers', 'view')) : ?>
+                                <div class="view">
+                                    <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Controllers', 'action' => 'view', $controller->id], ['class' => 'action__view', 'escape' => false]); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($this->AppView->visible('Controllers', 'edit')) : ?>
+                                <div class="edit">
+                                    <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Controllers', 'action' => 'edit', $controller->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($this->AppView->visible('Controllers', 'delete')) : ?>
+                                <div class="delete">
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'action__delete sweetdelete', 'data-name' => $controller->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?>
+                                </div>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

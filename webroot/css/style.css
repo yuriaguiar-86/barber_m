@@ -69,3 +69,35 @@ body {
     margin: 30px 0;
     padding: 15px;
 }
+
+
+/* PAGINAÇÃO */
+.pagination {
+    margin-top: 50px;
+
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    justify-content: center;
+}
+
+.page__item {
+    margin: 0 5px;
+}
+
+.page__item a {
+    padding: 10px 15px;
+    border-radius: 5px;
+
+    color: var(--white);
+    background: var(--grey);
+}
+
+.active a {
+    color: white;
+    background: var(--green);
+}
+
+a {
+    text-decoration: none;
+}

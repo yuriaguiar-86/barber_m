@@ -1,14 +1,14 @@
 <?php
     $paginator = $this->Paginator->setTemplates([
-        'number' => '<li class="page-item"><a href="{{url}}" class="page-link">{{text}}</a></li>',
-        'current' => '<li class="page-item active"><a href="{{url}}" class="page-link">{{text}}</a></li>',
-        'first' => '<li class="page-item"><a href="{{url}}" class="page-link">&laquo Primeira</a></li>',
-        'last' => '<li class="page-item"><a href="{{url}}" class="page-link">Última &raquo</a></li>'
+        'number' => '<li class="page__item"><a href="{{url}}" class="page-link">{{text}}</a></li>',
+        'current' => '<li class="page__item active"><a href="{{url}}" class="page-link">{{text}}</a></li>',
+        'first' => '<li class="page__item"><a href="{{url}}" class="page-link">&laquo</a></li>',
+        'last' => '<li class="page__item"><a href="{{url}}" class="page-link">&raquo</a></li>'
     ]);
 ?>
 
-<nav aria-label="paginacao">
-    <ul class="pagination pagination-sm justify-content-center">
+<nav>
+    <ul class="pagination">
         <?php
             echo $paginator->first();
             echo $paginator->numbers();

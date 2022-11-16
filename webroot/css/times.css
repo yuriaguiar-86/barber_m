@@ -1,0 +1,47 @@
+.containner__times {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.containner__times > div {
+    flex: 1;
+    margin-top: 20px;
+    padding-right: 5px;
+}
+
+.input__times {
+    display: none;
+}
+
+.input__times:not(:disabled) ~ .label__times {
+    cursor: pointer;
+}
+
+.label__times {
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid var(--green);
+
+    display: block;
+    text-align: center;
+    position: relative;
+}
+
+.input__times:checked + .label__times {
+    color: var(--white);
+    background: var(--green);
+}
+
+.input__times + .label__times {
+    color: var(--grey);
+}
+
+.input__times:hover + .label__times {
+    color: var(--white);
+}
+
+@media only screen and (max-width: 700px) {
+    .containner__times {
+        flex-direction: column;
+   }
+}

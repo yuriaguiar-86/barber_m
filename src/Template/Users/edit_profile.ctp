@@ -25,7 +25,7 @@
         </div>
         <div class="row right">
             <label>Outro telefone</label>
-            <?= $this->Form->control('other_phone', ['label' => false, 'required', 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
+            <?= $this->Form->control('other_phone', ['label' => false, 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
         </div>
     </div>
 

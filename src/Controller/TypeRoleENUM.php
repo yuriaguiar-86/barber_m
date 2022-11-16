@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-class TypeRolesENUM {
+class TypeRoleENUM {
     const ADMIN = 1;
     const CLIENT = 2;
     const EMPLOYEE = 3;

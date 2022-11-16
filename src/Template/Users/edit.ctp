@@ -27,32 +27,9 @@
         </div>
         <div class="row right">
             <label>Outro telefone</label>
-            <?= $this->Form->control('other_phone', ['label' => false, 'required', 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
-        </div>
-        <div class="row">
-            <label>Tipo de perfil <span class="fields__required">*</span></label>
-            <?= $this->Form->control('role_id', [['options' => $roles], 'label' => false, 'required']); ?>
+            <?= $this->Form->control('other_phone', ['label' => false, 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
         </div>
     </div>
-
-    <section class="controllers">
-        <h2>Dados de acesso</h2>
-
-        <div class="more__fields">
-            <div class="row right">
-                <label>Usuário <span class="fields__required">*</span></label>
-                <?= $this->Form->control('username', ['label' => false, 'required']); ?>
-            </div>
-            <div class="row right">
-                <label>Senha <span class="fields__required">*</span></label>
-                <?= $this->Form->control('password', ['value' => '', 'label' => false, 'required', 'placeholder' => 'No mínimo 06 caracteres']); ?>
-            </div>
-            <div class="row">
-                <label>Confirmação de senha <span class="fields__required">*</span></label>
-                <?= $this->Form->control('confirm_password', ['type' => 'password', 'label' => false, 'required', 'placeholder' => 'Digite a mesma senha']); ?>
-            </div>
-        </div>
-    </section>
 
     <!-- Apresentar somente se selecionar employee -->
     <section class="controllers">
