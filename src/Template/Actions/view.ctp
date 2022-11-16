@@ -1,3 +1,8 @@
+<?php
+
+use App\Controller\TypeRoleENUM;
+?>
+
 <section>
     <div class="subtitle__button">
         <h1>Funcionalidades <small>visualização</small></h1>
@@ -87,7 +92,7 @@
                         <tr>
                             <td><?= $this->Number->format($role->id) ?></td>
                             <td><?= $role->name; ?></td>
-                            <td><?= $role->type; ?></td>
+                            <td><?= TypeRoleENUM::findConstants($role->type); ?></td>
                             <td><?= !empty($role->description) ? $role->description : '-'; ?></td>
 
                             <td class="actions">

@@ -29,10 +29,13 @@
             <label>Outro telefone</label>
             <?= $this->Form->control('other_phone', ['label' => false, 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
         </div>
+        <div class="row">
+            <label>Tipo de perfil <span class="fields__required">*</span></label>
+            <?= $this->Form->control('role_id', [['options' => $roles], 'label' => false, 'required', 'class' => 'type__role']); ?>
+        </div>
     </div>
 
-    <!-- Apresentar somente se selecionar employee -->
-    <section class="controllers">
+    <section class="controllers times__employee">
         <?php $cont = 0; ?>
 
         <h2>Controladores de atendimento <span class="fields__required">*</span></h2>
@@ -65,4 +68,4 @@
     <?= $this->Form->end(); ?>
 </section>
 
-<?= $this->Html->script(['roles', 'masks']); ?>
+<?= $this->Html->script(['users', 'masks']); ?>

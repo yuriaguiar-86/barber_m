@@ -2,7 +2,11 @@
     <div class="subtitle__button">
         <h1>Tipos de perfis <small>listagem</small></h1>
 
-        <?php if ($this->AppView->visible('Roles', 'add')) : ?>
+        <?php
+
+use App\Controller\TypeRoleENUM;
+
+ if ($this->AppView->visible('Roles', 'add')) : ?>
             <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Roles', 'action' => 'add']); ?></p>
         <?php endif; ?>
     </div>
@@ -24,7 +28,7 @@
                     <tr>
                         <td><?= $this->Number->format($role->id) ?></td>
                         <td><?= $role->name; ?></td>
-                        <td><?= $role->type; ?></td>
+                        <td><?= TypeRoleENUM::findConstants($role->type); ?></td>
                         <td><?= !empty($role->description) ? $role->description : '-'; ?></td>
 
                         <td class="actions">

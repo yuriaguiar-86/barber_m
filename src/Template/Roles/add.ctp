@@ -1,3 +1,8 @@
+<?php
+
+use App\Controller\TypeRoleENUM;
+?>
+
 <section>
     <div class="subtitle__button">
         <h1>Tipos de perfis <small>cadastro</small></h1>
@@ -17,7 +22,7 @@
         </div>
         <div class="row ">
             <label>Tipo de acesso <span class="fields__required">*</span></label>
-            <?= $this->Form->control('type', ['label' => false, 'required']); ?>
+            <?= $this->Form->control('type', ['options' => TypeRoleENUM::findConstants(), 'label' => false, 'required']); ?>
         </div>
     </div>
 

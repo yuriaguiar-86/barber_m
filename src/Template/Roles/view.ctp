@@ -1,3 +1,8 @@
+<?php
+
+use App\Controller\TypeRoleENUM;
+?>
+
 <section>
     <div class="subtitle__button">
         <h1>Tipos de perfis <small>visualização</small></h1>
@@ -23,7 +28,7 @@
 
             <div class="data__row">
                 <h4>Apelido</h4>
-                <dd><?= $role->type; ?></dd>
+                <dd><?= TypeRoleENUM::findConstants($role->type); ?></dd>
             </div>
 
             <div class="data__row">
