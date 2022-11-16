@@ -1,16 +1,16 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\TimesOfDayController;
+use App\Controller\OpeningHoursController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\TimesOfDayController Test Case
+ * App\Controller\OpeningHoursController Test Case
  *
- * @uses \App\Controller\TimesOfDayController
+ * @uses \App\Controller\OpeningHoursController
  */
-class TimesOfDayControllerTest extends TestCase
+class OpeningHoursControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -20,9 +20,10 @@ class TimesOfDayControllerTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.TimesOfDay',
-        'app.DaysOfWeek',
-        'app.DaysTimes',
+        'app.OpeningHours',
+        'app.OpeningTimesOfDay',
+        'app.Users',
+        'app.UsersOpeningHours',
     ];
 
     /**

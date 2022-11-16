@@ -1,21 +1,21 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\TimesOfDayTable;
+use App\Model\Table\OpeningHoursTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\TimesOfDayTable Test Case
+ * App\Model\Table\OpeningHoursTable Test Case
  */
-class TimesOfDayTableTest extends TestCase
+class OpeningHoursTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\TimesOfDayTable
+     * @var \App\Model\Table\OpeningHoursTable
      */
-    public $TimesOfDay;
+    public $OpeningHours;
 
     /**
      * Fixtures
@@ -23,8 +23,9 @@ class TimesOfDayTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.TimesOfDay',
-        'app.DaysOfWeek',
+        'app.OpeningHours',
+        'app.OpeningTimesOfDay',
+        'app.Users',
     ];
 
     /**
@@ -35,8 +36,8 @@ class TimesOfDayTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('TimesOfDay') ? [] : ['className' => TimesOfDayTable::class];
-        $this->TimesOfDay = TableRegistry::getTableLocator()->get('TimesOfDay', $config);
+        $config = TableRegistry::getTableLocator()->exists('OpeningHours') ? [] : ['className' => OpeningHoursTable::class];
+        $this->OpeningHours = TableRegistry::getTableLocator()->get('OpeningHours', $config);
     }
 
     /**
@@ -46,7 +47,7 @@ class TimesOfDayTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->TimesOfDay);
+        unset($this->OpeningHours);
 
         parent::tearDown();
     }

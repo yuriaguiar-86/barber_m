@@ -57,10 +57,10 @@ class TimesOfDayController extends AppController {
                 $timesOfDay = $this->TimesOfDay->patchEntity($timesOfDay, $this->request->getData());
 
                 if ($this->TimesOfDay->save($timesOfDay)) {
-                    $this->Flash->success(__('O horário da semana foi cadastrado com sucesso.'));
+                    $this->Flash->success(__('O horário foi cadastrado com sucesso.'));
                     return $this->redirect(['controller' => 'TimesOfDay', 'action' => 'index']);
                 }
-                $this->Flash->error(__('O horário da semana não foi cadastrado! Por favor, tente novamente.'));
+                $this->Flash->error(__('O horário não foi cadastrado! Por favor, tente novamente.'));
             }
             $this->set(compact('timesOfDay'));
         } catch(Exception $exc) {
@@ -84,10 +84,10 @@ class TimesOfDayController extends AppController {
                 $timesOfDay = $this->TimesOfDay->patchEntity($timesOfDay, $this->request->getData());
 
                 if ($this->TimesOfDay->save($timesOfDay)) {
-                    $this->Flash->success(__('O horário da semana foi editado com sucesso.'));
+                    $this->Flash->success(__('O horário foi editado com sucesso.'));
                     return $this->redirect(['controller' => 'TimesOfDay', 'action' => 'index']);
                 }
-                $this->Flash->error(__('O horário da semana não foi editado! Por favor, tente novamente.'));
+                $this->Flash->error(__('O horário não foi editado! Por favor, tente novamente.'));
             }
             $this->set(compact('timesOfDay'));
         } catch(Exception $exc) {
@@ -109,8 +109,8 @@ class TimesOfDayController extends AppController {
             $timesOfDay = $this->TimesOfDay->get($id);
 
             $this->TimesOfDay->delete($timesOfDay) ?
-            $this->Flash->success(__('O horário da semana foi apagado com sucesso.')) :
-            $this->Flash->error(__('O horário da semana não foi apagado! Por favor, tente novamente.'));
+            $this->Flash->success(__('O horário foi apagado com sucesso.')) :
+            $this->Flash->error(__('O horário não foi apagado! Por favor, tente novamente.'));
 
             return $this->redirect(['controller' => 'TimesOfDay', 'action' => 'index']);
         } catch(Exception $exc) {

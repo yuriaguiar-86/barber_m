@@ -4,12 +4,15 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * DaysOfWeek Entity
+ * OpeningHour Entity
  *
  * @property int $id
- * @property string $name
+ * @property int $day_of_week
+ *
+ * @property \App\Model\Entity\OpeningTimesOfDay[] $opening_times_of_day
+ * @property \App\Model\Entity\User[] $users
  */
-class DaysOfWeek extends Entity
+class OpeningHour extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -21,7 +24,7 @@ class DaysOfWeek extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'times_of_day' => true
+        'times_of_day' => true,
+        'day_of_week' => true
     ];
 }

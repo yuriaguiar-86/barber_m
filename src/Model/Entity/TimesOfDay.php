@@ -8,6 +8,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $time
+ *
+ * @property \App\Model\Entity\DaysOfWeek[] $days_of_week
  */
 class TimesOfDay extends Entity
 {
@@ -22,6 +24,5 @@ class TimesOfDay extends Entity
      */
     protected $_accessible = [
         'time' => true,
-        'days_of_week' => true
     ];
 }

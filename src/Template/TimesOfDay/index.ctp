@@ -1,6 +1,6 @@
 <section>
     <div class="subtitle__button">
-        <h1>Horários de funcionamento <small>listagem</small></h1>
+        <h1>Horários <small>listagem</small></h1>
 
         <?php if ($this->AppView->visible('TimesOfDay', 'add')) : ?>
             <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'TimesOfDay', 'action' => 'add']); ?></p>
@@ -50,7 +50,7 @@
         <table class="custom__table table__empty">
             <thead>
                 <tr>
-                    <th>Nenhum horário de funcionamento encontrado!</th>
+                    <th>Nenhum horário encontrado!</th>
                 </tr>
             </thead>
         </table>

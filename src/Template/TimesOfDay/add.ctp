@@ -1,6 +1,6 @@
 <section>
     <div class="subtitle__button">
-        <h1>Horários de funcionamento <small>cadastro</small></h1>
+        <h1>Horários <small>cadastro</small></h1>
 
         <p><?= $this->Html->link(__('Listagem'), ['controller' => 'TimesOfDay', 'action' => 'index']); ?></p>
     </div>
@@ -10,8 +10,8 @@
 
     <p><span class="fields__required">*</span> campos obrigatórios</p>
 
-    <div class="row">
-        <label>Horário <span class="fields__required">*</span></label>
+    <div class="row right">
+        <label>Hora <span class="fields__required">*</span></label>
         <?= $this->Form->control('time', ['label' => false, 'required']); ?>
     </div>
 

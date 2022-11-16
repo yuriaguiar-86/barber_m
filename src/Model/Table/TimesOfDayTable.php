@@ -33,12 +33,6 @@ class TimesOfDayTable extends Table
         $this->setTable('times_of_day');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-
-        $this->belongsToMany('DaysOfWeek', [
-            'foreignKey' => 'time_of_day_id',
-            'targetForeignKey' => 'day_of_week_id',
-            'joinTable' => 'days_times',
-        ]);
     }
 
     /**
@@ -54,6 +48,7 @@ class TimesOfDayTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->integer('time')
             ->requirePresence('time', 'create')
             ->notEmptyString('time');
 

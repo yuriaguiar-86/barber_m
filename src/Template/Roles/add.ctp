@@ -34,7 +34,6 @@ use App\Controller\TypeRoleENUM;
     <section class="controllers">
         <h2>Controladores de acesso <span class="fields__required">*</span></h2>
 
-        <?php $cont = 0; ?>
         <?php if (!empty($controllers)) : ?>
             <p class="information__roles">Marque as ações no qual o perfil terá acesso, ou clique no nome do controlador para marcar/desmarcar todas.</p>
 
@@ -51,7 +50,6 @@ use App\Controller\TypeRoleENUM;
 
                             <input type="checkbox" id="box-<?= $action->id; ?>" name="actions[_ids][]" value="<?= $action->id; ?>" class="checkbox__service" />
                             <label for="box-<?= $action->id; ?>"><?= $action->surname; ?></label>
-                            <?php $cont++; ?>
 
                         <?php endforeach; ?>
                     <?php else : ?>

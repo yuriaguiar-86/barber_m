@@ -1,12 +1,13 @@
+<?php
+
+use App\Controller\TypeRoleENUM;
+?>
+
 <section>
     <div class="subtitle__button">
         <h1>Tipos de perfis <small>listagem</small></h1>
 
-        <?php
-
-use App\Controller\TypeRoleENUM;
-
- if ($this->AppView->visible('Roles', 'add')) : ?>
+        <?php if ($this->AppView->visible('Roles', 'add')) : ?>
             <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Roles', 'action' => 'add']); ?></p>
         <?php endif; ?>
     </div>
