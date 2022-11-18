@@ -21,7 +21,7 @@ class UsersController extends AppController {
     }
 
     public function initialize() {
-        $this->loadModel('UsersDaysTimes');
+        $this->loadModel('UsersOpeningHours');
         return parent::initialize();
     }
 
@@ -72,10 +72,10 @@ class UsersController extends AppController {
 
             if ($this->request->is('post')) {
                 $user = $this->Users->patchEntity($user, $this->request->getData(), [
-                    'associated' => ['DaysTimes']
+                    'associated' => ['OpeningHours']
                 ]);
 
-                if ($this->Users->save($user, ['associated' => ['DaysTimes']])) {
+                if ($this->Users->save($user, ['associated' => ['OpeningHours']])) {
                     $this->Flash->success(__('O usuário foi cadastrado com sucesso.'));
                     return $this->redirect(['controller' => 'Users', 'action' => 'index']);
                 }
@@ -86,7 +86,7 @@ class UsersController extends AppController {
             return $this->redirect($this->referer());
         } finally {
             $roles = $this->Users->Roles->find('list');
-            $daysTimes = $this->Users->DaysTimes->find('all', ['contain' => ['OpeningHours']])->toList();
+            $daysTimes = $this->Users->OpeningHours->find('all', ['contain' => ['DaysTimes']])->toList();
             $this->set(compact('user', 'roles', 'daysTimes'));
         }
     }
@@ -100,14 +100,14 @@ class UsersController extends AppController {
      */
     public function edit($id = null) {
         try {
-            $user = $this->Users->get($id, ['contain' => ['DaysTimes']]);
+            $user = $this->Users->get($id, ['contain' => ['OpeningHours']]);
 
             if ($this->request->is(['patch', 'post', 'put'])) {
                 $user = $this->Users->patchEntity($user, $this->request->getData(), [
-                    'associated' => ['DaysTimes']
+                    'associated' => ['OpeningHours']
                 ]);
 
-                if ($this->Users->save($user, ['associated' => ['DaysTimes']])) {
+                if ($this->Users->save($user, ['associated' => ['OpeningHours']])) {
                     $this->Flash->success(__('O usuário foi editado com sucesso.'));
                     return $this->redirect(['controller' => 'Users', 'action' => 'index']);
                 }
@@ -118,8 +118,8 @@ class UsersController extends AppController {
             return $this->redirect($this->referer());
         } finally {
             $roles = $this->Users->Roles->find('list');
-            $daysTimes = $this->Users->DaysTimes->find('all', ['contain' => ['OpeningHours']])->toList();
-            $usersDays = $this->UsersDaysTimes->find('list', ['valueField' => 'days_time_id'])->where(['user_id' => $id])->toList();
+            $daysTimes = $this->Users->OpeningHours->find('all', ['contain' => ['DaysTimes']])->toList();
+            $usersDays = $this->UsersOpeningHours->find('list', ['valueField' => 'opening_hour_id'])->where(['user_id' => $id])->toList();
             $this->set(compact('user', 'roles', 'daysTimes', 'usersDays'));
         }
     }
@@ -228,10 +228,10 @@ class UsersController extends AppController {
 
             if ($this->request->is(['patch', 'post', 'put'])) {
                 $user = $this->Users->patchEntity($user, $this->request->getData(), [
-                    'associated' => ['DaysTimes']
+                    'associated' => ['OpeningHours']
                 ]);
 
-                if ($this->Users->save($user, ['associated' => ['DaysTimes']])) {
+                if ($this->Users->save($user, ['associated' => ['OpeningHours']])) {
                     $this->Flash->success(__('A conta foi editada com sucesso.'));
                     return $this->redirect(['controller' => 'Users', 'action' => 'index']);
                 }
@@ -241,8 +241,8 @@ class UsersController extends AppController {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
-            $daysTimes = $this->Users->DaysTimes->find('all', ['contain' => ['OpeningHours']])->toList();
-            $usersDays = $this->UsersDaysTimes->find('list', ['valueField' => 'days_time_id'])->where(['user_id' => $id])->toList();
+            $daysTimes = $this->Users->OpeningHours->find('all', ['contain' => ['DaysTimes']])->toList();
+            $usersDays = $this->UsersOpeningHours->find('list', ['valueField' => 'opening_hour_id'])->where(['user_id' => $id])->toList();
             $this->set(compact('user', 'daysTimes', 'usersDays'));
         }
     }

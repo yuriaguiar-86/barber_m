@@ -47,7 +47,7 @@ class User extends Entity
         'role_id' => true,
         'role' => true,
         'schedules' => true,
-        'days_times' => true,
+        'opening_hours' => true,
     ];
 
     /**

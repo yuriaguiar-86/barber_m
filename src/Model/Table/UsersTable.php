@@ -49,10 +49,10 @@ class UsersTable extends Table
         $this->hasMany('Schedules', [
             'foreignKey' => 'user_id',
         ]);
-        $this->belongsToMany('DaysTimes', [
+        $this->belongsToMany('OpeningHours', [
             'foreignKey' => 'user_id',
-            'targetForeignKey' => 'days_time_id',
-            'joinTable' => 'users_days_times',
+            'targetForeignKey' => 'opening_hour_id',
+            'joinTable' => 'users_opening_hours',
         ]);
     }
 

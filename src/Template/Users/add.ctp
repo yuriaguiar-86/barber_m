@@ -63,24 +63,25 @@ use App\Controller\DaysOfWeekENUM;
         <h2>Controladores de atendimento <span class="fields__required">*</span></h2>
         <p class="information__roles">Marque os horários no qual o profissional estará trabalhando durante a semana, ou clique no dia da semana para marcar/desmarcar todas.</p>
 
-        <?php foreach ($daysTimes as $day) : ?>
+        <?php $daysWeek = DaysOfWeekENUM::findConstants(); ?>
+        <?php foreach ($daysWeek as $day) : ?>
             <div class="input__services">
                 <div class="icons__module">
                     <i class="fa-solid fa-check allcheck" aria-hidden="true" title="Marcar todos"></i>
                     <i class="fa-regular fa-square uncheck" aria-hidden="true" title="Desmarcar todos"></i>
-                    <h4><?= DaysOfWeekENUM::findConstants($day->day_of_week); ?></h4>
+                    <h4><?= $day; ?></h4>
                 </div>
 
-                <?php if (!empty($day->opening_hours)) : ?>
-                    <?php foreach ($day->opening_hours as $hour) : ?>
+                <?php foreach ($daysTimes as $hour) : ?>
+                    <?php foreach ($hour->days_times as $day_week) : ?>
+                        <?php if ($day_week->day_of_week == DaysOfWeekENUM::findConstants($day)) : ?>
 
-                        <input type="checkbox" id="box-<?= $hour->id; ?>" name="days_times[_ids][]" value="<?= $hour->id; ?>" class="checkbox__service" />
-                        <label for="box-<?= $hour->id; ?>"><?= $hour->time_of_week; ?>:00H</label>
+                            <input type="checkbox" id="box-<?= $hour->id; ?>" name="opening_hours[_ids][]" value="<?= $hour->id; ?>" class="checkbox__service" />
+                            <label for="box-<?= $hour->id; ?>"><?= $hour->time_of_week; ?>:00H</label>
 
+                        <?php endif; ?>
                     <?php endforeach; ?>
-                <?php else : ?>
-                    <p class="information__roles">Nenhum horário cadastrado nesse dia!</p>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
     </section>
