@@ -21,7 +21,6 @@ class UsersController extends AppController {
     }
 
     public function initialize() {
-        $this->loadModel('DaysOfWeek');
         $this->loadModel('UsersDaysTimes');
         return parent::initialize();
     }
@@ -87,7 +86,7 @@ class UsersController extends AppController {
             return $this->redirect($this->referer());
         } finally {
             $roles = $this->Users->Roles->find('list');
-            $daysTimes = $this->DaysOfWeek->find('all', ['contain' => ['TimesOfDay']])->toList();
+            $daysTimes = $this->Users->DaysTimes->find('all', ['contain' => ['OpeningHours']])->toList();
             $this->set(compact('user', 'roles', 'daysTimes'));
         }
     }
@@ -119,7 +118,7 @@ class UsersController extends AppController {
             return $this->redirect($this->referer());
         } finally {
             $roles = $this->Users->Roles->find('list');
-            $daysTimes = $this->DaysOfWeek->find('all', ['contain' => ['TimesOfDay']])->toList();
+            $daysTimes = $this->Users->DaysTimes->find('all', ['contain' => ['OpeningHours']])->toList();
             $usersDays = $this->UsersDaysTimes->find('list', ['valueField' => 'days_time_id'])->where(['user_id' => $id])->toList();
             $this->set(compact('user', 'roles', 'daysTimes', 'usersDays'));
         }
@@ -242,7 +241,7 @@ class UsersController extends AppController {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
-            $daysTimes = $this->DaysOfWeek->find('all', ['contain' => ['TimesOfDay']])->toList();
+            $daysTimes = $this->Users->DaysTimes->find('all', ['contain' => ['OpeningHours']])->toList();
             $usersDays = $this->UsersDaysTimes->find('list', ['valueField' => 'days_time_id'])->where(['user_id' => $id])->toList();
             $this->set(compact('user', 'daysTimes', 'usersDays'));
         }

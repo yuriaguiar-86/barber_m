@@ -1,3 +1,8 @@
+<?php
+
+use App\Controller\DaysOfWeekENUM;
+?>
+
 <section>
     <div class="subtitle__button">
         <h1>Usuários <small>edição</small></h1>
@@ -36,8 +41,6 @@
     </div>
 
     <section class="controllers times__employee">
-        <?php $cont = 0; ?>
-
         <h2>Controladores de atendimento <span class="fields__required">*</span></h2>
         <p class="information__roles">Marque os horários no qual o profissional estará trabalhando durante a semana, ou clique no dia da semana para marcar/desmarcar todas.</p>
 
@@ -46,15 +49,14 @@
                 <div class="icons__module">
                     <i class="fa-solid fa-check allcheck" aria-hidden="true" title="Marcar todos"></i>
                     <i class="fa-regular fa-square uncheck" aria-hidden="true" title="Desmarcar todos"></i>
-                    <h4><?= $day->name ?></h4>
+                    <h4><?= DaysOfWeekENUM::findConstants($day->day_of_week); ?></h4>
                 </div>
 
-                <?php if (!empty($day->times_of_day)) : ?>
-                    <?php foreach ($day->times_of_day as $clock) : ?>
+                <?php if (!empty($day->opening_hours)) : ?>
+                    <?php foreach ($day->opening_hours as $hour) : ?>
 
-                        <input type="checkbox" id="box-<?= $clock->id; ?>" name="days_times[_ids][]" value="<?= $clock->id; ?>" class="checkbox__service" checked="<?= in_array($clock->id, $usersDays); ?>" />
-                        <label for="box-<?= $clock->id; ?>"><?= $clock->time; ?>:00H</label>
-                        <?php $cont++; ?>
+                        <input type="checkbox" id="box-<?= $hour->id; ?>" name="days_times[_ids][]" value="<?= $hour->id; ?>" class="checkbox__service" checked="<?= in_array($hour->id, $usersDays); ?>" />
+                        <label for="box-<?= $hour->id; ?>"><?= $hour->time_of_week; ?>:00H</label>
 
                     <?php endforeach; ?>
                 <?php else : ?>

@@ -4,9 +4,9 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * OpeningHoursFixture
+ * DaysTimesFixture
  */
-class OpeningHoursFixture extends TestFixture
+class DaysTimesFixture extends TestFixture
 {
     /**
      * Fields
@@ -16,7 +16,7 @@ class OpeningHoursFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'time_of_week' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'day_of_week' => ['type' => 'tinyinteger', 'length' => 4, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -36,7 +36,7 @@ class OpeningHoursFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'time_of_week' => 1,
+                'day_of_week' => 1,
             ],
         ];
         parent::init();

@@ -36,8 +36,8 @@
 
             <?php if (
                 $this->AppView->visible('Users', 'index') ||
+                $this->AppView->visible('DaysTimes', 'index') ||
                 $this->AppView->visible('OpeningHours', 'index') ||
-                $this->AppView->visible('TimesOfDay', 'index') ||
                 $this->AppView->visible('Roles', 'index') ||
                 $this->AppView->visible('Actions', 'index') ||
                 $this->AppView->visible('Controllers', 'index')
@@ -48,12 +48,12 @@
                             <li><?= $this->Html->link(__('Usuários'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'header__link']); ?></li>
                         <?php endif; ?>
 
-                        <?php if ($this->AppView->visible('OpeningHours', 'index')) : ?>
-                            <li><?= $this->Html->link(__('Dias da semana'), ['controller' => 'OpeningHours', 'action' => 'index'], ['class' => 'header__link']); ?></li>
+                        <?php if ($this->AppView->visible('DaysTimes', 'index')) : ?>
+                            <li><?= $this->Html->link(__('Dias da semana'), ['controller' => 'DaysTimes', 'action' => 'index'], ['class' => 'header__link']); ?></li>
                         <?php endif; ?>
 
-                        <?php if ($this->AppView->visible('TimesOfDay', 'index')) : ?>
-                            <li><?= $this->Html->link(__('Horários'), ['controller' => 'TimesOfDay', 'action' => 'index'], ['class' => 'header__link']); ?></li>
+                        <?php if ($this->AppView->visible('OpeningHours', 'index')) : ?>
+                            <li><?= $this->Html->link(__('Horários'), ['controller' => 'OpeningHours', 'action' => 'index'], ['class' => 'header__link']); ?></li>
                         <?php endif; ?>
 
                         <?php if ($this->AppView->visible('Roles', 'index')) : ?>

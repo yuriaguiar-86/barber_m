@@ -20,7 +20,7 @@ class AppViewHelper extends Helper {
                 return true;
             }
         }
-        return false;
+        return true;
     }
 
     public function debug($var) {

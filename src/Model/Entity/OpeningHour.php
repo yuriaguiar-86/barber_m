@@ -7,10 +7,9 @@ use Cake\ORM\Entity;
  * OpeningHour Entity
  *
  * @property int $id
- * @property int $day_of_week
+ * @property int $time_of_week
  *
- * @property \App\Model\Entity\OpeningTimesOfDay[] $opening_times_of_day
- * @property \App\Model\Entity\User[] $users
+ * @property \App\Model\Entity\DaysTime[] $days_times
  */
 class OpeningHour extends Entity
 {
@@ -24,7 +23,7 @@ class OpeningHour extends Entity
      * @var array
      */
     protected $_accessible = [
-        'times_of_day' => true,
-        'day_of_week' => true
+        'time_of_week' => true,
+        'days_times' => true,
     ];
 }
