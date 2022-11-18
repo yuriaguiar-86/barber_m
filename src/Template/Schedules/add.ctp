@@ -23,7 +23,7 @@
         </div>
         <div class="row right">
             <label>Data do agendamento <span class="fields__required">*</span></label>
-            <?= $this->Form->control('date_schedule', ['label' => false, 'placeholder' => '99/99/9999', 'class' => 'calendar times-free', 'required']); ?>
+            <?= $this->Form->control('date', ['type' => 'text', 'label' => false, 'placeholder' => '99/99/9999', 'class' => 'calendar times-free', 'required']); ?>
         </div>
         <div class="row">
             <label>Forma de pagamento <span class="fields__required">*</span></label>
@@ -32,44 +32,11 @@
     </div>
 
     <section class="controllers">
-        <h2>Horários disponíveis</h2>
+        <h2 title="">Horários disponíveis
+            <i class="fa-solid fa-circle-exclamation" style="font-size: .5em; color: var(--yellow);"></i>
+        </h2>
 
-        <div class="containner__times">
-            <div>
-                <input type="radio" id="control_01" name="select" value="1" checked class="input__times" />
-                <label for="control_01" class="label__times">
-                    <span>10:00H</span>
-                </label>
-            </div>
-
-            <div>
-                <input type="radio" id="control_02" name="select" value="2" class="input__times" />
-                <label for="control_02" class="label__times">
-                    <span>11:00H</span>
-                </label>
-            </div>
-
-            <div>
-                <input type="radio" id="control_03" name="select" value="3" class="input__times" />
-                <label for="control_03" class="label__times">
-                    <span>13:00H</span>
-                </label>
-            </div>
-
-            <div>
-                <input type="radio" id="control_04" name="select" value="4" class="input__times" />
-                <label for="control_04" class="label__times">
-                    <span>14:00H</span>
-                </label>
-            </div>
-
-            <div>
-                <input type="radio" id="control_05" name="select" value="5" class="input__times" />
-                <label for="control_05" class="label__times">
-                    <span>17:00H</span>
-                </label>
-            </div>
-        </div>
+        <div class="containner__times"><p class="information__roles">Selecione o profissional e a data do atendimento!</p></div>
     </section>
 
     <section class="controllers">
@@ -100,6 +67,7 @@
 <script>
     $(document).ready(function() {
         $('.calendar').blur(function() {
+            $('.containner__times').html(' ');
             let date_select = $('.calendar').val();
             let employee_select = $('.employee').val();
 
@@ -116,16 +84,15 @@
                     $.each(timesFree, function(index, value) {
                         $('.containner__times').append(`
                             <div>
-                                <input type="radio" id="control_${index}" name="select" value="${value.id}" checked class="input__times" />
+                                <input type="radio" id="control_${index}" name="time" value="${value}" class="input__times" />
                                 <label for="control_${index}" class="label__times">
-                                    <span>${value.time}</span>
+                                    <span>${value}:00H</span>
                                 </label>
                             </div>
-                            `
-                        );
+                        `);
                     });
                 },
-                error:function(error) {
+                error: function(error) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',

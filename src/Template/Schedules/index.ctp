@@ -24,10 +24,15 @@
                 <?php foreach ($schedules as $schedule) : ?>
                     <tr>
                         <td><?= $this->Number->format($schedule->id) ?></td>
-                        <td><?= $schedule->employee_id; ?></td>
+                        <td><?= $schedule->user->name; ?></td>
                         <td><?= $schedule->date->format('d/m/Y'); ?></td>
                         <td><?= $schedule->time; ?>:00H</td>
-                        <td><?= $schedule->services; ?></td>
+
+                        <td>
+                            <?php foreach ($schedule->types_of_services as $service) : ?>
+                                <?= $service->name; ?>&nbsp;&nbsp;
+                            <?php endforeach; ?>
+                        </td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('Schedules', 'view')) : ?>
@@ -44,7 +49,7 @@
 
                             <?php if ($this->AppView->visible('Schedules', 'delete')) : ?>
                                 <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'action__delete sweetdelete', 'data-name' => $schedule->date->format('d/m/Y'), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do dia {0}?', $schedule->date->format('d/m/Y'))]); ?>
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o agendamento do dia '. $schedule->date->format('d/m/Y'), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do dia {0}?', $schedule->date->format('d/m/Y'))]); ?>
                                 </div>
                             <?php endif; ?>
                         </td>

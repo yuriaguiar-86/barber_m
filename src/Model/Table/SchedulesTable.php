@@ -77,6 +77,18 @@ class SchedulesTable extends Table {
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->notEmptyString('employee_id');
+
+        $validator
+            ->notEmptyString('types_of_payment_id');
+
+        $validator
+            ->notEmptyString('date');
+
+        $validator
+            ->notEmptyString('time');
+
+        $validator
             ->allowEmptyString('finished');
 
         return $validator;
@@ -92,7 +104,6 @@ class SchedulesTable extends Table {
     public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['employee_id'], 'Users'));
-        $rules->add($rules->existsIn(['days_of_work_id'], 'DaysOfWork'));
         $rules->add($rules->existsIn(['types_of_payment_id'], 'TypesOfPayments'));
 
         return $rules;

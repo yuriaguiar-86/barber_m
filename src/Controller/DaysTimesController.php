@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Exception;
 
 /**
  * DaysTimes Controller
@@ -17,8 +18,13 @@ class DaysTimesController extends AppController {
      * @return \Cake\Http\Response|null
      */
     public function index() {
-        $daysTimes = $this->paginate($this->DaysTimes);
-        $this->set(compact('daysTimes'));
+        try {
+            $daysTimes = $this->paginate($this->DaysTimes);
+            $this->set(compact('daysTimes'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -29,8 +35,13 @@ class DaysTimesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
-        $daysTime = $this->DaysTimes->get($id, ['contain' => ['OpeningHours']]);
-        $this->set('daysTime', $daysTime);
+        try {
+            $daysTime = $this->DaysTimes->get($id, ['contain' => ['OpeningHours']]);
+            $this->set('daysTime', $daysTime);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -39,19 +50,25 @@ class DaysTimesController extends AppController {
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add() {
-        $daysTime = $this->DaysTimes->newEntity();
+        try {
+            $daysTime = $this->DaysTimes->newEntity();
 
-        if ($this->request->is('post')) {
-            $daysTime = $this->DaysTimes->patchEntity($daysTime, $this->request->getData());
+            if ($this->request->is('post')) {
+                $daysTime = $this->DaysTimes->patchEntity($daysTime, $this->request->getData());
 
-            if ($this->DaysTimes->save($daysTime)) {
-                $this->Flash->success(__('The days time has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                if ($this->DaysTimes->save($daysTime)) {
+                    $this->Flash->success(__('O dia da semana foi cadastrado com sucesso.'));
+                    return $this->redirect(['controller' => 'DaysTimes', 'action' => 'index']);
+                }
+                $this->Flash->error(__('O dia da semana não foi cadastrado! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The days time could not be saved. Please, try again.'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        } finally {
+            $openingHours = $this->DaysTimes->OpeningHours->find('all')->toList();
+            $this->set(compact('daysTime', 'openingHours'));
         }
-        $openingHours = $this->DaysTimes->OpeningHours->find('all')->toList();
-        $this->set(compact('daysTime', 'openingHours'));
     }
 
     /**
@@ -62,19 +79,25 @@ class DaysTimesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null) {
-        $daysTime = $this->DaysTimes->get($id, ['contain' => ['OpeningHours']]);
+        try {
+            $daysTime = $this->DaysTimes->get($id, ['contain' => ['OpeningHours']]);
 
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $daysTime = $this->DaysTimes->patchEntity($daysTime, $this->request->getData());
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $daysTime = $this->DaysTimes->patchEntity($daysTime, $this->request->getData());
 
-            if ($this->DaysTimes->save($daysTime)) {
-                $this->Flash->success(__('The days time has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                if ($this->DaysTimes->save($daysTime)) {
+                    $this->Flash->success(__('O dia da semana foi editado com sucesso.'));
+                    return $this->redirect(['controller' => 'DaysTimes', 'action' => 'index']);
+                }
+                $this->Flash->error(__('O dia da semana não foi editado! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The days time could not be saved. Please, try again.'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        } finally {
+            $openingHours = $this->DaysTimes->OpeningHours->find('all')->toList();
+            $this->set(compact('daysTime', 'openingHours'));
         }
-        $openingHours = $this->DaysTimes->OpeningHours->find('all')->toList();
-        $this->set(compact('daysTime', 'openingHours'));
     }
 
     /**
@@ -85,13 +108,18 @@ class DaysTimesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
-        $this->request->allowMethod(['post', 'delete']);
-        $daysTime = $this->DaysTimes->get($id);
+        try {
+            $this->request->allowMethod(['post', 'delete']);
+            $daysTime = $this->DaysTimes->get($id);
 
-        $this->DaysTimes->delete($daysTime) ?
-        $this->Flash->success(__('The days time has been deleted.')) :
-        $this->Flash->error(__('The days time could not be deleted. Please, try again.'));
+            $this->DaysTimes->delete($daysTime) ?
+            $this->Flash->success(__('O dia da semana foi apagado com sucesso.')) :
+            $this->Flash->error(__('O dia da semana não foi apagado! Por favor, tente novamente.'));
 
-        return $this->redirect(['action' => 'index']);
+            return $this->redirect(['controller' => 'DaysTimes', 'action' => 'index']);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 }

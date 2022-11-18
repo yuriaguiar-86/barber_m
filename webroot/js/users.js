@@ -9,7 +9,7 @@ $(document).ready(function() {
     });
 
     function validateTypeRole(role) {
-        role == 3 ?
+        role == 2 ?
         $('.times__employee').show(500) :
         $('.times__employee').hide(500);
     }

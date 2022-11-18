@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Exception;
 
 /**
  * OpeningHours Controller
@@ -10,18 +11,20 @@ use App\Controller\AppController;
  *
  * @method \App\Model\Entity\OpeningHour[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class OpeningHoursController extends AppController
-{
+class OpeningHoursController extends AppController {
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null
      */
-    public function index()
-    {
-        $openingHours = $this->paginate($this->OpeningHours);
-
-        $this->set(compact('openingHours'));
+    public function index() {
+        try {
+            $openingHours = $this->paginate($this->OpeningHours);
+            $this->set(compact('openingHours'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -31,13 +34,14 @@ class OpeningHoursController extends AppController
      * @return \Cake\Http\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
-        $openingHour = $this->OpeningHours->get($id, [
-            'contain' => ['DaysTimes'],
-        ]);
-
-        $this->set('openingHour', $openingHour);
+    public function view($id = null) {
+        try {
+            $openingHour = $this->OpeningHours->get($id, ['contain' => ['DaysTimes']]);
+            $this->set('openingHour', $openingHour);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 
     /**
@@ -45,20 +49,24 @@ class OpeningHoursController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
-        $openingHour = $this->OpeningHours->newEntity();
-        if ($this->request->is('post')) {
-            $openingHour = $this->OpeningHours->patchEntity($openingHour, $this->request->getData());
-            if ($this->OpeningHours->save($openingHour)) {
-                $this->Flash->success(__('The opening hour has been saved.'));
+    public function add() {
+        try {
+            $openingHour = $this->OpeningHours->newEntity();
 
-                return $this->redirect(['action' => 'index']);
+            if ($this->request->is('post')) {
+                $openingHour = $this->OpeningHours->patchEntity($openingHour, $this->request->getData());
+
+                if ($this->OpeningHours->save($openingHour)) {
+                    $this->Flash->success(__('O horário foi cadastrado com sucesso.'));
+                    return $this->redirect(['controller' => 'OpeningHours', 'action' => 'index']);
+                }
+                $this->Flash->error(__('O horário não foi cadastrado! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The opening hour could not be saved. Please, try again.'));
+            $this->set(compact('openingHour'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
         }
-        $daysTimes = $this->OpeningHours->DaysTimes->find('list', ['limit' => 200]);
-        $this->set(compact('openingHour', 'daysTimes'));
     }
 
     /**
@@ -68,22 +76,24 @@ class OpeningHoursController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
-        $openingHour = $this->OpeningHours->get($id, [
-            'contain' => ['DaysTimes'],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $openingHour = $this->OpeningHours->patchEntity($openingHour, $this->request->getData());
-            if ($this->OpeningHours->save($openingHour)) {
-                $this->Flash->success(__('The opening hour has been saved.'));
+    public function edit($id = null) {
+        try {
+            $openingHour = $this->OpeningHours->get($id, ['contain' => ['DaysTimes']]);
 
-                return $this->redirect(['action' => 'index']);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $openingHour = $this->OpeningHours->patchEntity($openingHour, $this->request->getData());
+
+                if ($this->OpeningHours->save($openingHour)) {
+                    $this->Flash->success(__('O horário foi editado com sucesso.'));
+                    return $this->redirect(['controller' => 'OpeningHours', 'action' => 'index']);
+                }
+                $this->Flash->error(__('O horário não foi editado! Por favor, tente novamente.'));
             }
-            $this->Flash->error(__('The opening hour could not be saved. Please, try again.'));
+            $this->set(compact('openingHour'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
         }
-        $daysTimes = $this->OpeningHours->DaysTimes->find('list', ['limit' => 200]);
-        $this->set(compact('openingHour', 'daysTimes'));
     }
 
     /**
@@ -93,16 +103,19 @@ class OpeningHoursController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $openingHour = $this->OpeningHours->get($id);
-        if ($this->OpeningHours->delete($openingHour)) {
-            $this->Flash->success(__('The opening hour has been deleted.'));
-        } else {
-            $this->Flash->error(__('The opening hour could not be deleted. Please, try again.'));
-        }
+    public function delete($id = null) {
+        try {
+            $this->request->allowMethod(['post', 'delete']);
+            $openingHour = $this->OpeningHours->get($id);
 
-        return $this->redirect(['action' => 'index']);
+            $this->OpeningHours->delete($openingHour) ?
+            $this->Flash->success(__('O horário foi apagado com sucesso.')) :
+            $this->Flash->error(__('O horário não foi apagado! Por favor, tente novamente.'));
+
+            return $this->redirect(['controller' => 'OpeningHours', 'action' => 'index']);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
     }
 }

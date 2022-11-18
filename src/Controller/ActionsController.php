@@ -37,10 +37,7 @@ class ActionsController extends AppController {
      */
     public function view($id = null) {
         try {
-            $action = $this->Actions->get($id, [
-                'contain' => ['Controllers', 'Roles']
-            ]);
-
+            $action = $this->Actions->get($id, ['contain' => ['Controllers', 'Roles']]);
             $this->set('action', $action);
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
