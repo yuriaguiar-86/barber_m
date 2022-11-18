@@ -15,7 +15,11 @@
     <div class="more__fields">
         <div class="row right">
             <label>Profissional <span class="fields__required">*</span></label>
-            <?= $this->Form->control('employee_id', ['label' => false, 'options' => $users, 'class' => 'employee', 'required']); ?>
+            <select name="employee_id" class="employee" required>
+                <?php foreach ($users as $user) : ?>
+                    <option value="<?= $user->id; ?>"><?= $user->name; ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <div class="row right">
             <label>Data do agendamento <span class="fields__required">*</span></label>

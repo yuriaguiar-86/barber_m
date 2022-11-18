@@ -74,19 +74,31 @@ class SchedulesController extends AppController {
         } finally {
             $typesOfPayments = $this->Schedules->TypesOfPayments->find('list');
             $typesOfServices = $this->Schedules->TypesOfServices->find('all')->toList();
-            $users = $this->Schedules->Users->find('list')->where(['Users.role_id' => TypeRoleENUM::EMPLOYEE])->toList();
+            $users = $this->Schedules->Users->find('all')->where(['Users.role_id' => TypeRoleENUM::EMPLOYEE])->toList();
             $this->set(compact('schedule', 'users', 'typesOfPayments', 'typesOfServices'));
         }
     }
 
     public function getTimesFree() {
         if($this->request->is(['get', 'ajax'])) {
-            $times = $this->Schedules->findTimesRegistered($this->request->getQuery('date'), $this->request->getQuery('employee_id'));
+            $employee_id = $this->request->getQuery('employee_id');
+            $date_select = $this->formatData($this->request->getQuery('date'));
+
+            $busy = $this->Schedules->findTimesRegistered($date_select, $employee_id);
+
+            $this->loadModel('UsersOpeningHours');
+
+            $user = $this->UsersOpeningHours->find('all')
+                ->where([
+                    'user_id' => $employee_id
+                ])->first();
+
+            // Buscar os horários que o funcionário trabalha no dia da semana selecionado
 
             return $this->response
                 ->withType('application/json')
                 ->withStatus(200)
-                ->withStringBody(json_encode($times));
+                ->withStringBody(json_encode($user));
         }
     }
 
@@ -116,7 +128,6 @@ class SchedulesController extends AppController {
             $daysOfWork = $this->Schedules->DaysOfWork->find('list', ['limit' => 200]);
             $typesOfPayments = $this->Schedules->TypesOfPayments->find('list', ['limit' => 200]);
             $typesOfServices = $this->Schedules->TypesOfServices->find('list', ['limit' => 200]);
-
             $this->set(compact('schedule', 'users', 'daysOfWork', 'typesOfPayments', 'typesOfServices'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));

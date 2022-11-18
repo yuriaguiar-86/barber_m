@@ -99,7 +99,6 @@ class SchedulesTable extends Table {
     }
 
     public function findTimesRegistered($date, $employee) {
-        $query = $this->find('list', ['valueField' => 'time'])->select('time')->where(['Schedules.date' => $date, 'Schedules.employee_id' => $employee]);
-        return $query->toList();
+        return $this->find('list', ['valueField' => 'time'])->select('time')->where(['Schedules.date' => $date, 'Schedules.employee_id' => $employee])->toList();
     }
 }

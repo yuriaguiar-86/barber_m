@@ -81,6 +81,12 @@ class AppController extends Controller
         return $this->Auth->user('id');
     }
 
+    public function formatData($data) {
+        $data = str_replace('/', '', $data);
+        $data = substr($data, 4, 4) . '-' . substr($data, 2, 2) . '-' . substr($data, 0, 2);
+        return $data;
+    }
+
     public function beforeRender(Event $event) {
         parent::beforeRender($event);
 
