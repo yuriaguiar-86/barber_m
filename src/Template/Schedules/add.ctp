@@ -36,7 +36,9 @@
             <i class="fa-solid fa-circle-exclamation" style="font-size: .5em; color: var(--yellow);"></i>
         </h2>
 
-        <div class="containner__times"><p class="information__roles">Selecione o profissional e a data do atendimento!</p></div>
+        <div class="containner__times">
+            <p class="information__roles">Selecione o profissional e a data do atendimento!</p>
+        </div>
     </section>
 
     <section class="controllers">
@@ -71,18 +73,19 @@
             let date_select = $('.calendar').val();
             let employee_select = $('.employee').val();
 
-            $.ajax({
-                method: 'GET',
-                url: '<?= $this->Url->build(['controller' => 'Schedules', 'action' => 'getTimesFree']); ?>',
-                data: {
-                    date: date_select,
-                    employee_id: employee_select
-                },
-                dataType: 'json',
+            if (date_select != '' && employee_select != '') {
+                $.ajax({
+                    method: 'GET',
+                    url: '<?= $this->Url->build(['controller' => 'Schedules', 'action' => 'getTimesFree']); ?>',
+                    data: {
+                        date: date_select,
+                        employee_id: employee_select
+                    },
+                    dataType: 'json',
 
-                success: function(timesFree) {
-                    $.each(timesFree, function(index, value) {
-                        $('.containner__times').append(`
+                    success: function(timesFree) {
+                        $.each(timesFree, function(index, value) {
+                            $('.containner__times').append(`
                             <div>
                                 <input type="radio" id="control_${index}" name="time" value="${value}" class="input__times" />
                                 <label for="control_${index}" class="label__times">
@@ -90,17 +93,22 @@
                                 </label>
                             </div>
                         `);
-                    });
-                },
-                error: function(error) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        html: '<p>Algo coisa deu errado.</p> <p>Tente novamente mais tarde!</p>',
-                        confirmButtonColor: '#A9A9A9'
-                    });
-                }
-            });
+                        });
+                    },
+                    error: function(error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            html: '<p>Algo coisa deu errado.</p> <p>Tente novamente mais tarde!</p>',
+                            confirmButtonColor: '#A9A9A9'
+                        });
+                    }
+                });
+            } else {
+                $('.containner__times').append(`
+                    <p class="information__roles">Selecione o profissional e a data do atendimento!</p>
+                `);
+            }
         });
     });
 </script>

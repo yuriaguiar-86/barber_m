@@ -1,6 +1,8 @@
 <?php
 
 use App\Controller\DaysOfWeekENUM;
+use App\Controller\TypeRoleENUM;
+
 ?>
 
 <section>
@@ -34,33 +36,34 @@ use App\Controller\DaysOfWeekENUM;
         </div>
     </div>
 
-    <!-- Permitir somente para funcionários -->
-    <section class="controllers times__employee">
-        <h2>Controladores de atendimento <span class="fields__required">*</span></h2>
-        <p class="information__roles">Marque os horários no qual o profissional estará trabalhando durante a semana, ou clique no dia da semana para marcar/desmarcar todas.</p>
+    <?php if ($user->role->type == TypeRoleENUM::EMPLOYEE) : ?>
+        <section class="controllers times__employee">
+            <h2>Controladores de atendimento <span class="fields__required">*</span></h2>
+            <p class="information__roles">Marque os horários no qual o profissional estará trabalhando durante a semana, ou clique no dia da semana para marcar/desmarcar todas.</p>
 
-        <?php $daysWeek = DaysOfWeekENUM::findConstants(); ?>
-        <?php foreach ($daysWeek as $day) : ?>
-            <div class="input__services">
-                <div class="icons__module">
-                    <i class="fa-solid fa-check allcheck" aria-hidden="true" title="Marcar todos"></i>
-                    <i class="fa-regular fa-square uncheck" aria-hidden="true" title="Desmarcar todos"></i>
-                    <h4><?= $day; ?></h4>
-                </div>
+            <?php $daysWeek = DaysOfWeekENUM::findConstants(); ?>
+            <?php foreach ($daysWeek as $day) : ?>
+                <div class="input__services">
+                    <div class="icons__module">
+                        <i class="fa-solid fa-check allcheck" aria-hidden="true" title="Marcar todos"></i>
+                        <i class="fa-regular fa-square uncheck" aria-hidden="true" title="Desmarcar todos"></i>
+                        <h4><?= $day; ?></h4>
+                    </div>
 
-                <?php foreach ($daysTimes as $hour) : ?>
-                    <?php foreach ($hour->days_times as $day_week) : ?>
-                        <?php if ($day_week->day_of_week == DaysOfWeekENUM::findConstants($day)) : ?>
+                    <?php foreach ($daysTimes as $hour) : ?>
+                        <?php foreach ($hour->days_times as $day_week) : ?>
+                            <?php if ($day_week->day_of_week == DaysOfWeekENUM::findConstants($day)) : ?>
 
-                            <input type="checkbox" id="box-<?= $hour->id; ?>" name="opening_hours[_ids][]" value="<?= $hour->id; ?>" class="checkbox__service" />
-                            <label for="box-<?= $hour->id; ?>"><?= $hour->time_of_week; ?>:00H</label>
+                                <input type="checkbox" id="box-<?= $hour->id; ?>" name="opening_hours[_ids][]" value="<?= $hour->id; ?>" class="checkbox__service" />
+                                <label for="box-<?= $hour->id; ?>"><?= $hour->time_of_week; ?>:00H</label>
 
-                        <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     <?php endforeach; ?>
-                <?php endforeach; ?>
-            </div>
-        <?php endforeach; ?>
-    </section>
+                </div>
+            <?php endforeach; ?>
+        </section>
+    <?php endif; ?>
 
     <?= $this->Form->button(__('Atualizar'), ['class' => 'button__edit']); ?>
     <?= $this->Form->end(); ?>

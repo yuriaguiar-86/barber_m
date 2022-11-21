@@ -1,3 +1,8 @@
+<?php
+
+use App\Controller\TypeRoleENUM;
+?>
+
 <section>
     <div class="subtitle__button">
         <h1>Agendamentos <small>visualização</small></h1>
@@ -15,6 +20,18 @@
                 <h4>#</h4>
                 <dd><?= $schedule->id; ?></dd>
             </div>
+
+            <?php if($user_logged->role->type != TypeRoleENUM::CLIENT): ?>
+                <div class="data__row">
+                    <h4>Cliente</h4>
+                    <dd><?= $client->name; ?></dd>
+                </div>
+
+                <div class="data__row">
+                    <h4>Telefone</h4>
+                    <dd><?= $client->personal_phone; ?></dd>
+                </div>
+            <?php endif; ?>
 
             <div class="data__row">
                 <h4>Profissional</h4>

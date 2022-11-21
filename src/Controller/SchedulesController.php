@@ -25,12 +25,27 @@ class SchedulesController extends AppController {
     public function index() {
         try {
             $this->paginate = ['contain' => ['Users', 'TypesOfPayments', 'TypesOfServices']];
-            $schedules = $this->paginate($this->Schedules);
+            $conditions = $this->setConditionsSchedules();
+            $schedules = $this->paginate($this->Schedules->find('all')->where($conditions));
             $this->set(compact('schedules'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
+    }
+
+    private function setConditionsSchedules() {
+        $conditions[] = [];
+        $id = $this->getIdUserLogged();
+        $user = $this->Schedules->Users->get($id, ['contain' => ['Roles']]);
+
+        if($user->role->type == TypeRoleENUM::EMPLOYEE) {
+            $conditions[] = ['Schedules.employee_id' => $user->id];
+
+        } else if($user->role->type == TypeRoleENUM::CLIENT) {
+            $conditions[] = ['Schedules.user_id' => $user->id];
+        }
+        return $conditions;
     }
 
     /**
@@ -42,11 +57,11 @@ class SchedulesController extends AppController {
      */
     public function view($id = null) {
         try {
-            $schedule = $this->Schedules->get($id, [
-                'contain' => ['Users', 'TypesOfPayments', 'TypesOfServices'],
-            ]);
+            $schedule = $this->Schedules->get($id, ['contain' => ['Users', 'TypesOfPayments', 'TypesOfServices']]);
+            $user_logged = $this->Schedules->Users->get($this->getIdUserLogged(), ['contain' => ['Roles']]);
+            $client = $this->Schedules->Users->get($schedule->user_id);
 
-            $this->set('schedule', $schedule);
+            $this->set(compact('client', 'schedule', 'user_logged'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
@@ -146,6 +161,8 @@ class SchedulesController extends AppController {
 
     public function getTimesFree() {
         if($this->request->is(['get', 'ajax'])) {
+            $this->validateDate();
+
             $employee_id = $this->request->getQuery('employee_id');
             $date_select = $this->formatData($this->request->getQuery('date'));
 
@@ -168,6 +185,16 @@ class SchedulesController extends AppController {
                 ->withType('application/json')
                 ->withStatus(200)
                 ->withStringBody(json_encode($times));
+        }
+    }
+
+    private function validateDate() {
+        $data = explode('/', $this->request->getQuery('date'));
+
+        if(checkdate($data[1], $data[0], $data[2])) {
+            return $this->response
+                ->withType('application/json')
+                ->withStatus(400);
         }
     }
 }

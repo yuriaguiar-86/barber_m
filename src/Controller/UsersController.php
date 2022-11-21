@@ -224,7 +224,7 @@ class UsersController extends AppController {
     public function editProfile() {
         try {
             $id = $this->getIdUserLogged();
-            $user = $this->Users->get($id);
+            $user = $this->Users->get($id, ['contain' => ['Roles']]);
 
             if ($this->request->is(['patch', 'post', 'put'])) {
                 $user = $this->Users->patchEntity($user, $this->request->getData(), [
