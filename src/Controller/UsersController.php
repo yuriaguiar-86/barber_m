@@ -2,8 +2,11 @@
 namespace App\Controller;
 
 use Cake\Event\Event;
+use Cake\Mailer\Email;
+use Cake\Routing\Router;
+use Cake\Utility\Security;
 use App\Controller\AppController;
-use Cake\Auth\DefaultPasswordHasher;
+use Cake\Mailer\MailerAwareTrait;
 use Cake\Http\Exception\BadRequestException;
 use Exception;
 
@@ -18,7 +21,7 @@ class UsersController extends AppController {
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        $this->Auth->allow(['register', 'logout', 'login']);
+        $this->Auth->allow(['register', 'logout', 'login', 'recoverPassword', 'alterPassword']);
     }
 
     public function initialize() {
@@ -316,4 +319,93 @@ class UsersController extends AppController {
             $this->set(compact('user'));
         }
     }
+
+    use MailerAwareTrait;
+    public function recoverPassword() {
+        try {
+            $user = $this->Users->newEntity();
+
+            if($this->request->is('post')) {
+                $email = $this->request->getData('email');
+                $forget = $this->Users->getForgetPassword($email);
+                $this->validateEmailEnter($forget);
+
+                if(empty($forget->reset_password)) {
+                    $user->id = $forget->id;
+                    $user->reset_password = $this->hashTokenForSend($forget);
+
+                    $this->Users->save($user);
+                    $forget->reset_password = $user->reset_password;
+                }
+                $forget->host_name = $this->getHostNameUsed();
+                $this->getMailer('RecoverPassword')->send('rescuePassword', [$forget]);
+
+                $this->Flash->success(__('E-mail enviado com sucesso, verifique sua caixa de entrada!'));
+                return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+            }
+        }  catch(BadRequestException $exc) {
+            $this->Flash->error(__('O e-mail para a troca de senha não foi enviado! Por favor, revise as informações e tente novamente.'));
+            $this->Flash->warning(__($exc->getMessage()));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        } finally {
+            $this->set(compact('user'));
+        }
+    }
+
+    private function validateEmailEnter($user_mail) {
+        if(empty($user_mail)) {
+            throw new BadRequestException('Este e-mail ainda não foi cadastrado!');
+        }
+    }
+
+    private function hashTokenForSend($user) {
+        return Security::hash(
+            $user->email . $user->id . date('Y-m-d H:i:s'),
+            'sha256',
+            false
+        );
+    }
+
+    private function getHostNameUsed() {
+        return Router::fullBaseUrl() . $this->request->getAttribute('webroot') . $this->request->getParam('prefix');
+    }
+
+    public function alterPassword($token = null) {
+        try {
+            $user = $this->Users->getUpdatePassword($token);
+            $this->validateToken($user);
+
+            if($this->request->is(['patch', 'post', 'put'])) {
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+                $this->confirmPassword();
+                $user->reset_password = null;
+
+                if($this->Users->save($user)) {
+                    $this->Flash->success(__('A senha foi alterada com sucesso!'));
+                    return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+                }
+                $this->Flash->error(__('A senha não foi alterada! Por favor, tente novamente.'));
+            }
+        } catch(BadRequestException $exc) {
+            $this->Flash->error(__('Por favor, revise as informações e tente novamente.'));
+            $this->Flash->warning(__($exc->getMessage()));
+            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        } finally {
+            $this->set(compact('user'));
+        }
+    }
+
+    private function validateToken($current) {
+        if(empty($current)) {
+            throw new BadRequestException('O link no qual está tentando acessar é inválido!');
+        }
+    }
 }
+
+
+// http://localhost/barber_m/users/alter-password/a27b64c14b80b6d0b83bf76e5e2c554fb22342a9635415e119378b42dd1c933a

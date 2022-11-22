@@ -94,7 +94,8 @@ class AppController extends Controller
             $this->request->getParam(['action']) !== null AND
             ($this->request->getParam(['action']) == 'login'
             OR $this->request->getParam(['action']) == 'register'
-            OR $this->request->getParam(['action']) == 'forgetPassword')
+            OR $this->request->getParam(['action']) == 'alterPassword'
+            OR $this->request->getParam(['action']) == 'recoverPassword')
         ) {
             $this->viewBuilder()->setLayout('login');
 

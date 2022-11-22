@@ -12,6 +12,8 @@
         <?= $this->Form->control('password', ['label' => false, 'required']); ?>
     </div>
 
+    <p class="recover"><?= $this->Html->link(__('Esqueci minha senha'), ['controller' => 'Users', 'action' => 'recoverPassword']); ?></p>
+
     <?= $this->Form->button(__('Acessar')); ?>
     <?= $this->Form->end(); ?>
 

@@ -136,4 +136,16 @@ class UsersTable extends Table
         $query = $this->find()->select(['id', 'name', 'email'])->where(['Users.id' => $user_id]);
         return $query->first();
     }
+
+    public function getForgetPassword($email) {
+        return $this->find()->select(['id', 'username', 'name', 'email', 'reset_password'])->where([
+            'Users.email' => $email
+        ])->first();
+    }
+
+    public function getUpdatePassword($token) {
+        return $this->find()->select(['id'])->where([
+            'Users.reset_password' => $token
+        ])->first();
+    }
 }

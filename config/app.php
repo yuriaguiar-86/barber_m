@@ -222,6 +222,23 @@ return [
             'tls' => false,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
+
+        'envemail' => [
+            'className' => 'Smtp',
+            'host' => 'ssl://smtp.gmail.com',
+            'port' => 465,
+            'timeout' => 30,
+            'username' => 'barberbrothers.ff@gmail.com',
+            'password' => 'wybkuvmpsuhudnez',
+            'client' => null,
+            'context' => [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                ],
+            ]
+        ],
     ],
 
     /*
@@ -242,6 +259,10 @@ return [
              */
             //'charset' => 'utf-8',
             //'headerCharset' => 'utf-8',
+        ],
+        'envemail' => [
+            'transport' => 'envemail',
+            'from' => 'barberbrothers.ff@gmail.com',
         ],
     ],
 

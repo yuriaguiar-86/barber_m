@@ -80,6 +80,11 @@ form .subtitle {
     margin: 30px 0 10px 10px ;
 }
 
+form .recover {
+    margin-top: 20px;
+    text-align: center;
+}
+
 .containner .router {
     margin-bottom: 20px;
 }
