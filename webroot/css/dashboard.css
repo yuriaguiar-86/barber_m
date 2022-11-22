@@ -1,0 +1,35 @@
+.containner__dashboard {
+    margin-top: 50px;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dashboard__services {
+    width: 100%;
+    margin-bottom: 50px;
+
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.dashboard__services > .service {
+    flex: 1;
+    margin: 5px;
+}
+
+.service {
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid var(--green);
+}
+
+.service h2 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.service p {
+    color: var(--grey);
+}

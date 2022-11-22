@@ -9,7 +9,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
-    <?= $this->Html->css(['style', 'toolbar', 'welcome', 'view', 'list', 'forms']); ?>
+    <?= $this->Html->css(['style', 'toolbar', 'welcome', 'view', 'list', 'forms', 'dashboard']); ?>
     <?= $this->Html->script(['jquery.mask']); ?>
 
     <?= $this->fetch('css') ?>

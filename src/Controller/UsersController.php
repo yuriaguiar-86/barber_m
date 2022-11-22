@@ -175,7 +175,7 @@ class UsersController extends AppController {
 
             if ($this->request->is('post')) {
                 $client = $this->Users->patchEntity($client, $this->request->getData());
-                $client->role_id = 2;
+                $client->role_id = TypeRoleENUM::CLIENT;
 
                 $this->confirmPassword();
 
@@ -203,7 +203,39 @@ class UsersController extends AppController {
 
     public function dashboard() {
         try {
+            $payments = $this->Users->Schedules->TypesOfPayments->find('all')->toList();
+            $services = $this->Users->Schedules->TypesOfServices->find('all')->toList();
 
+            $this->loadModel('TypesOfServicesSchedules');
+
+            foreach($services as $service) {
+                foreach($payments as $payment) {
+
+                    $query = $this->TypesOfServicesSchedules->find('all')
+                        ->innerJoin('types_of_services', 'TypesOfServicesSchedules.types_of_service_id = types_of_services.id')
+                        ->innerJoin('Schedules', 'TypesOfServicesSchedules.schedule_id = Schedules.id');
+
+                    $count_services[] = $query->select(['Schedules.types_of_payment_id', 'types_of_services.id', 'types_of_services.price' ,'count' => $query->func()->count('TypesOfServicesSchedules.types_of_service_id')])
+                        ->where([
+                            // 'Schedules.finished' => FinishedENUM::FINISHED,
+                            'Schedules.types_of_payment_id' => $payment->id,
+                            'TypesOfServicesSchedules.types_of_service_id' => $service->id
+                        ])->first();
+                }
+            }
+
+            foreach($count_services as $service) {
+                foreach($payments as $payment) {
+
+                    if(!empty($service['Schedules']['types_of_payment_id'])) {
+                        if($payment->id == $service['Schedules']['types_of_payment_id']) {
+                            $values[$payment->id] = $service->count * $service->types_of_services['price'];
+                        }
+                    }
+                }
+            }
+
+            $this->set(compact('payments', 'values'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());

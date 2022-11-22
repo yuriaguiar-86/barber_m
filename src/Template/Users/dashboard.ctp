@@ -1,46 +1,80 @@
-<div>
-    <canvas id="myChart"></canvas>
-</div>
+<section>
+    <div class="subtitle__button">
+        <h1>Dashboard</h1>
+
+        <?php if ($this->AppView->visible('Users', 'export')) : ?>
+            <p><?= $this->Html->link(__('Exportar'), ['controller' => 'Users', 'action' => 'export']); ?></p>
+        <?php endif; ?>
+    </div>
+
+    <div class="containner__dashboard">
+        <div class="dashboard__services">
+            <?php $all = 0; ?>
+
+            <?php foreach ($payments as $payment) : ?>
+                <?php foreach ($values as $key => $value) : ?>
+                    <?php if ($payment->id == $key) : ?>
+
+                        <?php $all += $value; ?>
+
+                        <div class="service">
+                            <h2><?= $payment->name; ?></h2>
+                            <p>R$ <?= $value; ?>,00</p>
+                        </div>
+
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+
+            <div class="service">
+                <h2>Total</h2>
+                <p>R$ <?= $all ?>,00</p>
+            </div>
+        </div>
+
+        <canvas id="myChart"></canvas>
+    </div>
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    function getNumbersRandom() {
-        let values = [];
+    let types_payment = [
+        <?php foreach ($payments as $payment) : ?>
+            '<?= $payment->name; ?>',
+        <?php endforeach; ?>
+    ];
 
-        for (let i = 0; i < 12; i++) {
-            values.push(Math.floor(Math.random() * 500));
-        }
-        return values;
-    }
+    let values = [
+        <?php foreach ($payments as $payment) : ?>
+            <?php foreach ($values as $key => $value) : ?>
+                <?php if ($payment->id == $key) : ?>
 
-    const ctx = document.getElementById('myChart');
+                    '<?= $value; ?>',
 
-    new Chart(ctx, {
-        type: 'line',
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    ];
+
+    const ctx = new Chart(document.getElementById('myChart'), {
+        type: 'bar',
         data: {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            labels: types_payment,
 
-            datasets: [{
-                    label: 'Corte', // Percorrer os serviços cadastrador
-                    data: this.getNumbersRandom(), // O segundo valor será o máximo
-                    backgroundColor: ['#27AE60'],
-                    borderColor: ['#27AE60'],
-                    borderWidth: 1
-                },
+            datasets: [
                 {
-                    label: 'Barba', // Percorrer os serviços cadastrador
-                    data: this.getNumbersRandom(), // O segundo valor será o máximo
-                    backgroundColor: ['#FA2626'],
-                    borderColor: ['#FA2626'],
-                    borderWidth: 1
-                }, {
-                    label: 'Sobrancelha', // Percorrer os serviços cadastrador
-                    data: this.getNumbersRandom(), // O segundo valor será o máximo
-                    backgroundColor: ['#DBB801'],
-                    borderColor: ['#DBB801'],
-                    borderWidth: 1
+                    label: 'Pagamento',
+                    data: values,
+                    backgroundColor: '#27ae5f28',
+                    borderColor: ['#27AE60'],
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    barPercentage: .6
                 },
             ]
+        },
+        options: {
+            responsive: true
         }
     });
 </script>
