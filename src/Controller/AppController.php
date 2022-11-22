@@ -94,8 +94,7 @@ class AppController extends Controller
             $this->request->getParam(['action']) !== null AND
             ($this->request->getParam(['action']) == 'login'
             OR $this->request->getParam(['action']) == 'register'
-            OR $this->request->getParam(['action']) == 'forgetPassword'
-            OR $this->request->getParam(['action']) == 'updatePassword')
+            OR $this->request->getParam(['action']) == 'forgetPassword')
         ) {
             $this->viewBuilder()->setLayout('login');
 
@@ -112,7 +111,7 @@ class AppController extends Controller
         $controller = $this->request->getParam('controller');
         $actions_maps = $this->Auth->user()['role']['actions'];
 
-        if(in_array($action, ['profile', 'editProfile', 'home'])) {
+        if(in_array($action, ['profile', 'editProfile', 'updatePassword', 'home'])) {
             return true;
         }
 

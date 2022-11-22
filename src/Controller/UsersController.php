@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Cake\Event\Event;
 use App\Controller\AppController;
+use Cake\Auth\DefaultPasswordHasher;
 use Cake\Http\Exception\BadRequestException;
 use Exception;
 
@@ -292,10 +293,27 @@ class UsersController extends AppController {
 
     public function updatePassword() {
         try {
+            $id = $this->getIdUserLogged();
+            $user = $this->Users->get($id);
 
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+                $this->confirmPassword();
+
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('A senha foi trocada com sucesso.'));
+                    return $this->redirect(['controller' => 'Users', 'action' => 'profile']);
+                }
+                $this->Flash->error(__('A senha não foi trocada! Por favor, tente novamente.'));
+            }
+        } catch(BadRequestException $exc) {
+            $this->Flash->error(__('A atualização de senha não foi efetuada! Por favor, revise as informações e tente novamente.'));
+            $this->Flash->warning(__($exc->getMessage()));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
+        } finally {
+            $this->set(compact('user'));
         }
     }
 }
