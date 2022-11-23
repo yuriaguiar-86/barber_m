@@ -11,11 +11,11 @@
         <table class="custom__table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th class="px__table">#</th>
                     <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Telefone</th>
-                    <th>Tipo de perfil</th>
+                    <th class="px__table">E-mail</th>
+                    <th class="px__phone">Telefone</th>
+                    <th class="px__big">Tipo de perfil</th>
                     <th></th>
                 </tr>
             </thead>
@@ -23,11 +23,11 @@
             <tbody>
                 <?php foreach ($users as $user) : ?>
                     <tr>
-                        <td><?= $this->Number->format($user->id) ?></td>
+                        <td class="px__table"><?= $this->Number->format($user->id) ?></td>
                         <td><?= $user->name; ?></td>
-                        <td><?= $user->email; ?></td>
-                        <td><?= $user->personal_phone; ?></td>
-                        <td><?= $user->role->name; ?></td>
+                        <td class="px__table"><?= $user->email; ?></td>
+                        <td class="px__phone"><?= $user->personal_phone; ?></td>
+                        <td class="px__big"><?= $user->role->name; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('Users', 'view')) : ?>
@@ -47,6 +47,33 @@
                                     <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'action__delete sweetdelete', 'data-name' => $user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?>
                                 </div>
                             <?php endif; ?>
+
+                            <nav class="primary-navigation nav__actions">
+                                <ul>
+                                    <?php if (
+                                        $this->AppView->visible('Users', 'view') ||
+                                        $this->AppView->visible('Users', 'edit') ||
+                                        $this->AppView->visible('Users', 'delete')
+                                    ) : ?>
+
+                                        <li><a href="#" class="header__link"><i class="fa-solid fa-ellipsis"></i></a>
+                                            <ul class="dropdown">
+                                                <?php if ($this->AppView->visible('Users', 'view')) : ?>
+                                                    <li><?= $this->Html->link(__('Visualizar'), ['controller' => 'Users', 'action' => 'view', $user->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('Users', 'edit')) : ?>
+                                                    <li><?= $this->Html->link(__('Editar'), ['controller' => 'Users', 'action' => 'edit', $user->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('Users', 'delete')) : ?>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'header__link sweetdelete', 'data-name' => $user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?></li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
                         </td>
                     </tr>
                 <?php endforeach; ?>

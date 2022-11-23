@@ -11,9 +11,9 @@
         <table class="custom__table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th class="px__table">#</th>
                     <th>Dia da folga</th>
-                    <th>Descrição</th>
+                    <th class="px__big">Descrição</th>
                     <th></th>
                 </tr>
             </thead>
@@ -21,9 +21,9 @@
             <tbody>
                 <?php foreach ($daysOfWork as $day) : ?>
                     <tr>
-                        <td><?= $this->Number->format($day->id) ?></td>
+                        <td class="px__table"><?= $this->Number->format($day->id) ?></td>
                         <td><?= $day->not_work->format('d/m/Y'); ?></td>
-                        <td><?= !empty($day->description) ? $day->description : '-'; ?></td>
+                        <td class="px__big"><?= !empty($day->description) ? $day->description : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('DaysOfWork', 'view')) : ?>
@@ -43,6 +43,33 @@
                                     <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'DaysOfWork', 'action' => 'delete', $day->id], ['class' => 'action__delete sweetdelete', 'data-name' => $day->not_work->format('d/m/Y'), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a folga do dia {0}?', $day->not_work->format('d/m/Y'))]); ?>
                                 </div>
                             <?php endif; ?>
+
+                            <nav class="primary-navigation nav__actions">
+                                <ul>
+                                    <?php if (
+                                        $this->AppView->visible('DaysOfWork', 'view') ||
+                                        $this->AppView->visible('DaysOfWork', 'edit') ||
+                                        $this->AppView->visible('DaysOfWork', 'delete')
+                                    ) : ?>
+
+                                        <li><a href="#" class="header__link"><i class="fa-solid fa-ellipsis"></i></a>
+                                            <ul class="dropdown">
+                                                <?php if ($this->AppView->visible('DaysOfWork', 'view')) : ?>
+                                                    <li><?= $this->Html->link(__('Visualizar'), ['controller' => 'DaysOfWork', 'action' => 'view', $day->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('DaysOfWork', 'edit')) : ?>
+                                                    <li><?= $this->Html->link(__('Editar'), ['controller' => 'DaysOfWork', 'action' => 'edit', $day->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('DaysOfWork', 'delete')) : ?>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'DaysOfWork', 'action' => 'delete', $day->id], ['class' => 'header__link sweetdelete', 'data-name' => $day->not_work->format('d/m/Y'), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a folga do dia {0}?', $day->not_work->format('d/m/Y'))]); ?></li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
                         </td>
                     </tr>
                 <?php endforeach; ?>

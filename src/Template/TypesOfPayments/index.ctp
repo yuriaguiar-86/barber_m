@@ -11,9 +11,9 @@
         <table class="custom__table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th class="px__table">#</th>
                     <th>Nome</th>
-                    <th>Descrição</th>
+                    <th class="px__big">Descrição</th>
                     <th></th>
                 </tr>
             </thead>
@@ -21,9 +21,9 @@
             <tbody>
                 <?php foreach ($typesOfPayments as $payment) : ?>
                     <tr>
-                        <td><?= $this->Number->format($payment->id); ?></td>
+                        <td class="px__table"><?= $this->Number->format($payment->id); ?></td>
                         <td><?= $payment->name; ?></td>
-                        <td><?= !empty($payment->description) ? $payment->description : '-'; ?></td>
+                        <td class="px__big"><?= !empty($payment->description) ? $payment->description : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('TypesOfPayments', 'view')) : ?>
@@ -43,6 +43,33 @@
                                     <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'TypesOfPayments', 'action' => 'delete', $payment->id], ['class' => 'action__delete sweetdelete', 'data-name' => $payment->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de pagamento {0}?', $payment->name)]); ?>
                                 </div>
                             <?php endif; ?>
+
+                            <nav class="primary-navigation nav__actions">
+                                <ul>
+                                    <?php if (
+                                        $this->AppView->visible('TypesOfPayments', 'view') ||
+                                        $this->AppView->visible('TypesOfPayments', 'edit') ||
+                                        $this->AppView->visible('TypesOfPayments', 'delete')
+                                    ) : ?>
+
+                                        <li><a href="#" class="header__link"><i class="fa-solid fa-ellipsis"></i></a>
+                                            <ul class="dropdown">
+                                                <?php if ($this->AppView->visible('TypesOfPayments', 'view')) : ?>
+                                                    <li><?= $this->Html->link(__('Visualizar'), ['controller' => 'TypesOfPayments', 'action' => 'view', $payment->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('TypesOfPayments', 'edit')) : ?>
+                                                    <li><?= $this->Html->link(__('Editar'), ['controller' => 'TypesOfPayments', 'action' => 'edit', $payment->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('TypesOfPayments', 'delete')) : ?>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfPayments', 'action' => 'delete', $payment->id], ['class' => 'header__link sweetdelete', 'data-name' => $payment->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de pagamento {0}?', $payment->name)]); ?></li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
                         </td>
                     </tr>
                 <?php endforeach; ?>

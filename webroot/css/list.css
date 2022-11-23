@@ -87,3 +87,37 @@ tbody tr:nth-child(even){
     margin-top: 20px;
     background: var(--grey);
 }
+
+.nav__actions {
+    display: none;
+}
+
+@media screen and (max-width: 1300px) {
+    .px__big {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .px__table {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .action__view,
+    .action__edit,
+    .action__delete {
+        display: none;
+    }
+
+    .nav__actions {
+        display: block !important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .px__phone {
+        display: none;
+    }
+}

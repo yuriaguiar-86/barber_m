@@ -16,7 +16,7 @@ use App\Controller\DaysOfWeekENUM;
         <table class="custom__table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th class="px__table">#</th>
                     <th>Dia</th>
                     <th></th>
                 </tr>
@@ -25,7 +25,7 @@ use App\Controller\DaysOfWeekENUM;
             <tbody>
                 <?php foreach ($daysTimes as $dayTime) : ?>
                     <tr>
-                        <td><?= $this->Number->format($dayTime->id) ?></td>
+                        <td class="px__table"><?= $this->Number->format($dayTime->id) ?></td>
                         <td><?= DaysOfWeekENUM::findConstants($dayTime->day_of_week); ?></td>
 
                         <td class="actions">
@@ -46,6 +46,33 @@ use App\Controller\DaysOfWeekENUM;
                                     <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'DaysTimes', 'action' => 'delete', $dayTime->id], ['class' => 'action__delete sweetdelete', 'data-name' => DaysOfWeekENUM::findConstants($dayTime->day_of_week), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o dia {0}?', DaysOfWeekENUM::findConstants($dayTime->day_of_week))]); ?>
                                 </div>
                             <?php endif; ?>
+
+                            <nav class="primary-navigation nav__actions">
+                                <ul>
+                                    <?php if (
+                                        $this->AppView->visible('DaysTimes', 'view') ||
+                                        $this->AppView->visible('DaysTimes', 'edit') ||
+                                        $this->AppView->visible('DaysTimes', 'delete')
+                                    ) : ?>
+
+                                        <li><a href="#" class="header__link"><i class="fa-solid fa-ellipsis"></i></a>
+                                            <ul class="dropdown">
+                                                <?php if ($this->AppView->visible('DaysTimes', 'view')) : ?>
+                                                    <li><?= $this->Html->link(__('Visualizar'), ['controller' => 'DaysTimes', 'action' => 'view', $dayTime->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('DaysTimes', 'edit')) : ?>
+                                                    <li><?= $this->Html->link(__('Editar'), ['controller' => 'DaysTimes', 'action' => 'edit', $dayTime->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('DaysTimes', 'delete')) : ?>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'DaysTimes', 'action' => 'delete', $dayTime->id], ['class' => 'header__link sweetdelete', 'data-name' => DaysOfWeekENUM::findConstants($dayTime->day_of_week), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o dia {0}?', DaysOfWeekENUM::findConstants($dayTime->day_of_week))]); ?></li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
                         </td>
                     </tr>
                 <?php endforeach; ?>

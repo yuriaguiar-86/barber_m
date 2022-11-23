@@ -16,10 +16,10 @@ use App\Controller\TypeRoleENUM;
         <table class="custom__table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th class="px__table">#</th>
                     <th>Nome</th>
-                    <th>Permissão</th>
-                    <th>Descrição</th>
+                    <th class="px__phone">Permissão</th>
+                    <th class="px__big">Descrição</th>
                     <th></th>
                 </tr>
             </thead>
@@ -27,10 +27,10 @@ use App\Controller\TypeRoleENUM;
             <tbody>
                 <?php foreach ($roles as $role) : ?>
                     <tr>
-                        <td><?= $this->Number->format($role->id) ?></td>
+                        <td class="px__table"><?= $this->Number->format($role->id) ?></td>
                         <td><?= $role->name; ?></td>
-                        <td><?= TypeRoleENUM::findConstants($role->type); ?></td>
-                        <td><?= !empty($role->description) ? $role->description : '-'; ?></td>
+                        <td class="px__phone"><?= TypeRoleENUM::findConstants($role->type); ?></td>
+                        <td class="px__big"><?= !empty($role->description) ? $role->description : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('Roles', 'view')) : ?>
@@ -50,6 +50,33 @@ use App\Controller\TypeRoleENUM;
                                     <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'action__delete sweetdelete', 'data-name' => $role->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?>
                                 </div>
                             <?php endif; ?>
+
+                            <nav class="primary-navigation nav__actions">
+                                <ul>
+                                    <?php if (
+                                        $this->AppView->visible('Roles', 'view') ||
+                                        $this->AppView->visible('Roles', 'edit') ||
+                                        $this->AppView->visible('Roles', 'delete')
+                                    ) : ?>
+
+                                        <li><a href="#" class="header__link"><i class="fa-solid fa-ellipsis"></i></a>
+                                            <ul class="dropdown">
+                                                <?php if ($this->AppView->visible('Roles', 'view')) : ?>
+                                                    <li><?= $this->Html->link(__('Visualizar'), ['controller' => 'Roles', 'action' => 'view', $role->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('Roles', 'edit')) : ?>
+                                                    <li><?= $this->Html->link(__('Editar'), ['controller' => 'Roles', 'action' => 'edit', $role->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('Roles', 'delete')) : ?>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'header__link sweetdelete', 'data-name' => $role->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?></li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
                         </td>
                     </tr>
                 <?php endforeach; ?>

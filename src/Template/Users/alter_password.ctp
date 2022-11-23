@@ -3,11 +3,11 @@
     <?= $this->Form->create($user); ?>
 
     <div class="row">
-        <label>Senha <span class="fields__required">*</span></label>
+        <label>Senha</label>
         <?= $this->Form->control('password', ['label' => false, 'required', 'placeholder' => 'No mínimo 06 caracteres']); ?>
     </div>
     <div class="row">
-        <label>Confirmação de senha <span class="fields__required">*</span></label>
+        <label>Confirmação de senha</label>
         <?= $this->Form->control('confirm_password', ['type' => 'password', 'label' => false, 'required', 'placeholder' => 'Digite a mesma senha']); ?>
     </div>
 

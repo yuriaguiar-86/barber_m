@@ -33,7 +33,6 @@
                 </li>
             <?php endif; ?>
 
-
             <?php if (
                 $this->AppView->visible('Users', 'index') ||
                 $this->AppView->visible('DaysTimes', 'index') ||
@@ -78,4 +77,98 @@
             <li><?= $this->Html->link(__('Sair'), ['controller' => 'Users', 'action' => 'logout'], ['class' => 'header__link']); ?></li>
         </ul>
     </nav>
+
+
+    <!-- MENU HAMBURGUER -->
+    <section class="hamburger__menu">
+        <input id="menu__toggle" type="checkbox" />
+        <label class="menu__btn" for="menu__toggle">
+            <span></span>
+        </label>
+
+        <ul class="menu__box">
+            <li><?= $this->Html->link(__('Meu perfil'), ['controller' => 'Users', 'action' => 'profile'], ['class' => 'menu__item']); ?></li>
+
+
+            <?php if (
+                $this->AppView->visible('DaysOfWork', 'index') ||
+                $this->AppView->visible('TypesOfPayments', 'index') ||
+                $this->AppView->visible('TypesOfServices', 'index') ||
+                $this->AppView->visible('Users', 'dashboard')
+            ) : ?>
+                <details class="summary__hamburguer">
+                    <summary>Configurações &dtrif;</summary>
+
+                    <?php if ($this->AppView->visible('Users', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Usuários'), ['controller' => 'Users', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('DaysTimes', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Dias da semana'), ['controller' => 'DaysTimes', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('OpeningHours', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Horários'), ['controller' => 'OpeningHours', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('Roles', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Tipos de perfis'), ['controller' => 'Roles', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('Actions', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Funcionalidades'), ['controller' => 'Actions', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('Controllers', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Controladores'), ['controller' => 'Controllers', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+                </details>
+            <?php endif; ?>
+
+
+            <?php if (
+                $this->AppView->visible('Users', 'index') ||
+                $this->AppView->visible('DaysTimes', 'index') ||
+                $this->AppView->visible('OpeningHours', 'index') ||
+                $this->AppView->visible('Roles', 'index') ||
+                $this->AppView->visible('Actions', 'index') ||
+                $this->AppView->visible('Controllers', 'index')
+            ) : ?>
+                <details class="summary__hamburguer">
+                    <summary>Administrativo &dtrif;</summary>
+
+                    <?php if ($this->AppView->visible('Users', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Usuários'), ['controller' => 'Users', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('DaysTimes', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Dias da semana'), ['controller' => 'DaysTimes', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('OpeningHours', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Horários'), ['controller' => 'OpeningHours', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('Roles', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Tipos de perfis'), ['controller' => 'Roles', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('Actions', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Funcionalidades'), ['controller' => 'Actions', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->AppView->visible('Controllers', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Controladores'), ['controller' => 'Controllers', 'action' => 'index']); ?></li>
+                    <?php endif; ?>
+                </details>
+            <?php endif; ?>
+
+
+            <?php if ($this->AppView->visible('Schedules', 'index')) : ?>
+                <li><?= $this->Html->link(__('Agenda'), ['controller' => 'Schedules', 'action' => 'index'], ['class' => 'menu__item']); ?></li>
+            <?php endif; ?>
+
+            <li><?= $this->Html->link(__('Sair'), ['controller' => 'Users', 'action' => 'logout'], ['class' => 'menu__item']); ?></li>
+        </ul>
+    </section>
 </header>

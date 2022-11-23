@@ -11,11 +11,11 @@
         <table class="custom__table">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Nome</th>
+                    <th class="px__table">#</th>
+                    <th class="px__phone">Nome</th>
                     <th>Apelido</th>
-                    <th>Controlador</th>
-                    <th>Descrição</th>
+                    <th class="px__table">Controlador</th>
+                    <th class="px__big">Descrição</th>
                     <th></th>
                 </tr>
             </thead>
@@ -23,11 +23,11 @@
             <tbody>
                 <?php foreach ($actions as $action) : ?>
                     <tr>
-                        <td><?= $this->Number->format($action->id) ?></td>
-                        <td><?= $action->action_map; ?></td>
+                        <td class="px__table"><?= $this->Number->format($action->id) ?></td>
+                        <td class="px__phone"><?= $action->action_map; ?></td>
                         <td><?= $action->surname; ?></td>
-                        <td><?= $action->controller->name; ?></td>
-                        <td><?= !empty($action->description) ? $action->description : '-'; ?></td>
+                        <td class="px__table"><?= $action->controller->name; ?></td>
+                        <td class="px__big"><?= !empty($action->description) ? $action->description : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('Controllers', 'view')) : ?>
@@ -47,6 +47,33 @@
                                     <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'action__delete sweetdelete', 'data-name' => $action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?>
                                 </div>
                             <?php endif; ?>
+
+                            <nav class="primary-navigation nav__actions">
+                                <ul>
+                                    <?php if (
+                                        $this->AppView->visible('Controllers', 'view') ||
+                                        $this->AppView->visible('Controllers', 'edit') ||
+                                        $this->AppView->visible('Controllers', 'delete')
+                                    ) : ?>
+
+                                        <li><a href="#" class="header__link"><i class="fa-solid fa-ellipsis"></i></a>
+                                            <ul class="dropdown">
+                                                <?php if ($this->AppView->visible('Controllers', 'view')) : ?>
+                                                    <li><?= $this->Html->link(__('Visualizar'), ['controller' => 'Controllers', 'action' => 'view', $action->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('Controllers', 'edit')) : ?>
+                                                    <li><?= $this->Html->link(__('Editar'), ['controller' => 'Controllers', 'action' => 'edit', $action->id], ['class' => 'header__link']); ?></li>
+                                                <?php endif; ?>
+
+                                                <?php if ($this->AppView->visible('Controllers', 'delete')) : ?>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $action->id], ['class' => 'header__link sweetdelete', 'data-name' => $action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?></li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav>
                         </td>
                     </tr>
                 <?php endforeach; ?>
