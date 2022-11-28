@@ -35,7 +35,11 @@ class SchedulesController extends AppController {
     }
 
     private function setConditionsSchedules() {
-        $conditions[] = [];
+        $conditions[] = [
+            'Schedules.finished' => FinishedENUM::PENDING,
+            'Schedules.date >=' => date('Y-m-d')
+        ];
+
         $id = $this->getIdUserLogged();
         $user = $this->Schedules->Users->get($id, ['contain' => ['Roles']]);
 
@@ -83,6 +87,7 @@ class SchedulesController extends AppController {
                     'associated' => ['TypesOfServices']
                 ]);
 
+                $schedule->finished = FinishedENUM::PENDING;
                 $schedule->date = $this->formatData($this->request->getData('date'));
                 $schedule->user_id = $this->getIdUserLogged();
 
@@ -111,7 +116,7 @@ class SchedulesController extends AppController {
      */
     public function edit($id = null) {
         try {
-            $schedule = $this->Schedules->get($id, ['contain' => ['TypesOfServices']]);
+            $schedule = $this->Schedules->get($id);
 
             if ($this->request->is(['patch', 'post', 'put'])) {
                 $schedule = $this->Schedules->patchEntity($schedule, $this->request->getData(), [
