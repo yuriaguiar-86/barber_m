@@ -140,3 +140,13 @@
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+
+@media screen and (max-width: 800px) {
+    .all__forms .right {
+        margin-right: 0;
+    }
+
+    .more__fields {
+        flex-wrap: wrap;
+    }
+}
