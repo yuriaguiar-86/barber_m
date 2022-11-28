@@ -103,8 +103,8 @@
                         <li><?= $this->Html->link(__('Usuários'), ['controller' => 'Users', 'action' => 'index']); ?></li>
                     <?php endif; ?>
 
-                    <?php if ($this->AppView->visible('DaysTimes', 'index')) : ?>
-                        <li><?= $this->Html->link(__('Dias da semana'), ['controller' => 'DaysTimes', 'action' => 'index']); ?></li>
+                    <?php if ($this->AppView->visible('DaysOfWork', 'index')) : ?>
+                        <li><?= $this->Html->link(__('Dias de folga'), ['controller' => 'DaysOfWork', 'action' => 'index']); ?></li>
                     <?php endif; ?>
 
                     <?php if ($this->AppView->visible('OpeningHours', 'index')) : ?>
