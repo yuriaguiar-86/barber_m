@@ -54,11 +54,6 @@ use App\Controller\TypeRoleENUM;
                 <h4>Data e horário</h4>
                 <dd><?= $schedule->date->format('d/m/Y') . ' ás ' . $schedule->time; ?>:00H</dd>
             </div>
-
-            <div class="data__row">
-                <h4>Forma de pagamento</h4>
-                <dd><?= $schedule->types_of_payment->name; ?></dd>
-            </div>
         </dl>
     </div>
 

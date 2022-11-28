@@ -230,7 +230,6 @@ class UsersController extends AppController {
                         'Schedules.types_of_payment_id' => $payment->id,
                         'TypesOfServicesSchedules.types_of_service_id' => $service->id
                     ])->first();
-
                 }
             }
 

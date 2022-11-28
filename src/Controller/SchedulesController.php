@@ -62,7 +62,7 @@ class SchedulesController extends AppController {
      */
     public function view($id = null) {
         try {
-            $schedule = $this->Schedules->get($id, ['contain' => ['Users', 'TypesOfPayments', 'TypesOfServices']]);
+            $schedule = $this->Schedules->get($id, ['contain' => ['Users', 'TypesOfServices']]);
             $user_logged = $this->Schedules->Users->get($this->getIdUserLogged(), ['contain' => ['Roles']]);
             $client = $this->Schedules->Users->get($schedule->user_id);
 
