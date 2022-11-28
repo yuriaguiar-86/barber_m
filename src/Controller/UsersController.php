@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use Cake\Event\Event;
@@ -39,7 +40,7 @@ class UsersController extends AppController {
             $this->paginate = ['contain' => ['Roles']];
             $users = $this->paginate($this->Users);
             $this->set(compact('users'));
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
@@ -59,7 +60,7 @@ class UsersController extends AppController {
             ]);
 
             $this->set('user', $user);
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
@@ -85,7 +86,7 @@ class UsersController extends AppController {
                 }
                 $this->Flash->error(__('O usuário não foi cadastrado! Por favor, tente novamente.'));
             }
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
@@ -117,7 +118,7 @@ class UsersController extends AppController {
                 }
                 $this->Flash->error(__('O usuário não foi editado! Por favor, tente novamente.'));
             }
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
@@ -141,11 +142,11 @@ class UsersController extends AppController {
             $user = $this->Users->get($id);
 
             $this->Users->delete($user) ?
-            $this->Flash->success(__('O usuário foi apagado com sucesso.')) :
-            $this->Flash->error(__('O usuário não foi apagado! Por favor, tente novamente.'));
+                $this->Flash->success(__('O usuário foi apagado com sucesso.')) :
+                $this->Flash->error(__('O usuário não foi apagado! Por favor, tente novamente.'));
 
             return $this->redirect(['controller' => 'Users', 'action' => 'index']);
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
@@ -163,7 +164,7 @@ class UsersController extends AppController {
                     $this->Flash->error(__('Usuário ou senha incorreta!'));
                 }
             }
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
         }
     }
@@ -189,10 +190,10 @@ class UsersController extends AppController {
                 }
                 $this->Flash->error(__('A conta não foi criada! Por favor, tente novamente.'));
             }
-        } catch(BadRequestException $exc) {
+        } catch (BadRequestException $exc) {
             $this->Flash->error(__('A conta não foi criada! Por favor, revise as informações e tente novamente.'));
             $this->Flash->warning(__($exc->getMessage()));
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
         } finally {
             $this->set(compact('client'));
@@ -200,7 +201,7 @@ class UsersController extends AppController {
     }
 
     private function confirmPassword() {
-        if($this->request->getData('password') !== $this->request->getData('confirm_password')) {
+        if ($this->request->getData('password') !== $this->request->getData('confirm_password')) {
             throw new BadRequestException('A senha e a confirmação de senha estão diferentes!');
         }
     }
@@ -213,35 +214,36 @@ class UsersController extends AppController {
 
             $this->loadModel('TypesOfServicesSchedules');
 
-            foreach($services as $service) {
-                foreach($payments as $payment) {
-
+            foreach ($services as $service) {
+                foreach ($payments as $payment) {
                     $query = $this->TypesOfServicesSchedules->find('all')
                         ->innerJoin('types_of_services', 'TypesOfServicesSchedules.types_of_service_id = types_of_services.id')
-                        ->innerJoin('Schedules', 'TypesOfServicesSchedules.schedule_id = Schedules.id');
+                        ->innerJoin('Schedules', 'TypesOfServicesSchedules.schedule_id = Schedules.id')
+                        ->innerJoin('types_of_payments', 'Schedules.types_of_payment_id = types_of_payments.id');
 
-                    $count_services[] = $query->select(['Schedules.types_of_payment_id', 'types_of_services.id', 'types_of_services.price' ,'count' => $query->func()->count('TypesOfServicesSchedules.types_of_service_id')])
-                        ->where([
-                            'Schedules.finished' => FinishedENUM::FINISHED,
-                            'Schedules.types_of_payment_id' => $payment->id,
-                            'TypesOfServicesSchedules.types_of_service_id' => $service->id
-                        ])->first();
+                    $count_services[] = $query->select([
+                        'types_of_payments.id', 'types_of_payments.name',
+                        'types_of_services.id', 'types_of_services.price',
+                        'sum' => $query->func()->count('TypesOfServicesSchedules.types_of_service_id')
+                    ])->where([
+                        'Schedules.finished' => FinishedENUM::FINISHED,
+                        'Schedules.types_of_payment_id' => $payment->id,
+                        'TypesOfServicesSchedules.types_of_service_id' => $service->id
+                    ])->first();
+
                 }
             }
 
-            foreach($count_services as $service) {
-                foreach($payments as $payment) {
-
-                    if(!empty($service['Schedules']['types_of_payment_id'])) {
-                        if($payment->id == $service['Schedules']['types_of_payment_id']) {
-                            $values[$payment->id] = $service->count * $service->types_of_services['price'];
-                        }
+            foreach ($count_services as $service) {
+                foreach ($payments as $payment) {
+                    if ($payment->id == $service->types_of_payments['id']) {
+                        $values[$payment->id] = $service->sum * $service->types_of_services['price'];
                     }
                 }
             }
 
             $this->set(compact('payments', 'values'));
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
@@ -250,7 +252,7 @@ class UsersController extends AppController {
     public function profile() {
         try {
             $user = $this->Auth->user();
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             $this->redirect(['controller' => 'Users', 'action' => 'profile']);
         } finally {
@@ -274,7 +276,7 @@ class UsersController extends AppController {
                 }
                 $this->Flash->error(__('A conta não foi editada! Por favor, tente novamente.'));
             }
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
@@ -287,7 +289,7 @@ class UsersController extends AppController {
     public function home() {
         try {
             $user = $this->Auth->user();
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             $this->redirect(['controller' => 'Users', 'action' => 'profile']);
         } finally {
@@ -310,10 +312,10 @@ class UsersController extends AppController {
                 }
                 $this->Flash->error(__('A senha não foi trocada! Por favor, tente novamente.'));
             }
-        } catch(BadRequestException $exc) {
+        } catch (BadRequestException $exc) {
             $this->Flash->error(__('A atualização de senha não foi efetuada! Por favor, revise as informações e tente novamente.'));
             $this->Flash->warning(__($exc->getMessage()));
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
@@ -326,12 +328,12 @@ class UsersController extends AppController {
         try {
             $user = $this->Users->newEntity();
 
-            if($this->request->is('post')) {
+            if ($this->request->is('post')) {
                 $email = $this->request->getData('email');
                 $forget = $this->Users->getForgetPassword($email);
                 $this->validateEmailEnter($forget);
 
-                if(empty($forget->reset_password)) {
+                if (empty($forget->reset_password)) {
                     $user->id = $forget->id;
                     $user->reset_password = $this->hashTokenForSend($forget);
 
@@ -344,10 +346,10 @@ class UsersController extends AppController {
                 $this->Flash->success(__('E-mail enviado com sucesso, verifique sua caixa de entrada!'));
                 return $this->redirect(['controller' => 'Users', 'action' => 'login']);
             }
-        }  catch(BadRequestException $exc) {
+        } catch (BadRequestException $exc) {
             $this->Flash->error(__('O e-mail para a troca de senha não foi enviado! Por favor, revise as informações e tente novamente.'));
             $this->Flash->warning(__($exc->getMessage()));
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
@@ -356,7 +358,7 @@ class UsersController extends AppController {
     }
 
     private function validateEmailEnter($user_mail) {
-        if(empty($user_mail)) {
+        if (empty($user_mail)) {
             throw new BadRequestException('Este e-mail ainda não foi cadastrado!');
         }
     }
@@ -378,22 +380,22 @@ class UsersController extends AppController {
             $user = $this->Users->getUpdatePassword($token);
             $this->validateToken($user);
 
-            if($this->request->is(['patch', 'post', 'put'])) {
+            if ($this->request->is(['patch', 'post', 'put'])) {
                 $user = $this->Users->patchEntity($user, $this->request->getData());
                 $this->confirmPassword();
                 $user->reset_password = null;
 
-                if($this->Users->save($user)) {
+                if ($this->Users->save($user)) {
                     $this->Flash->success(__('A senha foi alterada com sucesso!'));
                     return $this->redirect(['controller' => 'Users', 'action' => 'login']);
                 }
                 $this->Flash->error(__('A senha não foi alterada! Por favor, tente novamente.'));
             }
-        } catch(BadRequestException $exc) {
+        } catch (BadRequestException $exc) {
             $this->Flash->error(__('Por favor, revise as informações e tente novamente.'));
             $this->Flash->warning(__($exc->getMessage()));
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
-        } catch(Exception $exc) {
+        } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
@@ -402,11 +404,8 @@ class UsersController extends AppController {
     }
 
     private function validateToken($current) {
-        if(empty($current)) {
+        if (empty($current)) {
             throw new BadRequestException('O link no qual está tentando acessar é inválido!');
         }
     }
 }
-
-
-// http://localhost/barber_m/users/alter-password/a27b64c14b80b6d0b83bf76e5e2c554fb22342a9635415e119378b42dd1c933a

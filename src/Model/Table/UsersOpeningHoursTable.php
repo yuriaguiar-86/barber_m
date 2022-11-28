@@ -69,11 +69,22 @@ class UsersOpeningHoursTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['opening_hour_id'], 'OpeningHours'));
 
         return $rules;
+    }
+
+    public function findOpeningTimesEmployee($employee_id, $day_week) {
+        return $this->find('list', ['valueField' => 'opening_hours.time_of_week'])
+        ->select(['opening_hours.time_of_week'])
+        ->innerJoin('opening_hours', 'opening_hours.id = UsersOpeningHours.opening_hour_id')
+        ->innerJoin('days_times_opening_hours', 'days_times_opening_hours.opening_hour_id = opening_hours.id')
+        ->innerJoin('days_times', 'days_times.id = days_times_opening_hours.days_time_id')
+        ->where([
+            'UsersOpeningHours.user_id' => $employee_id,
+            'days_times.day_of_week' => $day_week
+        ])->toList();
     }
 }

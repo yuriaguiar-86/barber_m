@@ -17,6 +17,7 @@ class SchedulesController extends AppController {
         $this->loadModel('UsersOpeningHours');
         return parent::initialize();
     }
+
     /**
      * Index method
      *
@@ -168,20 +169,9 @@ class SchedulesController extends AppController {
 
             $employee_id = $this->request->getQuery('employee_id');
             $date_select = $this->formatData($this->request->getQuery('date'));
-
             $times_busy = $this->Schedules->findTimesRegistered($date_select, $employee_id);
             $day_week = date('w', strtotime($date_select)) + 1;
-
-            $times_free = $this->UsersOpeningHours->find('list', ['valueField' => 'opening_hours.time_of_week'])
-                ->select(['opening_hours.time_of_week'])
-                ->innerJoin('opening_hours', 'opening_hours.id = UsersOpeningHours.opening_hour_id')
-                ->innerJoin('days_times_opening_hours', 'days_times_opening_hours.opening_hour_id = opening_hours.id')
-                ->innerJoin('days_times', 'days_times.id = days_times_opening_hours.days_time_id')
-                ->where([
-                    'UsersOpeningHours.user_id' => $employee_id,
-                    'days_times.day_of_week' => $day_week
-                ])->toList();
-
+            $times_free = $this->UsersOpeningHours->findOpeningTimesEmployee($employee_id, $day_week);
             $times = array_diff($times_free, $times_busy);
 
             return $this->response
