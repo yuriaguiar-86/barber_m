@@ -207,6 +207,7 @@ class UsersController extends AppController {
 
     public function dashboard() {
         try {
+            $values[] = null;
             $payments = $this->Users->Schedules->TypesOfPayments->find('all')->toList();
             $services = $this->Users->Schedules->TypesOfServices->find('all')->toList();
 
@@ -221,7 +222,7 @@ class UsersController extends AppController {
 
                     $count_services[] = $query->select(['Schedules.types_of_payment_id', 'types_of_services.id', 'types_of_services.price' ,'count' => $query->func()->count('TypesOfServicesSchedules.types_of_service_id')])
                         ->where([
-                            // 'Schedules.finished' => FinishedENUM::FINISHED,
+                            'Schedules.finished' => FinishedENUM::FINISHED,
                             'Schedules.types_of_payment_id' => $payment->id,
                             'TypesOfServicesSchedules.types_of_service_id' => $service->id
                         ])->first();

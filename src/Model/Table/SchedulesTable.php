@@ -80,7 +80,7 @@ class SchedulesTable extends Table {
             ->notEmptyString('employee_id');
 
         $validator
-            ->notEmptyString('types_of_payment_id');
+            ->allowEmptyString('types_of_payment_id');
 
         $validator
             ->notEmptyString('date');

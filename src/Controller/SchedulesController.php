@@ -24,7 +24,7 @@ class SchedulesController extends AppController {
      */
     public function index() {
         try {
-            $this->paginate = ['contain' => ['Users', 'TypesOfPayments', 'TypesOfServices']];
+            $this->paginate = ['contain' => ['Users', 'TypesOfServices']];
             $conditions = $this->setConditionsSchedules();
             $schedules = $this->paginate($this->Schedules->find('all')->where($conditions));
             $this->set(compact('schedules'));
@@ -96,10 +96,9 @@ class SchedulesController extends AppController {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
-            $typesOfPayments = $this->Schedules->TypesOfPayments->find('list');
             $typesOfServices = $this->Schedules->TypesOfServices->find('all')->toList();
             $users = $this->Schedules->Users->find('all')->where(['Users.role_id' => TypeRoleENUM::EMPLOYEE])->toList();
-            $this->set(compact('schedule', 'users', 'typesOfPayments', 'typesOfServices'));
+            $this->set(compact('schedule', 'users', 'typesOfServices'));
         }
     }
 
@@ -129,10 +128,9 @@ class SchedulesController extends AppController {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
-            $typesOfPayments = $this->Schedules->TypesOfPayments->find('list');
             $typesOfServices = $this->Schedules->TypesOfServices->find('all')->toList();
             $users = $this->Schedules->Users->find('all')->where(['Users.role_id' => TypeRoleENUM::EMPLOYEE])->toList();
-            $this->set(compact('schedule', 'users', 'typesOfPayments', 'typesOfServices'));
+            $this->set(compact('schedule', 'users', 'typesOfServices'));
         }
     }
 
@@ -195,6 +193,34 @@ class SchedulesController extends AppController {
             return $this->response
                 ->withType('application/json')
                 ->withStatus(400);
+        }
+    }
+
+    public function finishedSchedule($id = null) {
+        try {
+            $schedule = $this->Schedules->get($id, ['contain' => ['Users']]);
+
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $schedule = $this->Schedules->patchEntity($schedule, $this->request->getData(), [
+                    'associated' => ['TypesOfServices']
+                ]);
+
+                $schedule->finished = FinishedENUM::FINISHED;
+
+                if ($this->Schedules->save($schedule, ['associated' => ['TypesOfServices']])) {
+                    $this->Flash->success(__('O agendamento foi finalizado com sucesso.'));
+                    return $this->redirect(['controller' => 'Schedules', 'action' => 'index']);
+                }
+                $this->Flash->error(__('O agendamento não foi finalizado! Por favor, tente novamente.'));
+            }
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        } finally {
+            $client = $this->Schedules->Users->get($schedule->user_id);
+            $typesOfPayments = $this->Schedules->TypesOfPayments->find('list');
+            $typesOfServices = $this->Schedules->TypesOfServices->find('all')->toList();
+            $this->set(compact('client', 'schedule', 'typesOfPayments', 'typesOfServices'));
         }
     }
 }

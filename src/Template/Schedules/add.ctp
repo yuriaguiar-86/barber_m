@@ -21,13 +21,9 @@
                 <?php endforeach; ?>
             </select>
         </div>
-        <div class="row right">
+        <div class="row">
             <label>Data do agendamento <span class="fields__required">*</span></label>
             <?= $this->Form->control('date', ['type' => 'text', 'label' => false, 'placeholder' => '99/99/9999', 'class' => 'calendar times-free', 'required']); ?>
-        </div>
-        <div class="row">
-            <label>Forma de pagamento <span class="fields__required">*</span></label>
-            <?= $this->Form->control('types_of_payment_id', ['options' => $typesOfPayments, 'label' => false, 'required']); ?>
         </div>
     </div>
 
