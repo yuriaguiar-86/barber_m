@@ -24,4 +24,5 @@
     <?= $this->Form->end(); ?>
 </section>
 
-<?= $this->Html->script(['masks']); ?>
+<?= $this->Html->script(['masks', 'datepicker']); ?>
+

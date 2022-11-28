@@ -109,4 +109,4 @@
     });
 </script>
 
-<?= $this->Html->script(['roles', 'masks']); ?>
+<?= $this->Html->script(['roles', 'masks', 'masks', 'datepicker']); ?>
