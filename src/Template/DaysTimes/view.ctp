@@ -11,6 +11,18 @@ use App\Controller\DaysOfWeekENUM;
             <?= $this->Form->postLink(__('Apagar'), ['controller' => 'DaysTimes', 'action' => 'delete', $daysTime->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => DaysOfWeekENUM::findConstants($daysTime->day_of_week), 'confirm' => __('Tem certeza que deseja apagar o dia {0}?', DaysOfWeekENUM::findConstants($daysTime->day_of_week))]); ?>
             <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'DaysTimes', 'action' => 'edit', $daysTime->id], ['class' => 'update']); ?></p>
             <p><?= $this->Html->link(__('Listagem'), ['controller' => 'DaysTimes', 'action' => 'index']); ?></p>
+
+            <nav class="primary-navigation nav__view">
+                <ul>
+                    <li><a href="#" class="header__link">Opções &dtrif;</a>
+                        <ul class="dropdown">
+                            <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'DaysTimes', 'action' => 'delete', $daysTime->id], ['class' => 'header__link sweetdelete', 'data-name' => DaysOfWeekENUM::findConstants($daysTime->day_of_week), 'confirm' => __('Tem certeza que deseja apagar o dia {0}?', DaysOfWeekENUM::findConstants($daysTime->day_of_week))]); ?></li>
+                            <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'DaysTimes', 'action' => 'edit', $daysTime->id], ['class' => 'header__link']); ?></li>
+                            <li><?= $this->Html->link(__('Listagem'), ['controller' => 'DaysTimes', 'action' => 'index'], ['class' => 'header__link']); ?></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 
@@ -35,7 +47,7 @@ use App\Controller\DaysOfWeekENUM;
             <table class="custom__table">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th class="px__table">#</th>
                         <th>Horário</th>
                         <th></th>
                     </tr>
@@ -44,7 +56,7 @@ use App\Controller\DaysOfWeekENUM;
                 <tbody>
                     <?php foreach ($daysTime->opening_hours as $openingHours) : ?>
                         <tr>
-                            <td><?= $this->Number->format($openingHours->id) ?></td>
+                            <td class="px__table"><?= $this->Number->format($openingHours->id) ?></td>
                             <td><?= $openingHours->time_of_week; ?>:00H</td>
 
                             <td class="actions">
@@ -57,6 +69,33 @@ use App\Controller\DaysOfWeekENUM;
                                 <div class="delete">
                                     <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHours->id], ['class' => 'action__delete sweetdelete', 'data-name' => $openingHours->time_of_week, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o horário {0}?', $openingHours->time_of_week)]); ?>
                                 </div>
+
+                                <nav class="primary-navigation nav__actions">
+                                    <ul>
+                                        <?php if (
+                                            $this->AppView->visible('OpeningHours', 'view') ||
+                                            $this->AppView->visible('OpeningHours', 'edit') ||
+                                            $this->AppView->visible('OpeningHours', 'delete')
+                                        ) : ?>
+
+                                            <li><a href="#" class="header__link"><i class="fa-solid fa-ellipsis"></i></a>
+                                                <ul class="dropdown">
+                                                    <?php if ($this->AppView->visible('OpeningHours', 'view')) : ?>
+                                                        <li><?= $this->Html->link(__('Visualizar'), ['controller' => 'OpeningHours', 'action' => 'view', $openingHours->id], ['class' => 'header__link']); ?></li>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($this->AppView->visible('OpeningHours', 'edit')) : ?>
+                                                        <li><?= $this->Html->link(__('Editar'), ['controller' => 'OpeningHours', 'action' => 'edit', $openingHours->id], ['class' => 'header__link']); ?></li>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($this->AppView->visible('OpeningHours', 'delete')) : ?>
+                                                        <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHours->id], ['class' => 'header__link sweetdelete', 'data-name' => $openingHours->time_of_week, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o horário {0}?', $openingHours->time_of_week)]); ?></li>
+                                                    <?php endif; ?>
+                                                </ul>
+                                            </li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </nav>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -6,6 +6,18 @@
             <?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $typesOfService->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $typesOfService->name, 'confirm' => __('Tem certeza que deseja apagar o serviço {0}?', $typesOfService->name)]); ?>
             <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'TypesOfServices', 'action' => 'edit', $typesOfService->id], ['class' => 'update']); ?></p>
             <p><?= $this->Html->link(__('Listagem'), ['controller' => 'TypesOfServices', 'action' => 'index']); ?></p>
+
+            <nav class="primary-navigation nav__view">
+                <ul>
+                    <li><a href="#" class="header__link">Opções &dtrif;</a>
+                        <ul class="dropdown">
+                            <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $typesOfService->id], ['class' => 'header__link sweetdelete', 'data-name' => $typesOfService->name, 'confirm' => __('Tem certeza que deseja apagar o serviço {0}?', $typesOfService->name)]); ?></li>
+                            <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'TypesOfServices', 'action' => 'edit', $typesOfService->id], ['class' => 'header__link']); ?></li>
+                            <li><?= $this->Html->link(__('Listagem'), ['controller' => 'TypesOfServices', 'action' => 'index'], ['class' => 'header__link']); ?></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 

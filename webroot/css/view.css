@@ -46,3 +46,24 @@
 .toghetter table {
     margin: 10px 0;
 }
+
+.nav__view {
+    display: none;
+}
+
+@media screen and (max-width: 700px) {
+    .profile p,
+    .delete_in_view {
+        display: none;
+    }
+
+    .nav__view {
+        display: block !important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .data__row {
+        flex-direction: column;
+    }
+}
