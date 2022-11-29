@@ -25,7 +25,7 @@
                         <td class="px__table"><?= $this->Number->format($service->id); ?></td>
                         <td><?= $service->name; ?></td>
                         <td class="px__phone">R$ <?= $service->price; ?>,00</td>
-                        <td class="px__big"><?= !empty($service->description) ? $service->description : '-'; ?></td>
+                        <td class="px__big"><?= !empty($service->description) ? mb_strimwidth($service->description, 0, 50, '...') : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('TypesOfServices', 'view')) : ?>

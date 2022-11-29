@@ -59,7 +59,8 @@ body {
 }
 
 .msg__warning {
-    background: rgba(219, 184, 1, .5);
+    color: var(--black);
+    background: rgba(219, 184, 1);
 }
 
 .msg__success,

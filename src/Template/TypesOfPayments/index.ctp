@@ -23,7 +23,7 @@
                     <tr>
                         <td class="px__table"><?= $this->Number->format($payment->id); ?></td>
                         <td><?= $payment->name; ?></td>
-                        <td class="px__big"><?= !empty($payment->description) ? $payment->description : '-'; ?></td>
+                        <td class="px__big"><?= !empty($payment->description) ? mb_strimwidth($payment->description, 0, 50, '...') : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('TypesOfPayments', 'view')) : ?>

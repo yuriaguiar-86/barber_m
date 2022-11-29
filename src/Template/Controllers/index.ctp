@@ -25,7 +25,7 @@
                         <td class="px__table"><?= $this->Number->format($controller->id) ?></td>
                         <td class="px__phone"><?= $controller->name; ?></td>
                         <td><?= $controller->surname; ?></td>
-                        <td class="px__big"><?= !empty($controller->description) ? $controller->description : '-'; ?></td>
+                        <td class="px__big"><?= !empty($controller->description) ? mb_strimwidth($controller->description, 0, 50, '...') : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('Controllers', 'view')) : ?>

@@ -27,7 +27,7 @@
                         <td class="px__phone"><?= $action->action_map; ?></td>
                         <td><?= $action->surname; ?></td>
                         <td class="px__table"><?= $action->controller->name; ?></td>
-                        <td class="px__big"><?= !empty($action->description) ? $action->description : '-'; ?></td>
+                        <td class="px__big"><?= !empty($action->description) ? mb_strimwidth($action->description, 0, 50, '...') : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('Controllers', 'view')) : ?>

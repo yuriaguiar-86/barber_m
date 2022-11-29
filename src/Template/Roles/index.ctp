@@ -30,7 +30,7 @@ use App\Controller\TypeRoleENUM;
                         <td class="px__table"><?= $this->Number->format($role->id) ?></td>
                         <td><?= $role->name; ?></td>
                         <td class="px__phone"><?= TypeRoleENUM::findConstants($role->type); ?></td>
-                        <td class="px__big"><?= !empty($role->description) ? $role->description : '-'; ?></td>
+                        <td class="px__big"><?= !empty($role->description) ? mb_strimwidth($role->description, 0, 50, '...') : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('Roles', 'view')) : ?>

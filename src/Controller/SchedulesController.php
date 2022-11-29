@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Http\Exception\BadRequestException;
 use Cake\Routing\Router;
 use Exception;
 
@@ -81,8 +82,9 @@ class SchedulesController extends AppController {
     public function add() {
         try {
             $schedule = $this->Schedules->newEntity();
+            $daysOfWork = $this->Schedules->DaysOfWork->find('all')->toList();
 
-            $this->setMessageAboutDayOff();
+            $this->setMessageAboutDayOff($daysOfWork);
 
             if ($this->request->is('post')) {
                 $schedule = $this->Schedules->patchEntity($schedule, $this->request->getData(), [
@@ -93,12 +95,17 @@ class SchedulesController extends AppController {
                 $schedule->date = $this->formatData($this->request->getData('date'));
                 $schedule->user_id = $this->getIdUserLogged();
 
+                $this->validateScheduleWithDayFree($schedule, $daysOfWork);
+
                 if ($this->Schedules->save($schedule, ['associated' => ['TypesOfServices']])) {
                     $this->Flash->success(__('O agendamento foi realizado com sucesso.'));
                     return $this->redirect(['controller' => 'Schedules', 'action' => 'index']);
                 }
                 $this->Flash->error(__('O agendamento não foi realizado! Por favor, tente novamente.'));
             }
+        } catch(BadRequestException $exc) {
+            $this->Flash->error(__('O agendamento não foi feito! Por favor, revise as informações.'));
+            $this->Flash->warning(__($exc->getMessage()));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
@@ -109,14 +116,23 @@ class SchedulesController extends AppController {
         }
     }
 
-    private function setMessageAboutDayOff() {
-        $daysOfWork = $this->Schedules->DaysOfWork->find('all')->toList();
-
+    private function setMessageAboutDayOff($daysOfWork) {
         if(!empty($daysOfWork)) {
             foreach($daysOfWork as $day) {
                 if(strtotime($day->not_work) >= strtotime(date('Y-m-d'))) {
-                    $this->Flash->warning(__('No dia ' .$day->not_work->format('d/m/Y'). '. ' .$day->description));
+                    $text = 'No dia ' .$day->not_work->format('d/m/Y');
+                    $text .= '<br>'.$day->description;
+
+                    $this->Flash->warning(__($text), ['escape' => false]);
                 }
+            }
+        }
+    }
+
+    private function validateScheduleWithDayFree($schedule, $daysOfWork) {
+        foreach($daysOfWork as $day) {
+            if(strtotime($schedule->date) == strtotime($day->not_work)) {
+                throw new BadRequestException('Este dia o estabelecimento não estará em funcionamento!');
             }
         }
     }
@@ -131,11 +147,16 @@ class SchedulesController extends AppController {
     public function edit($id = null) {
         try {
             $schedule = $this->Schedules->get($id);
+            $daysOfWork = $this->Schedules->DaysOfWork->find('all')->toList();
+
+            $this->setMessageAboutDayOff($daysOfWork);
 
             if ($this->request->is(['patch', 'post', 'put'])) {
                 $schedule = $this->Schedules->patchEntity($schedule, $this->request->getData(), [
                     'associated' => ['TypesOfServices']
                 ]);
+
+                $this->validateScheduleWithDayFree($schedule, $daysOfWork);
 
                 if ($this->Schedules->save($schedule, ['associated' => ['TypesOfServices']])) {
                     $this->Flash->success(__('O agendamento foi atualizado com sucesso.'));

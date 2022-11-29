@@ -5,7 +5,7 @@
     --black: #1D1D1D;
     --white: #FFFFFF;
     --green: #27AE60;
-    --yellow: #DBB801;
+    --yellow: #dbb801;
 }
 
 * {
@@ -109,7 +109,8 @@ form .recover {
 }
 
 .msg__warning {
-    background: rgba(219, 184, 1, .5);
+    color: var(--black);
+    background: rgba(219, 184, 1);
 }
 
 .msg__success, .msg__error, .msg__warning {
