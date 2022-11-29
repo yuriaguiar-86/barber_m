@@ -132,7 +132,7 @@ class SchedulesController extends AppController {
     private function validateScheduleWithDayFree($schedule, $daysOfWork) {
         foreach($daysOfWork as $day) {
             if(strtotime($schedule->date) == strtotime($day->not_work)) {
-                throw new BadRequestException('Este dia o estabelecimento não estará em funcionamento!');
+                throw new BadRequestException('Neste dia o estabelecimento não estará em funcionamento!');
             }
         }
     }
@@ -155,6 +155,8 @@ class SchedulesController extends AppController {
                 $schedule = $this->Schedules->patchEntity($schedule, $this->request->getData(), [
                     'associated' => ['TypesOfServices']
                 ]);
+
+                $schedule->date = $this->formatData($this->request->getData('date'));
 
                 $this->validateScheduleWithDayFree($schedule, $daysOfWork);
 

@@ -155,4 +155,11 @@ class UsersTable extends Table {
             'Users.reset_password' => $token
         ])->first();
     }
+
+    public function usersSchedulesInsideDate($day_free) {
+        return $this->find('all')
+            ->innerJoin('schedules', 'schedules.user_id = Users.id')
+            ->where(['schedules.date' => $day_free])
+            ->toList();
+    }
 }
