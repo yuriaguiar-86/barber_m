@@ -23,7 +23,7 @@
                     <tr>
                         <td class="px__table"><?= $this->Number->format($day->id) ?></td>
                         <td><?= $day->not_work->format('d/m/Y'); ?></td>
-                        <td class="px__big"><?= !empty($day->description) ? $day->description : '-'; ?></td>
+                        <td class="px__big"><?= !empty($day->description) ? mb_strimwidth($day->description, 0, 50, '...') : '-'; ?></td>
 
                         <td class="actions">
                             <?php if ($this->AppView->visible('DaysOfWork', 'view')) : ?>

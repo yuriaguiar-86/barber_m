@@ -55,7 +55,7 @@ class DaysOfWorkTable extends Table {
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->date('not_work')
+            ->date('not_work', ['dmy'], "Especifique uma data no formato válido('dd/mm/yyyy')!")
             ->requirePresence('not_work', 'create')
             ->notEmptyDate('not_work', 'O campo data é obrigatório!');
 

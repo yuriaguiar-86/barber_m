@@ -12,7 +12,7 @@
 
     <div class="row">
         <label>Data <span class="fields__required">*</span></label>
-        <?= $this->Form->control('not_work', ['type' => 'text', 'placeholder' => '99/99/9999', 'label' => false, 'required', 'class' => 'calendar']); ?>
+        <?= $this->Form->control('not_work', ['value' => '', 'type' => 'text', 'placeholder' => '99/99/9999', 'label' => false, 'required', 'class' => 'calendar']); ?>
     </div>
 
     <div class="row">

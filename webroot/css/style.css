@@ -70,6 +70,9 @@ body {
     padding: 15px;
 }
 
+.error-message {
+    color: var(--red);
+}
 
 /* PAGINAÇÃO */
 .pagination {

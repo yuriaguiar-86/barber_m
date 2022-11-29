@@ -58,6 +58,7 @@ class DaysOfWorkController extends AppController {
 
             if ($this->request->is('post')) {
                 $daysOfWork = $this->DaysOfWork->patchEntity($daysOfWork, $this->request->getData());
+                $daysOfWork->not_work = $this->formatData($this->request->getData('not_work'));
 
                 if ($this->DaysOfWork->save($daysOfWork)) {
                     $this->Flash->success(__('O dia de folga foi cadastrado com sucesso.'));
@@ -67,7 +68,7 @@ class DaysOfWorkController extends AppController {
             }
             $this->set(compact('daysOfWork'));
         } catch(Exception $exc) {
-            $this->Flash->error(__('Entre em contato com o administrador!'));
+            $this->Flash->error(__('Entre em contato com o administrador!'.$exc));
             return $this->redirect($this->referer());
         }
     }
@@ -85,6 +86,7 @@ class DaysOfWorkController extends AppController {
 
             if ($this->request->is(['patch', 'post', 'put'])) {
                 $daysOfWork = $this->DaysOfWork->patchEntity($daysOfWork, $this->request->getData());
+                $daysOfWork->not_work = $this->formatData($this->request->getData('not_work'));
 
                 if ($this->DaysOfWork->save($daysOfWork)) {
                     $this->Flash->success(__('O dia de folga foi editado com sucesso.'));
