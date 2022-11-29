@@ -21,16 +21,14 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\DaysTime[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\DaysTime findOrCreate($search, callable $callback = null, $options = [])
  */
-class DaysTimesTable extends Table
-{
+class DaysTimesTable extends Table {
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('days_times');
@@ -55,15 +53,14 @@ class DaysTimesTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
 
         $validator
             ->requirePresence('day_of_week', 'create')
-            ->notEmptyString('day_of_week');
+            ->notEmptyString('day_of_week', 'O campo dia é obrigatório!');
 
         return $validator;
     }

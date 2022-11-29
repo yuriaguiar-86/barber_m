@@ -77,16 +77,16 @@ class SchedulesTable extends Table {
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->notEmptyString('employee_id');
+            ->notEmptyString('employee_id', 'O campo profissional é obrigatório!');
 
         $validator
             ->allowEmptyString('types_of_payment_id');
 
         $validator
-            ->notEmptyString('date');
+            ->notEmptyString('date', 'O campo data do agendamento é obrigatório!');
 
         $validator
-            ->notEmptyString('time');
+            ->notEmptyString('time', 'O horário do agendamento é obrigatório!');
 
         $validator
             ->allowEmptyString('finished');

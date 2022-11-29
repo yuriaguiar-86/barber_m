@@ -81,7 +81,8 @@ class SchedulesController extends AppController {
     public function add() {
         try {
             $schedule = $this->Schedules->newEntity();
-            $daysOfWork = $this->Schedules->DaysOfWork->find('all')->toList();
+
+            $this->setMessageAboutDayOff();
 
             if ($this->request->is('post')) {
                 $schedule = $this->Schedules->patchEntity($schedule, $this->request->getData(), [
@@ -105,6 +106,18 @@ class SchedulesController extends AppController {
             $typesOfServices = $this->Schedules->TypesOfServices->find('all')->toList();
             $users = $this->Schedules->Users->find('all')->where(['Users.role_id' => TypeRoleENUM::EMPLOYEE])->toList();
             $this->set(compact('schedule', 'users', 'typesOfServices'));
+        }
+    }
+
+    private function setMessageAboutDayOff() {
+        $daysOfWork = $this->Schedules->DaysOfWork->find('all')->toList();
+
+        if(!empty($daysOfWork)) {
+            foreach($daysOfWork as $day) {
+                if(strtotime($day->not_work) >= strtotime(date('Y-m-d'))) {
+                    $this->Flash->warning(__('No dia ' .$day->not_work->format('d/m/Y'). '. ' .$day->description));
+                }
+            }
         }
     }
 

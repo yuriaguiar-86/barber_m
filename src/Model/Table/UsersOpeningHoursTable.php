@@ -21,16 +21,14 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\UsersOpeningHour[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\UsersOpeningHour findOrCreate($search, callable $callback = null, $options = [])
  */
-class UsersOpeningHoursTable extends Table
-{
+class UsersOpeningHoursTable extends Table {
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('users_opening_hours');
@@ -53,8 +51,7 @@ class UsersOpeningHoursTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');

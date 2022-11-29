@@ -20,16 +20,14 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Controller[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Controller findOrCreate($search, callable $callback = null, $options = [])
  */
-class ControllersTable extends Table
-{
+class ControllersTable extends Table {
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('controllers');
@@ -47,8 +45,7 @@ class ControllersTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
@@ -57,13 +54,13 @@ class ControllersTable extends Table
             ->scalar('name')
             ->maxLength('name', 220)
             ->requirePresence('name', 'create')
-            ->notEmptyString('name');
+            ->notEmptyString('name', 'O campo nome é obrigatório!');
 
         $validator
             ->scalar('surname')
             ->maxLength('surname', 220)
             ->requirePresence('surname', 'create')
-            ->notEmptyString('surname');
+            ->notEmptyString('surname', 'O campo apelido é obrigatório!');
 
         $validator
             ->scalar('description')

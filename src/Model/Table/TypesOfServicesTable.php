@@ -22,16 +22,14 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class TypesOfServicesTable extends Table
-{
+class TypesOfServicesTable extends Table {
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('types_of_services');
@@ -53,8 +51,7 @@ class TypesOfServicesTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
@@ -63,12 +60,12 @@ class TypesOfServicesTable extends Table
             ->scalar('name')
             ->maxLength('name', 220)
             ->requirePresence('name', 'create')
-            ->notEmptyString('name');
+            ->notEmptyString('name', 'O campo nome é obrigatório!');
 
         $validator
             ->numeric('price')
             ->requirePresence('price', 'create')
-            ->notEmptyString('price');
+            ->notEmptyString('price', 'O campo preço é obrigatório!');
 
         $validator
             ->scalar('description')

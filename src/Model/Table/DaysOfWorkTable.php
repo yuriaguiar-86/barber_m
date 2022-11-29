@@ -22,16 +22,14 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class DaysOfWorkTable extends Table
-{
+class DaysOfWorkTable extends Table {
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('days_of_work');
@@ -51,8 +49,7 @@ class DaysOfWorkTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
@@ -60,12 +57,12 @@ class DaysOfWorkTable extends Table
         $validator
             ->date('not_work')
             ->requirePresence('not_work', 'create')
-            ->notEmptyDate('not_work');
+            ->notEmptyDate('not_work', 'O campo data é obrigatório!');
 
         $validator
             ->scalar('description')
             ->requirePresence('description', 'create')
-            ->notEmptyString('description');
+            ->notEmptyString('description', 'O campo descrição é obrigatório!');
 
         return $validator;
     }

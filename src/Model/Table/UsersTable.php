@@ -70,14 +70,20 @@ class UsersTable extends Table {
             ->scalar('username')
             ->maxLength('username', 220)
             ->requirePresence('username', 'create')
-            ->notEmptyString('username')
+            ->notEmptyString('username', 'O campo usuário é obrigatório!')
             ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('password')
             ->maxLength('password', 180)
             ->requirePresence('password', 'create')
-            ->notEmptyString('password');
+            ->notEmptyString('password', 'O campo senha é obrigatório!')
+            ->add('password', [
+                'length' => [
+                    'rule' => ['minLength', 6],
+                    'message' => 'A senha deve conter no mínimo 06 caracteres!',
+                ]
+            ]);
 
         $validator
             ->scalar('reset_password')
@@ -88,18 +94,18 @@ class UsersTable extends Table {
             ->scalar('name')
             ->maxLength('name', 220)
             ->requirePresence('name', 'create')
-            ->notEmptyString('name');
+            ->notEmptyString('name', 'O campo nome é obrigatório!');
 
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
-            ->notEmptyString('email');
+            ->notEmptyString('email', 'O campo e-mail é obrigatório!');
 
         $validator
             ->scalar('personal_phone')
             ->maxLength('personal_phone', 15)
             ->requirePresence('personal_phone', 'create')
-            ->notEmptyString('personal_phone');
+            ->notEmptyString('personal_phone', 'O campo telefone é obrigatório!');
 
         $validator
             ->scalar('other_phone')
@@ -117,8 +123,8 @@ class UsersTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules) {
-        $rules->add($rules->isUnique(['username']));
-        $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->isUnique(['username'], 'Este usuário já está sendo utilizado!'));
+        $rules->add($rules->isUnique(['email'], 'Este e-mail já foi cadastrado!'));
         $rules->add($rules->existsIn(['role_id'], 'Roles'));
 
         return $rules;

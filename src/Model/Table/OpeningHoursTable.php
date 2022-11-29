@@ -20,16 +20,14 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\OpeningHour[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\OpeningHour findOrCreate($search, callable $callback = null, $options = [])
  */
-class OpeningHoursTable extends Table
-{
+class OpeningHoursTable extends Table {
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('opening_hours');
@@ -49,8 +47,7 @@ class OpeningHoursTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
@@ -58,7 +55,7 @@ class OpeningHoursTable extends Table
         $validator
             ->integer('time_of_week')
             ->requirePresence('time_of_week', 'create')
-            ->notEmptyString('time_of_week');
+            ->notEmptyString('time_of_week', 'O campo horário é obrigatório!');
 
         return $validator;
     }

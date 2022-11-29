@@ -21,16 +21,14 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Action[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Action findOrCreate($search, callable $callback = null, $options = [])
  */
-class ActionsTable extends Table
-{
+class ActionsTable extends Table {
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('actions');
@@ -54,8 +52,7 @@ class ActionsTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
@@ -64,13 +61,13 @@ class ActionsTable extends Table
             ->scalar('action_map')
             ->maxLength('action_map', 220)
             ->requirePresence('action_map', 'create')
-            ->notEmptyString('action_map');
+            ->notEmptyString('action_map', 'O campo nome é obrigatório!');
 
         $validator
             ->scalar('surname')
             ->maxLength('surname', 220)
             ->requirePresence('surname', 'create')
-            ->notEmptyString('surname');
+            ->notEmptyString('surname', 'O campo apelido é obrigatório!');
 
         $validator
             ->scalar('description')
@@ -86,10 +83,8 @@ class ActionsTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['controller_id'], 'Controllers'));
-
         return $rules;
     }
 }
