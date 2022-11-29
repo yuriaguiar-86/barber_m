@@ -60,11 +60,13 @@ class DaysOfWorkController extends AppController {
                 $daysOfWork = $this->DaysOfWork->patchEntity($daysOfWork, $this->request->getData());
                 $daysOfWork->not_work = $this->formatData($this->request->getData('not_work'));
 
-                if ($this->DaysOfWork->save($daysOfWork)) {
-                    $this->Flash->success(__('O dia de folga foi cadastrado com sucesso.'));
-                    return $this->redirect(['controller' =>'DaysOfWork', 'action' => 'index']);
+                if(!$this->validateIfExistScheduleInsid($daysOfWork)) {
+                    if ($this->DaysOfWork->save($daysOfWork)) {
+                        $this->Flash->success(__('O dia de folga foi cadastrado com sucesso.'));
+                        return $this->redirect(['controller' =>'DaysOfWork', 'action' => 'index']);
+                    }
+                    $this->Flash->error(__('O dia de folga não foi cadastrado! Por favor, tente novamente.'));
                 }
-                $this->Flash->error(__('O dia de folga não foi cadastrado! Por favor, tente novamente.'));
             }
             $this->set(compact('daysOfWork'));
         } catch(Exception $exc) {
@@ -95,6 +97,35 @@ class DaysOfWorkController extends AppController {
                 $this->Flash->error(__('O dia de folga não foi editado! Por favor, tente novamente.'));
             }
             $this->set(compact('daysOfWork'));
+        } catch(Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            return $this->redirect($this->referer());
+        }
+    }
+
+    private function validateIfExistScheduleInsid($daysOfWork) {
+        $schedules = $this->DaysOfWork->Schedules->find('all')->where(['Schedules.date' => $daysOfWork->not_work])->toList();
+
+        if(!empty($schedules)) {
+            return $this->redirect([
+                'controller' => 'DaysOfWork',
+                'action' => 'rescheduleAppointments',
+                'day' => $daysOfWork->not_work
+            ]);
+        }
+        return false;
+    }
+
+    public function rescheduleAppointments() {
+        try {
+            $day_free = $this->request->getQuery('day');
+
+            $users = $this->DaysOfWork->Schedules->Users->find('all')
+                ->innerJoin('schedules', 'schedules.user_id = Users.id')
+                ->where(['schedules.date' => $day_free])
+                ->toList();
+
+            $this->set(compact('users', 'day_free'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
