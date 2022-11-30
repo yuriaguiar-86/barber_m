@@ -1,0 +1,39 @@
+footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+
+    position: fixed;
+    text-align: center;
+    background: var(--black);
+}
+
+.containner__footer {
+    display: flex;
+    color: var(--grey);
+    flex-direction: column;
+    justify-content: center;
+}
+
+.containner__footer p {
+    margin: 2px 0;
+}
+
+.conditions:hover {
+    cursor: pointer;
+    color: var(--white);
+}
+
+.swal2-title,
+.swal2-html-container {
+    text-align: left;
+}
+
+.swal2-html-container {
+    font-size: 1em;
+}
+
+.swal2-html-container ul {
+    list-style-type: disc !important;
+}

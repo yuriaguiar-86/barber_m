@@ -1,3 +1,7 @@
+<?php
+
+use App\Controller\TermsENUM;
+?>
 <section class="containner">
     <?= $this->Flash->render(); ?>
     <?= $this->Form->create($client); ?>
@@ -39,6 +43,11 @@
             <label>Confirmação de senha</label>
             <?= $this->Form->control('confirm_password', ['type' => 'password', 'label' => false, 'required', 'placeholder' => 'Digite a mesma senha']); ?>
         </div>
+    </div>
+
+    <div class="input__terms">
+        <input type="checkbox" id="box-terms" name="terms" value="<?= TermsENUM::CHECKED; ?>" class="checkbox__terms" />
+        <label for="box-terms">Compreendo e aceitos os <span class="conditions">Termos e condições.</span></label>
     </div>
 
     <?= $this->Form->button(__('Criar conta')); ?>

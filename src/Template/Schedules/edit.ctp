@@ -46,7 +46,7 @@
                 <?php foreach ($typesOfServices as $service) : ?>
 
                     <input type="checkbox" id="box-<?= $service->id; ?>" name="types_of_services[_ids][]" value="<?= $service->id; ?>" class="checkbox__service" />
-                    <label for="box-<?= $service->id; ?>"><?= $service->name; ?></label>
+                    <label for="box-<?= $service->id; ?>"><?= $service->name; ?> - R$ <?= $service->price; ?>,00</label>
                     <?php $cont++; ?>
 
                 <?php endforeach; ?>

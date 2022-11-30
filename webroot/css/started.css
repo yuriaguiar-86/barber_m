@@ -96,6 +96,68 @@ form .recover {
     text-align: center;
 }
 
+
+/* CHECKBOX */
+.input__terms {
+    margin-top: 30px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox__terms {
+    display: none;
+}
+
+.checkbox__terms + label {
+    padding-left: 30px !important;
+    margin-bottom: 20px;
+
+    display: block;
+    cursor: pointer;
+    position: relative;
+
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.checkbox__terms + label:before {
+    top: 0;
+    left: 0;
+    opacity: .6;
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--green);
+
+    content: '';
+    display: block;
+    position: absolute;
+
+    transition: all .30s, border-color .20s;
+    -webkit-transition: all .30s, border-color .20s;
+}
+
+.checkbox__terms:checked + label:before {
+    top: -5px;
+    left: 5px;
+    opacity: 1;
+    width: 10px;
+    border-radius: 0;
+
+    border-top-color: transparent;
+    border-left-color: transparent;
+
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.conditions {
+    color: var(--grey);
+}
+
+/* END CHECKBOX */
+
 .containner .router {
     margin-bottom: 20px;
 }
@@ -121,6 +183,14 @@ form .recover {
 
 .error-message {
     color: var(--red);
+}
+
+.blob__dark {
+    left: 0;
+    opacity: .05;
+    z-index: -1;
+
+    position: fixed;
 }
 
 @media screen and (max-width: 500px) {

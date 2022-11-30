@@ -183,6 +183,7 @@ class UsersController extends AppController {
                 $client->role_id = TypeRoleENUM::CLIENT;
 
                 $this->confirmPassword();
+                $this->confirmTermsAccept();
 
                 if ($this->Users->save($client)) {
                     $this->Flash->success(__('Conta criada com sucesso!'));
@@ -203,6 +204,12 @@ class UsersController extends AppController {
     private function confirmPassword() {
         if ($this->request->getData('password') !== $this->request->getData('confirm_password')) {
             throw new BadRequestException('A senha e a confirmação de senha estão diferentes!');
+        }
+    }
+
+    private function confirmTermsAccept() {
+        if($this->request->getData('terms') != TermsENUM::CHECKED) {
+            throw new BadRequestException('Aceite os termos para criar uma conta!');
         }
     }
 
