@@ -4,29 +4,29 @@
 
     <div class="row">
         <label>Nome</label>
-        <?= $this->Form->control('name', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('name', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <div class="row">
         <label>E-mail</label>
-        <?= $this->Form->control('email', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('email', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <div class="more__inputs">
         <div class="row right">
             <label>Telefone</label>
-            <?= $this->Form->control('personal_phone', ['label' => false, 'inputmode' => 'numeric', 'placeholder' => '(99) 99999-9999', 'class' => 'phone', 'required']); ?>
+            <?= $this->Form->control('personal_phone', ['label' => false, 'inputmode' => 'numeric', 'placeholder' => '(99) 99999-9999', 'class' => 'phone', 'required', 'autocomplete' => 'off']); ?>
         </div>
 
         <div class="row">
             <label>Outro telefone</label>
-            <?= $this->Form->control('other_phone', ['label' => false, 'inputmode' => 'numeric', 'placeholder' => '(99) 99999-9999', 'class' => 'phone']); ?>
+            <?= $this->Form->control('other_phone', ['label' => false, 'inputmode' => 'numeric', 'placeholder' => '(99) 99999-9999', 'class' => 'phone', 'autocomplete' => 'off']); ?>
         </div>
     </div>
 
     <div class="row">
         <label>Usuário</label>
-        <?= $this->Form->control('username', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('username', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <div class="more__inputs">

@@ -4,12 +4,12 @@
 
     <div class="row">
         <label>Usuário</label>
-        <?= $this->Form->control('username', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('username', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <div class="row">
         <label>Senha</label>
-        <?= $this->Form->control('password', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('password', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <p class="recover"><?= $this->Html->link(__('Esqueci minha senha'), ['controller' => 'Users', 'action' => 'recoverPassword']); ?></p>

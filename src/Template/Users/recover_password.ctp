@@ -4,7 +4,7 @@
 
     <div class="row">
         <label>E-mail</label>
-        <?= $this->Form->control('email', ['label' => false, 'placeholder' => 'Informe o e-mail cadastrado', 'required']); ?>
+        <?= $this->Form->control('email', ['label' => false, 'placeholder' => 'Informe o e-mail cadastrado', 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <?= $this->Form->button(__('Acessar')); ?>

@@ -201,3 +201,17 @@ Type::build('timestamp')
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
+
+// Formato da Data
+date_default_timezone_set('America/Sao_Paulo');
+setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+
+Type::build('time')->useImmutable();
+Type::build('date')->useImmutable()->useLocaleParser()->setLocaleFormat('dd/MM/yyyy');
+Type::build('datetime')->useImmutable()->useLocaleParser();
+Type::build('timestamp')->useImmutable();
+
+\Cake\I18n\Time::setToStringFormat('dd/MM/yyyy HH:mm:ss');
+\Cake\I18n\Date::setToStringFormat('dd/MM/yyyy');
+\Cake\I18n\FrozenTime::setToStringFormat('dd/MM/yyyy HH:mm:ss');
+\Cake\I18n\FrozenDate::setToStringFormat('dd/MM/yyyy');

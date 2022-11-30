@@ -13,7 +13,7 @@
     <div class="more__fields">
         <div class="row right">
             <label>Nome <span class="fields__required">*</span></label>
-            <?= $this->Form->control('name', ['label' => false, 'required']); ?>
+            <?= $this->Form->control('name', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
         </div>
         <div class="row">
             <label>Preço em R$ <span class="fields__required">*</span></label>

@@ -17,22 +17,22 @@ use App\Controller\DaysOfWeekENUM;
 
     <div class="row">
         <label>Nome <span class="fields__required">*</span></label>
-        <?= $this->Form->control('name', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('name', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <div class="row">
         <label>E-mail <span class="fields__required">*</span></label>
-        <?= $this->Form->control('email', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('email', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <div class="more__fields">
         <div class="row right">
             <label>Telefone <span class="fields__required">*</span></label>
-            <?= $this->Form->control('personal_phone', ['label' => false, 'required', 'inputmode' => 'numeric', 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
+            <?= $this->Form->control('personal_phone', ['label' => false, 'required', 'inputmode' => 'numeric', 'class' => 'phone', 'placeholder' => '(99) 99999-9999', 'autocomplete' => 'off']); ?>
         </div>
         <div class="row right">
             <label>Outro telefone</label>
-            <?= $this->Form->control('other_phone', ['label' => false, 'class' => 'phone', 'inputmode' => 'numeric', 'placeholder' => '(99) 99999-9999']); ?>
+            <?= $this->Form->control('other_phone', ['label' => false, 'class' => 'phone', 'inputmode' => 'numeric', 'placeholder' => '(99) 99999-9999', 'autocomplete' => 'off']); ?>
         </div>
         <div class="row">
             <label>Tipo de perfil <span class="fields__required">*</span></label>
@@ -46,7 +46,7 @@ use App\Controller\DaysOfWeekENUM;
         <div class="more__fields">
             <div class="row right">
                 <label>Usuário <span class="fields__required">*</span></label>
-                <?= $this->Form->control('username', ['label' => false, 'required']); ?>
+                <?= $this->Form->control('username', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
             </div>
             <div class="row right">
                 <label>Senha <span class="fields__required">*</span></label>

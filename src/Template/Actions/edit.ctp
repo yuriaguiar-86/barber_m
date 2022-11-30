@@ -12,13 +12,13 @@
 
     <div class="row">
         <label>Nome <span class="fields__required">*</span></label>
-        <?= $this->Form->control('action_map', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('action_map', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <div class="more__fields">
         <div class="row right">
             <label>Apelido <span class="fields__required">*</span></label>
-            <?= $this->Form->control('surname', ['label' => false, 'required']); ?>
+            <?= $this->Form->control('surname', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
         </div>
         <div class="row">
             <label>Controlador <span class="fields__required">*</span></label>

@@ -3,7 +3,6 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Http\Exception\BadRequestException;
-use Cake\Routing\Router;
 use Exception;
 
 /**
@@ -96,6 +95,7 @@ class SchedulesController extends AppController {
                 $schedule->user_id = $this->getIdUserLogged();
 
                 $this->validateScheduleWithDayFree($schedule, $daysOfWork);
+                $this->validationsDatesTimesSchedules($schedule);
 
                 if ($this->Schedules->save($schedule, ['associated' => ['TypesOfServices']])) {
                     $this->Flash->success(__('O agendamento foi realizado com sucesso.'));
@@ -113,6 +113,27 @@ class SchedulesController extends AppController {
             $typesOfServices = $this->Schedules->TypesOfServices->find('all')->toList();
             $users = $this->Schedules->Users->find('all')->where(['Users.role_id' => TypeRoleENUM::EMPLOYEE])->toList();
             $this->set(compact('schedule', 'users', 'typesOfServices'));
+        }
+    }
+
+    private function validationsDatesTimesSchedules($schedule) {
+        $this->validateTimeInsidTwoHours($schedule);
+        $this->validateDayBeforeCurrent($schedule->date);
+    }
+
+    private function validateTimeInsidTwoHours($schedule) {
+        if(strtotime($schedule->date) == strtotime(date('Y-m-d'))) {
+            $time_current = date('H', strtotime('+3 hours'));
+
+            if(intval($time_current) > $schedule->time) {
+                throw new BadRequestException('É possível realizar o agendamento somente com 02:00H de antecedência!');
+            }
+        }
+    }
+
+    private function validateDayBeforeCurrent($date_schedule) {
+        if(strtotime($date_schedule) < strtotime(date('Y-m-d'))) {
+            throw new BadRequestException('Para realizar o agendamento, selecione a data atual ou posterior!');
         }
     }
 

@@ -12,12 +12,12 @@
 
     <div class="row">
         <label>Nome <span class="fields__required">*</span></label>
-        <?= $this->Form->control('name', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('name', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <div class="row">
         <label>Apelido <span class="fields__required">*</span></label>
-        <?= $this->Form->control('surname', ['label' => false, 'required']); ?>
+        <?= $this->Form->control('surname', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
     </div>
 
     <div class="row">

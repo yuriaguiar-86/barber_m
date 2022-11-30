@@ -23,7 +23,7 @@
         </div>
         <div class="row">
             <label>Data do agendamento <span class="fields__required">*</span></label>
-            <?= $this->Form->control('date', ['type' => 'text', 'label' => false, 'placeholder' => '99/99/9999', 'class' => 'calendar times-free', 'required']); ?>
+            <?= $this->Form->control('date', ['type' => 'text', 'label' => false, 'placeholder' => '99/99/9999', 'class' => 'calendar times-free', 'required', 'autocomplete' => 'off']); ?>
         </div>
     </div>
 
