@@ -28,8 +28,8 @@
     </div>
 
     <section class="controllers">
-        <h2 title="">Horários disponíveis
-            <i class="fa-solid fa-circle-exclamation" style="font-size: .5em; color: var(--yellow);"></i>
+        <h2>Horários disponíveis
+            <i class="fa-solid fa-circle-exclamation" title="Selecione o profissional e a data do atendimento!" style="font-size: .5em; color: var(--yellow);"></i>
         </h2>
 
         <div class="containner__times">

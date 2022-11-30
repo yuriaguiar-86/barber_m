@@ -15,12 +15,12 @@
     <div class="more__inputs">
         <div class="row right">
             <label>Telefone</label>
-            <?= $this->Form->control('personal_phone', ['label' => false, 'class' => 'phone', 'required']); ?>
+            <?= $this->Form->control('personal_phone', ['label' => false, 'inputmode' => 'numeric', 'placeholder' => '(99) 99999-9999', 'class' => 'phone', 'required']); ?>
         </div>
 
         <div class="row">
             <label>Outro telefone</label>
-            <?= $this->Form->control('other_phone', ['label' => false, 'class' => 'phone']); ?>
+            <?= $this->Form->control('other_phone', ['label' => false, 'inputmode' => 'numeric', 'placeholder' => '(99) 99999-9999', 'class' => 'phone']); ?>
         </div>
     </div>
 

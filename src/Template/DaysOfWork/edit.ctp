@@ -17,7 +17,7 @@
 
     <div class="row">
         <label>Descrição <span class="fields__required">*</span></label>
-        <?= $this->Form->control('description', ['label' => false]); ?>
+        <?= $this->Form->control('description', ['label' => false, 'placeholder' => 'Mensagem que será apresentada ao cliente na hora do agendamento...', 'required']); ?>
     </div>
 
     <?= $this->Form->button(__('Atualizar'), ['class' => 'button__edit']); ?>

@@ -8,16 +8,28 @@ use App\Controller\TypeRoleENUM;
         <h1>Tipos de perfis <small>visualização</small></h1>
 
         <div class="profile">
-            <?= $this->Form->postLink(__('Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $role->name, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?>
-            <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Roles', 'action' => 'edit', $role->id], ['class' => 'update']); ?></p>
+            <?php if ($this->AppView->visible('Roles', 'delete')) : ?>
+                <?= $this->Form->postLink(__('Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => 'o tipo de perfil '.$role->name, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?>
+            <?php endif; ?>
+
+            <?php if ($this->AppView->visible('Roles', 'edit')) : ?>
+                <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Roles', 'action' => 'edit', $role->id], ['class' => 'update']); ?></p>
+            <?php endif; ?>
+
             <p><?= $this->Html->link(__('Listagem'), ['controller' => 'Roles', 'action' => 'index']); ?></p>
 
             <nav class="primary-navigation nav__view">
                 <ul>
                     <li><a href="#" class="header__link">Opções &dtrif;</a>
                         <ul class="dropdown">
-                            <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'header__link sweetdelete', 'data-name' => $role->name, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?></li>
-                            <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'Roles', 'action' => 'edit', $role->id], ['class' => 'header__link']); ?></li>
+                            <?php if ($this->AppView->visible('Roles', 'delete')) : ?>
+                                <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o tipo de perfil '.$role->name, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?></li>
+                            <?php endif; ?>
+
+                            <?php if ($this->AppView->visible('Roles', 'edit')) : ?>
+                                <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'Roles', 'action' => 'edit', $role->id], ['class' => 'header__link']); ?></li>
+                            <?php endif; ?>
+
                             <li><?= $this->Html->link(__('Listagem'), ['controller' => 'Roles', 'action' => 'index'], ['class' => 'header__link']); ?></li>
                         </ul>
                     </li>
@@ -71,18 +83,26 @@ use App\Controller\TypeRoleENUM;
                             <td class="px__table"><?= $this->Number->format($action->id) ?></td>
                             <td class="px__phone"><?= $action->action_map; ?></td>
                             <td><?= $action->surname; ?></td>
-                            <td class="px__big"><?= !empty($action->description) ? $action->description : '-'; ?></td>
+                            <td class="px__big"><?= !empty($action->description) ? mb_strimwidth($action->description, 0, 50, '...') : '-'; ?></td>
 
                             <td class="actions">
-                                <div class="view">
-                                    <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Actions', 'action' => 'view', $action->id], ['class' => 'action__view', 'escape' => false]); ?>
-                                </div>
-                                <div class="edit">
-                                    <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Actions', 'action' => 'edit', $action->id], ['class' => 'action__edit', 'escape' => false]); ?>
-                                </div>
-                                <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'action__delete sweetdelete', 'data-name' => $action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $action->surname)]); ?>
-                                </div>
+                                <?php if ($this->AppView->visible('Actions', 'view')) : ?>
+                                    <div class="view">
+                                        <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Actions', 'action' => 'view', $action->id], ['class' => 'action__view', 'escape' => false]); ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($this->AppView->visible('Actions', 'edit')) : ?>
+                                    <div class="edit">
+                                        <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Actions', 'action' => 'edit', $action->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($this->AppView->visible('Actions', 'delete')) : ?>
+                                    <div class="delete">
+                                        <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'a funcionalidade '.$action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $action->surname)]); ?>
+                                    </div>
+                                <?php endif; ?>
 
                                 <nav class="primary-navigation nav__actions">
                                     <ul>
@@ -103,7 +123,7 @@ use App\Controller\TypeRoleENUM;
                                                     <?php endif; ?>
 
                                                     <?php if ($this->AppView->visible('Actions', 'delete')) : ?>
-                                                        <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'header__link sweetdelete', 'data-name' => $action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?></li>
+                                                        <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'header__link sweetdelete', 'data-name' => 'a funcionalidade '.$action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?></li>
                                                     <?php endif; ?>
                                                 </ul>
                                             </li>

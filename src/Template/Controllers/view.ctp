@@ -3,16 +3,28 @@
         <h1>Controladores <small>visualização</small></h1>
 
         <div class="profile">
-            <?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $controller->surname, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?>
-            <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Controllers', 'action' => 'edit', $controller->id], ['class' => 'update']); ?></p>
+            <?php if ($this->AppView->visible('Controllers', 'delete')) : ?>
+                <?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => 'o controlador ' . $controller->surname, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?>
+            <?php endif; ?>
+
+            <?php if ($this->AppView->visible('Controllers', 'edit')) : ?>
+                <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Controllers', 'action' => 'edit', $controller->id], ['class' => 'update']); ?></p>
+            <?php endif; ?>
+
             <p><?= $this->Html->link(__('Listagem'), ['controller' => 'Controllers', 'action' => 'index']); ?></p>
 
             <nav class="primary-navigation nav__view">
                 <ul>
                     <li><a href="#" class="header__link">Opções &dtrif;</a>
                         <ul class="dropdown">
-                            <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'header__link sweetdelete', 'data-name' => $controller->surname, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?></li>
-                            <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'Controllers', 'action' => 'edit', $controller->id], ['class' => 'header__link']); ?></li>
+                            <?php if ($this->AppView->visible('Controllers', 'delete')) : ?>
+                                <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o controlador ' . $controller->surname, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?></li>
+                            <?php endif; ?>
+
+                            <?php if ($this->AppView->visible('Controllers', 'edit')) : ?>
+                                <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'Controllers', 'action' => 'edit', $controller->id], ['class' => 'header__link']); ?></li>
+                            <?php endif; ?>
+
                             <li><?= $this->Html->link(__('Listagem'), ['controller' => 'Controllers', 'action' => 'index'], ['class' => 'header__link']); ?></li>
                         </ul>
                     </li>
@@ -69,15 +81,23 @@
                             <td class="px__big"><?= !empty($action->description) ? $action->description : '-'; ?></td>
 
                             <td class="actions">
-                                <div class="view">
-                                    <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Actions', 'action' => 'view', $action->id], ['class' => 'action__view', 'escape' => false]); ?>
-                                </div>
-                                <div class="edit">
-                                    <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Actions', 'action' => 'edit', $action->id], ['class' => 'action__edit', 'escape' => false]); ?>
-                                </div>
-                                <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'action__delete sweetdelete', 'data-name' => $action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?>
-                                </div>
+                                <?php if ($this->AppView->visible('Actions', 'view')) : ?>
+                                    <div class="view">
+                                        <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Actions', 'action' => 'view', $action->id], ['class' => 'action__view', 'escape' => false]); ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($this->AppView->visible('Actions', 'edit')) : ?>
+                                    <div class="edit">
+                                        <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Actions', 'action' => 'edit', $action->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($this->AppView->visible('Actions', 'delete')) : ?>
+                                    <div class="delete">
+                                        <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'action__delete sweetdelete', 'data-name' => $action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?>
+                                    </div>
+                                <?php endif; ?>
 
                                 <nav class="primary-navigation nav__actions">
                                     <ul>

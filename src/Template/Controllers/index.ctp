@@ -42,7 +42,7 @@
 
                             <?php if ($this->AppView->visible('Controllers', 'delete')) : ?>
                                 <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'action__delete sweetdelete', 'data-name' => $controller->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?>
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o controlador '.$controller->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -65,7 +65,7 @@
                                                 <?php endif; ?>
 
                                                 <?php if ($this->AppView->visible('Controllers', 'delete')) : ?>
-                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'header__link sweetdelete', 'data-name' => $controller->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?></li>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Controllers', 'action' => 'delete', $controller->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o controlador '.$controller->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o controlador {0}?', $controller->surname)]); ?></li>
                                                 <?php endif; ?>
                                             </ul>
                                         </li>

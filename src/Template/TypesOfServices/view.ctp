@@ -3,16 +3,28 @@
         <h1>Tipos de serviços <small>visualização</small></h1>
 
         <div class="profile">
-            <?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $typesOfService->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $typesOfService->name, 'confirm' => __('Tem certeza que deseja apagar o serviço {0}?', $typesOfService->name)]); ?>
-            <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'TypesOfServices', 'action' => 'edit', $typesOfService->id], ['class' => 'update']); ?></p>
+            <?php if ($this->AppView->visible('TypesOfServices', 'delete')) : ?>
+                <?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $typesOfService->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => 'o serviço '.$typesOfService->name, 'confirm' => __('Tem certeza que deseja apagar o serviço {0}?', $typesOfService->name)]); ?>
+            <?php endif; ?>
+
+            <?php if ($this->AppView->visible('TypesOfServices', 'edit')) : ?>
+                <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'TypesOfServices', 'action' => 'edit', $typesOfService->id], ['class' => 'update']); ?></p>
+            <?php endif; ?>
+
             <p><?= $this->Html->link(__('Listagem'), ['controller' => 'TypesOfServices', 'action' => 'index']); ?></p>
 
             <nav class="primary-navigation nav__view">
                 <ul>
                     <li><a href="#" class="header__link">Opções &dtrif;</a>
                         <ul class="dropdown">
-                            <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $typesOfService->id], ['class' => 'header__link sweetdelete', 'data-name' => $typesOfService->name, 'confirm' => __('Tem certeza que deseja apagar o serviço {0}?', $typesOfService->name)]); ?></li>
-                            <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'TypesOfServices', 'action' => 'edit', $typesOfService->id], ['class' => 'header__link']); ?></li>
+                            <?php if ($this->AppView->visible('TypesOfServices', 'delete')) : ?>
+                                <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $typesOfService->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o serviço '.$typesOfService->name, 'confirm' => __('Tem certeza que deseja apagar o serviço {0}?', $typesOfService->name)]); ?></li>
+                            <?php endif; ?>
+
+                            <?php if ($this->AppView->visible('TypesOfServices', 'edit')) : ?>
+                                <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'TypesOfServices', 'action' => 'edit', $typesOfService->id], ['class' => 'header__link']); ?></li>
+                            <?php endif; ?>
+
                             <li><?= $this->Html->link(__('Listagem'), ['controller' => 'TypesOfServices', 'action' => 'index'], ['class' => 'header__link']); ?></li>
                         </ul>
                     </li>

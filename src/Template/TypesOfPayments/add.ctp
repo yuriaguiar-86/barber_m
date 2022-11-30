@@ -16,7 +16,7 @@
     </div>
 
     <div class="row">
-        <label>Descrição <span class="fields__required">*</span></label>
+        <label>Descrição</label>
         <?= $this->Form->control('description', ['label' => false]); ?>
     </div>
 

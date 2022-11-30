@@ -47,7 +47,7 @@ use App\Controller\TypeRoleENUM;
 
                             <?php if ($this->AppView->visible('Roles', 'delete')) : ?>
                                 <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'action__delete sweetdelete', 'data-name' => $role->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?>
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o tipo de perfil '.$role->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -70,7 +70,7 @@ use App\Controller\TypeRoleENUM;
                                                 <?php endif; ?>
 
                                                 <?php if ($this->AppView->visible('Roles', 'delete')) : ?>
-                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'header__link sweetdelete', 'data-name' => $role->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?></li>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Roles', 'action' => 'delete', $role->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o tipo de perfil '.$role->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de perfil {0}?', $role->name)]); ?></li>
                                                 <?php endif; ?>
                                             </ul>
                                         </li>

@@ -28,11 +28,11 @@ use App\Controller\TypeRoleENUM;
     <div class="more__fields">
         <div class="row right">
             <label>Telefone <span class="fields__required">*</span></label>
-            <?= $this->Form->control('personal_phone', ['label' => false, 'required', 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
+            <?= $this->Form->control('personal_phone', ['label' => false, 'required', 'inputmode' => 'numeric','class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
         </div>
         <div class="row">
             <label>Outro telefone</label>
-            <?= $this->Form->control('other_phone', ['label' => false, 'class' => 'phone', 'placeholder' => '(99) 99999-9999']); ?>
+            <?= $this->Form->control('other_phone', ['label' => false, 'class' => 'phone', 'inputmode' => 'numeric', 'placeholder' => '(99) 99999-9999']); ?>
         </div>
     </div>
 

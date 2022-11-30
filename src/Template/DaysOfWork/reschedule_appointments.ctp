@@ -8,7 +8,7 @@
     <div class="data__person">
         <div class="reschedule__containner">
             <p>Os clientes listados abaixo, realizaram o agendamento no dia <?= date('d/m/Y', strtotime($day_free)); ?>.</p>
-            <p>Entre em contato com ambos e reagende os horários <?= $this->Html->link('clicando aqui', ['controller' => 'Schedules', 'action' => 'index', 'day' => $day_free]); ?> ou acesse pelo menu.</p>
+            <p>Entre em contato com ambos e reagende os horários <?= $this->Html->link('clicando aqui', ['controller' => 'Schedules', 'action' => 'index', 'day' => $day_free]); ?> ou acesse pelo menu e filtre baseado no dia de folga que foi cadastrado.</p>
         </div>
 
         <dl>

@@ -40,7 +40,7 @@
 
                             <?php if ($this->AppView->visible('DaysOfWork', 'delete')) : ?>
                                 <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'DaysOfWork', 'action' => 'delete', $day->id], ['class' => 'action__delete sweetdelete', 'data-name' => $day->not_work->format('d/m/Y'), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a folga do dia {0}?', $day->not_work->format('d/m/Y'))]); ?>
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'DaysOfWork', 'action' => 'delete', $day->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o dia de folga '.$day->not_work->format('d/m/Y'), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a folga do dia {0}?', $day->not_work->format('d/m/Y'))]); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -63,7 +63,7 @@
                                                 <?php endif; ?>
 
                                                 <?php if ($this->AppView->visible('DaysOfWork', 'delete')) : ?>
-                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'DaysOfWork', 'action' => 'delete', $day->id], ['class' => 'header__link sweetdelete', 'data-name' => $day->not_work->format('d/m/Y'), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a folga do dia {0}?', $day->not_work->format('d/m/Y'))]); ?></li>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'DaysOfWork', 'action' => 'delete', $day->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o dia de folga '.$day->not_work->format('d/m/Y'), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a folga do dia {0}?', $day->not_work->format('d/m/Y'))]); ?></li>
                                                 <?php endif; ?>
                                             </ul>
                                         </li>

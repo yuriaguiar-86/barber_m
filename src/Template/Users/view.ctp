@@ -3,16 +3,28 @@
         <h1>Usuários <small>visualização</small></h1>
 
         <div class="profile">
-            <?= $this->Form->postLink(__('Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $user->name, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?>
-            <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Users', 'action' => 'edit', $user->id], ['class' => 'update']); ?></p>
+            <?php if ($this->AppView->visible('Users', 'delete')) : ?>
+                <?= $this->Form->postLink(__('Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => 'o usuário ' . $user->name, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?>
+            <?php endif; ?>
+
+            <?php if ($this->AppView->visible('Users', 'edit')) : ?>
+                <p><?= $this->Html->link(__('Atualizar'), ['controller' => 'Users', 'action' => 'edit', $user->id], ['class' => 'update']); ?></p>
+            <?php endif; ?>
+
             <p><?= $this->Html->link(__('Listagem'), ['controller' => 'Users', 'action' => 'index']); ?></p>
 
             <nav class="primary-navigation nav__view">
                 <ul>
                     <li><a href="#" class="header__link">Opções &dtrif;</a>
                         <ul class="dropdown">
-                            <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'header__link sweetdelete', 'data-name' => $user->surname, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->surname)]); ?></li>
-                            <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'Users', 'action' => 'edit', $user->id], ['class' => 'header__link']); ?></li>
+                            <?php if ($this->AppView->visible('Users', 'delete')) : ?>
+                                <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o usuário ' . $user->name, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->surname)]); ?></li>
+                            <?php endif; ?>
+
+                            <?php if ($this->AppView->visible('Users', 'edit')) : ?>
+                                <li><?= $this->Html->link(__('Atualizar'), ['controller' => 'Users', 'action' => 'edit', $user->id], ['class' => 'header__link']); ?></li>
+                            <?php endif; ?>
+
                             <li><?= $this->Html->link(__('Listagem'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'header__link']); ?></li>
                         </ul>
                     </li>
@@ -89,22 +101,30 @@
                 <tbody>
                     <?php foreach ($user->schedules as $schedule) : ?>
                         <tr>
-                            <td class="px__table"><?= $this->Number->format($schedule->id) ?></td>
+                            <td class="px__table"><?= $this->Number->format($schedule->id); ?></td>
                             <td class="px__table"><?= $schedule->user->name; ?></td>
-                            <td><?= $schedule->date->format('d/m/Y'); ?></tdlass=>
+                            <td><?= $schedule->date->format('d/m/Y'); ?></td>
                             <td><?= $schedule->time; ?>:00H</td>
                             <td class="px__big"><?= $schedule->types_of_payment->name; ?></td>
 
                             <td class="actions">
-                                <div class="view">
-                                    <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Schedules', 'action' => 'view', $schedule->id], ['class' => 'action__view', 'escape' => false]); ?>
-                                </div>
-                                <div class="edit">
-                                    <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Schedules', 'action' => 'edit', $schedule->id], ['class' => 'action__edit', 'escape' => false]); ?>
-                                </div>
-                                <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'action__delete sweetdelete', 'data-name' => $user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do {0}?', $user->name)]); ?>
-                                </div>
+                                <?php if ($this->AppView->visible('Schedules', 'view')) : ?>
+                                    <div class="view">
+                                        <?= $this->Html->link(__('<i class="fa-solid fa-eye"></i> Visualizar'), ['controller' => 'Schedules', 'action' => 'view', $schedule->id], ['class' => 'action__view', 'escape' => false]); ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($this->AppView->visible('Schedules', 'edit')) : ?>
+                                    <div class="edit">
+                                        <?= $this->Html->link(__('<i class="fa-solid fa-pen-to-square"></i> Editar'), ['controller' => 'Schedules', 'action' => 'edit', $schedule->id], ['class' => 'action__edit', 'escape' => false]); ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($this->AppView->visible('Schedules', 'delete')) : ?>
+                                    <div class="delete">
+                                        <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') .' ás '. $schedule->time .':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do {0}?', $user->name)]); ?>
+                                    </div>
+                                <?php endif; ?>
 
                                 <nav class="primary-navigation nav__actions">
                                     <ul>
@@ -125,7 +145,7 @@
                                                     <?php endif; ?>
 
                                                     <?php if ($this->AppView->visible('Schedules', 'delete')) : ?>
-                                                        <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $user->id], ['class' => 'header__link sweetdelete', 'data-name' => $user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do {0}?', $user->name)]); ?></li>
+                                                        <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $user->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') .' ás '. $schedule->time .':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do {0}?', $user->name)]); ?></li>
                                                     <?php endif; ?>
                                                 </ul>
                                             </li>
@@ -138,7 +158,7 @@
                 </tbody>
             </table>
         <?php else : ?>
-            <p class="values__empty">Nenhuma agedamento realizado!</p>
+            <p class="values__empty">Nenhum agedamento realizado!</p>
         <?php endif; ?>
     </aside>
 </section>
