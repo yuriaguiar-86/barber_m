@@ -73,7 +73,7 @@ body {
 
 .containner form button {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 5px;
     padding: 8px 10px;
 
     border: none;
@@ -99,7 +99,7 @@ form .recover {
 
 /* CHECKBOX */
 .input__terms {
-    margin-top: 30px;
+    margin-top: 15px;
 
     display: flex;
     flex-direction: column;
@@ -189,7 +189,7 @@ form .recover {
     left: 0;
     opacity: .05;
     z-index: -1;
-
+    width: 250px;
     position: fixed;
 }
 

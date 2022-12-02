@@ -15,7 +15,7 @@
     <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
     <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
 
-    <?= $this->Html->css(['style', 'toolbar', 'welcome', 'view', 'list', 'forms', 'dashboard']); ?>
+    <?= $this->Html->css(['style', 'toolbar', 'welcome', 'view', 'list', 'forms', 'dashboard', 'footer']); ?>
     <?= $this->Html->script(['jquery.mask', 'datepicker']); ?>
 
     <?= $this->fetch('css') ?>
@@ -31,6 +31,8 @@
         <?= $this->Flash->render(); ?>
         <?= $this->fetch('content'); ?>
     </main>
+
+    <?= $this->element('footer'); ?>
 </body>
 
 </html>

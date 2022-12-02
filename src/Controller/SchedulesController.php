@@ -95,7 +95,7 @@ class SchedulesController extends AppController {
                 $schedule->user_id = $this->getIdUserLogged();
 
                 $this->validateScheduleWithDayFree($schedule, $daysOfWork);
-                $this->validationsDatesTimesSchedules($schedule);
+                $this->validationsDatesTimesSchedules($schedule, 'agendamento');
 
                 if ($this->Schedules->save($schedule, ['associated' => ['TypesOfServices']])) {
                     $this->Flash->success(__('O agendamento foi realizado com sucesso.'));
@@ -116,17 +116,17 @@ class SchedulesController extends AppController {
         }
     }
 
-    private function validationsDatesTimesSchedules($schedule) {
-        $this->validateTimeInsidTwoHours($schedule);
+    private function validationsDatesTimesSchedules($schedule, $message) {
+        $this->validateTimeInsidTwoHours($schedule, $message);
         $this->validateDayBeforeCurrent($schedule->date);
     }
 
-    private function validateTimeInsidTwoHours($schedule) {
+    private function validateTimeInsidTwoHours($schedule, $message) {
         if(strtotime($schedule->date) == strtotime(date('Y-m-d'))) {
             $time_current = date('H', strtotime('+3 hours'));
 
             if(intval($time_current) > $schedule->time) {
-                throw new BadRequestException('É possível realizar o agendamento somente com 02:00H de antecedência!');
+                throw new BadRequestException('É possível realizar o '. $message .' somente com 02:00H de antecedência!');
             }
         }
     }
@@ -180,6 +180,7 @@ class SchedulesController extends AppController {
                 $schedule->date = $this->formatData($this->request->getData('date'));
 
                 $this->validateScheduleWithDayFree($schedule, $daysOfWork);
+                $this->validationsDatesTimesSchedules($schedule, 'agendamento');
 
                 if ($this->Schedules->save($schedule, ['associated' => ['TypesOfServices']])) {
                     $this->Flash->success(__('O agendamento foi atualizado com sucesso.'));
@@ -208,6 +209,8 @@ class SchedulesController extends AppController {
         try {
             $this->request->allowMethod(['post', 'delete']);
             $schedule = $this->Schedules->get($id);
+
+            $this->validateTimeInsidTwoHours($schedule, 'cancelamento');
 
             $this->Schedules->delete($schedule) ?
             $this->Flash->success(__('O agendamento foi cancelado com sucesso.')) :

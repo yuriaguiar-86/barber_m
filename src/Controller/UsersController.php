@@ -295,11 +295,12 @@ class UsersController extends AppController {
     public function home() {
         try {
             $user = $this->Auth->user();
+            $employees = $this->Users->find('all')->where(['Users.role_id' => TypeRoleENUM::EMPLOYEE])->toList();
         } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             $this->redirect(['controller' => 'Users', 'action' => 'profile']);
         } finally {
-            $this->set(compact('user'));
+            $this->set(compact('user', 'employees'));
         }
     }
 
