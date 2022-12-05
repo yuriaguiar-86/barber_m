@@ -9,21 +9,13 @@
 
     <div class="containner__dashboard">
         <div class="dashboard__services">
-            <?php $all = 0; ?>
 
-            <?php foreach ($payments as $payment) : ?>
-                <?php foreach ($values as $key => $value) : ?>
-                    <?php if ($payment->id == $key) : ?>
-
-                        <?php $all += $value; ?>
-
-                        <div class="service">
-                            <h2><?= $payment->name; ?></h2>
-                            <p>R$ <?= $value; ?>,00</p>
-                        </div>
-
-                    <?php endif; ?>
-                <?php endforeach; ?>
+            <?php foreach ($count_services as $service) : ?>
+                <div class="service">
+                    <h2><?= $service->types_of_payments['name']; ?></h2>
+                    <p><small><?= $service->types_of_services['name']; ?></small></p>
+                    <p>R$ <?= $service->types_of_services['price'] * $service->sum; ?>,00</p>
+                </div>
             <?php endforeach; ?>
 
             <div class="service">
@@ -39,20 +31,14 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let types_payment = [
-        <?php foreach ($payments as $payment) : ?>
-            '<?= $payment->name; ?>',
+        <?php foreach ($count_services as $payment) : ?>
+            '<?= $payment->types_of_services['name']; ?> no <?= $payment->types_of_payments['name']; ?>',
         <?php endforeach; ?>
     ];
 
     let values = [
-        <?php foreach ($payments as $payment) : ?>
-            <?php foreach ($values as $key => $value) : ?>
-                <?php if ($payment->id == $key) : ?>
-
-                    '<?= $value; ?>',
-
-                <?php endif; ?>
-            <?php endforeach; ?>
+        <?php foreach ($count_services as $service) : ?>
+            '<?= $service->types_of_services['price'] * $service->sum; ?>',
         <?php endforeach; ?>
     ];
 
@@ -61,17 +47,15 @@
         data: {
             labels: types_payment,
 
-            datasets: [
-                {
-                    label: 'Pagamento',
-                    data: values,
-                    backgroundColor: '#27ae5f28',
-                    borderColor: ['#27AE60'],
-                    borderWidth: 1,
-                    borderRadius: 5,
-                    barPercentage: .6
-                },
-            ]
+            datasets: [{
+                label: 'Pagamento',
+                data: values,
+                backgroundColor: '#27ae5f28',
+                borderColor: ['#27AE60'],
+                borderWidth: 1,
+                borderRadius: 5,
+                barPercentage: .6
+            }, ]
         },
         options: {
             responsive: true

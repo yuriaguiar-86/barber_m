@@ -215,7 +215,7 @@ class UsersController extends AppController {
 
     public function dashboard() {
         try {
-            $values[] = null;
+            $all = 0;
             $payments = $this->Users->Schedules->TypesOfPayments->find('all')->toList();
             $services = $this->Users->Schedules->TypesOfServices->find('all')->toList();
 
@@ -230,7 +230,7 @@ class UsersController extends AppController {
 
                     $count_services[] = $query->select([
                         'types_of_payments.id', 'types_of_payments.name',
-                        'types_of_services.id', 'types_of_services.price',
+                        'types_of_services.id', 'types_of_services.name', 'types_of_services.price',
                         'sum' => $query->func()->count('TypesOfServicesSchedules.types_of_service_id')
                     ])->where([
                         'Schedules.finished' => FinishedENUM::FINISHED,
@@ -240,15 +240,11 @@ class UsersController extends AppController {
                 }
             }
 
-            foreach ($count_services as $service) {
-                foreach ($payments as $payment) {
-                    if ($payment->id == $service->types_of_payments['id']) {
-                        $values[$payment->id] = $service->sum * $service->types_of_services['price'];
-                    }
-                }
+            foreach($count_services as $service) {
+                $all += $service->sum * $service->types_of_services['price'];
             }
 
-            $this->set(compact('payments', 'values'));
+            $this->set(compact('count_services', 'all'));
         } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
