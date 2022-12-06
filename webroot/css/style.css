@@ -43,12 +43,45 @@ body {
 
 .subtitle__button p a {
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
 
     color: var(--white);
     text-decoration: none;
     background: var(--green);
 }
+
+.filter__and__add {
+    display: flex;
+    align-items: center;
+}
+
+#filter__form {
+    min-width: 280px;
+    margin-right: 10px;
+}
+
+.input__filter {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.submit__filter {
+    padding: 0 10px;
+    margin-right: 1px;
+    border-radius: 5px 0 0 5px;
+
+    border: none;
+}
+
+.filter {
+    width: 100%;
+    padding: 10px;
+    border-radius: 0 5px 5px 0;
+
+    border: none;
+    outline: none;
+}
+
 
 .msg__success {
     background: rgba(39, 174, 95, .5);
@@ -112,8 +145,23 @@ a {
     }
 }
 
+@media screen and (max-width: 800px) {
+    .subtitle__button {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter__and__add {
+        margin-top: 10px;
+    }
+}
+
 @media screen and (max-width: 500px) {
     .subtitle__button small {
         display: none;
+    }
+
+    #filter__form {
+        min-width: 180px;
     }
 }

@@ -2,9 +2,13 @@
     <div class="subtitle__button">
         <h1>Horários <small>listagem</small></h1>
 
-        <?php if ($this->AppView->visible('OpeningHours', 'add')) : ?>
-            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'OpeningHours', 'action' => 'add']); ?></p>
-        <?php endif; ?>
+        <div class="filter__and__add">
+            <?= $this->element('filter'); ?>
+
+            <?php if ($this->AppView->visible('OpeningHours', 'add')) : ?>
+                <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'OpeningHours', 'action' => 'add']); ?></p>
+            <?php endif; ?>
+        </div>
     </div>
 
     <?php if (!empty($openingHours)) : ?>
@@ -38,7 +42,7 @@
 
                             <?php if ($this->AppView->visible('OpeningHours', 'delete')) : ?>
                                 <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHour->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o horário das '.$openingHour->time_of_week.':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o horário {0}:00H?', $openingHour->time_of_week)]); ?>
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHour->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o horário das ' . $openingHour->time_of_week . ':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o horário {0}:00H?', $openingHour->time_of_week)]); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -61,7 +65,7 @@
                                                 <?php endif; ?>
 
                                                 <?php if ($this->AppView->visible('OpeningHours', 'delete')) : ?>
-                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHour->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o horário das '.$openingHour->time_of_week.':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o horário {0}?', $openingHour->time_of_week)]); ?></li>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHour->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o horário das ' . $openingHour->time_of_week . ':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o horário {0}?', $openingHour->time_of_week)]); ?></li>
                                                 <?php endif; ?>
                                             </ul>
                                         </li>

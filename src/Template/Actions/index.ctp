@@ -2,9 +2,13 @@
     <div class="subtitle__button">
         <h1>Funcionalidades <small>listagem</small></h1>
 
-        <?php if ($this->AppView->visible('Actions', 'add')) : ?>
-            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Actions', 'action' => 'add']); ?></p>
-        <?php endif; ?>
+        <div class="filter__and__add">
+            <?= $this->element('filter'); ?>
+
+            <?php if ($this->AppView->visible('Actions', 'add')) : ?>
+                <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Actions', 'action' => 'add']); ?></p>
+            <?php endif; ?>
+        </div>
     </div>
 
     <?php if (!empty($actions)) : ?>
@@ -44,7 +48,7 @@
 
                             <?php if ($this->AppView->visible('Actions', 'delete')) : ?>
                                 <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'a funcionalidade '.$action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?>
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'a funcionalidade ' . $action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -67,7 +71,7 @@
                                                 <?php endif; ?>
 
                                                 <?php if ($this->AppView->visible('Actions', 'delete')) : ?>
-                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'header__link sweetdelete', 'data-name' => 'a funcionalidade '.$action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?></li>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Actions', 'action' => 'delete', $action->id], ['class' => 'header__link sweetdelete', 'data-name' => 'a funcionalidade ' . $action->surname, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar a funcionalidade {0}?', $action->surname)]); ?></li>
                                                 <?php endif; ?>
                                             </ul>
                                         </li>

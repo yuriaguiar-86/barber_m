@@ -7,9 +7,13 @@ use App\Controller\FinishedENUM;
     <div class="subtitle__button">
         <h1>Agendamentos <small>listagem</small></h1>
 
-        <?php if ($this->AppView->visible('Schedules', 'add')) : ?>
-            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Schedules', 'action' => 'add']); ?></p>
-        <?php endif; ?>
+        <div class="filter__and__add">
+            <?= $this->element('filter'); ?>
+
+            <?php if ($this->AppView->visible('Schedules', 'add')) : ?>
+                <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Schedules', 'action' => 'add']); ?></p>
+            <?php endif; ?>
+        </div>
     </div>
 
     <?php if (!empty($schedules)) : ?>
@@ -61,7 +65,7 @@ use App\Controller\FinishedENUM;
 
                                 <?php if ($this->AppView->visible('Schedules', 'delete')) : ?>
                                     <div class="delete">
-                                        <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') .' ás '. $schedule->time .':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do dia {0}?', $schedule->date->format('d/m/Y'))]); ?>
+                                        <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') . ' ás ' . $schedule->time . ':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do dia {0}?', $schedule->date->format('d/m/Y'))]); ?>
                                     </div>
                                 <?php endif; ?>
 
@@ -89,7 +93,7 @@ use App\Controller\FinishedENUM;
                                                     <?php endif; ?>
 
                                                     <?php if ($this->AppView->visible('Schedules', 'delete')) : ?>
-                                                        <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') .' ás '. $schedule->time .':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do dia {0}?', $schedule->date->format('d/m/Y'))]); ?></li>
+                                                        <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') . ' ás ' . $schedule->time . ':00H', 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o agendamento do dia {0}?', $schedule->date->format('d/m/Y'))]); ?></li>
                                                     <?php endif; ?>
                                                 </ul>
                                             </li>

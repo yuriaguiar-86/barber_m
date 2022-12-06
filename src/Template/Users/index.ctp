@@ -2,9 +2,13 @@
     <div class="subtitle__button">
         <h1>Usuários <small>listagem</small></h1>
 
-        <?php if ($this->AppView->visible('Users', 'add')) : ?>
-            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Users', 'action' => 'add']); ?></p>
-        <?php endif; ?>
+        <div class="filter__and__add">
+            <?= $this->element('filter'); ?>
+
+            <?php if ($this->AppView->visible('Users', 'add')) : ?>
+                <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Users', 'action' => 'add']); ?></p>
+            <?php endif; ?>
+        </div>
     </div>
 
     <?php if (!empty($users)) : ?>
@@ -44,7 +48,7 @@
 
                             <?php if ($this->AppView->visible('Users', 'delete')) : ?>
                                 <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o usuário '.$user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?>
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o usuário ' . $user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -67,7 +71,7 @@
                                                 <?php endif; ?>
 
                                                 <?php if ($this->AppView->visible('Users', 'delete')) : ?>
-                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o usuário '.$user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?></li>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Users', 'action' => 'delete', $user->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o usuário ' . $user->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o usuário {0}?', $user->name)]); ?></li>
                                                 <?php endif; ?>
                                             </ul>
                                         </li>

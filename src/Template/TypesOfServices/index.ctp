@@ -2,9 +2,13 @@
     <div class="subtitle__button">
         <h1>Tipos de serviços <small>listagem</small></h1>
 
-        <?php if ($this->AppView->visible('TypesOfServices', 'add')) : ?>
-            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'TypesOfServices', 'action' => 'add']); ?></p>
-        <?php endif; ?>
+        <div class="filter__and__add">
+            <?= $this->element('filter'); ?>
+
+            <?php if ($this->AppView->visible('TypesOfServices', 'add')) : ?>
+                <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'TypesOfServices', 'action' => 'add']); ?></p>
+            <?php endif; ?>
+        </div>
     </div>
 
     <?php if (!empty($typesOfServices)) : ?>
@@ -42,7 +46,7 @@
 
                             <?php if ($this->AppView->visible('TypesOfServices', 'delete')) : ?>
                                 <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $service->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o serviço '.$service->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de serviço {0}?', $service->name)]); ?>
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $service->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o serviço ' . $service->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de serviço {0}?', $service->name)]); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -65,7 +69,7 @@
                                                 <?php endif; ?>
 
                                                 <?php if ($this->AppView->visible('TypesOfServices', 'delete')) : ?>
-                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $service->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o serviço '.$service->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de serviço {0}?', $service->name)]); ?></li>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'TypesOfServices', 'action' => 'delete', $service->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o serviço ' . $service->name, 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o tipo de serviço {0}?', $service->name)]); ?></li>
                                                 <?php endif; ?>
                                             </ul>
                                         </li>
