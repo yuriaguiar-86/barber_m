@@ -10,17 +10,16 @@
     <div class="containner__dashboard">
         <div class="dashboard__services">
 
-            <?php foreach ($count_services as $service) : ?>
+            <?php foreach ($payments as $payment) : ?>
                 <div class="service">
-                    <h2><?= $service->types_of_payments['name']; ?></h2>
-                    <p><small><?= $service->types_of_services['name']; ?></small></p>
-                    <p>R$ <?= $service->types_of_services['price'] * $service->sum; ?>,00</p>
+                    <h2><?= $payment->name; ?></h2>
+                    <p>R$ <?= $payment->sum; ?>,00</p>
                 </div>
             <?php endforeach; ?>
 
             <div class="service">
                 <h2>Total</h2>
-                <p>R$ <?= $all ?>,00</p>
+                <p>R$ <?= $summation ?>,00</p>
             </div>
         </div>
 
@@ -31,14 +30,14 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let types_payment = [
-        <?php foreach ($count_services as $payment) : ?>
-            '<?= $payment->types_of_services['name']; ?> no <?= $payment->types_of_payments['name']; ?>',
+        <?php foreach ($payments as $payment) : ?>
+            '<?= $payment->name; ?>',
         <?php endforeach; ?>
     ];
 
     let values = [
-        <?php foreach ($count_services as $service) : ?>
-            '<?= $service->types_of_services['price'] * $service->sum; ?>',
+        <?php foreach ($payments as $payment) : ?>
+            '<?= $payment->sum; ?>',
         <?php endforeach; ?>
     ];
 
@@ -48,7 +47,7 @@
             labels: types_payment,
 
             datasets: [{
-                label: 'Pagamento',
+                label: 'Pagamentos',
                 data: values,
                 backgroundColor: '#27ae5f28',
                 borderColor: ['#27AE60'],

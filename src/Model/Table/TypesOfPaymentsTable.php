@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Controller\FinishedENUM;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -65,5 +66,19 @@ class TypesOfPaymentsTable extends Table {
             ->allowEmptyString('description');
 
         return $validator;
+    }
+
+    public function sumPaymentsRealize() {
+        $query = $this->find('all')
+            ->innerJoin('schedules', 'schedules.types_of_payment_id = TypesOfPayments.id')
+            ->innerJoin('types_of_services_schedules', 'types_of_services_schedules.schedule_id = schedules.id')
+            ->innerJoin('types_of_services', 'types_of_services.id = types_of_services_schedules.types_of_service_id');
+
+        return $query->select([
+            'TypesOfPayments.id', 'TypesOfPayments.name',
+            'sum' => $query->func()->sum('types_of_services.price')
+        ])->where([
+            'schedules.finished' => FinishedENUM::FINISHED
+        ])->group('TypesOfPayments.id')->toList();
     }
 }

@@ -4,7 +4,7 @@
 
         <div class="profile">
             <?php if ($this->AppView->visible('OpeningHours', 'delete')) : ?>
-                <?= $this->Form->postLink(__('Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHour->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => $openingHour->time_of_week, 'confirm' => __('Tem certeza que deseja apagar o horário {0}?', $openingHour->time_of_week)]); ?>
+                <?= $this->Form->postLink(__('Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHour->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => 'o horário das '.$openingHour->time_of_week.':00H', 'confirm' => __('Tem certeza que deseja apagar o horário {0}:00H?', $openingHour->time_of_week)]); ?>
             <?php endif; ?>
 
             <?php if ($this->AppView->visible('OpeningHours', 'edit')) : ?>
@@ -18,7 +18,7 @@
                     <li><a href="#" class="header__link">Opções &dtrif;</a>
                         <ul class="dropdown">
                             <?php if ($this->AppView->visible('OpeningHours', 'delete')) : ?>
-                                <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHour->id], ['class' => 'header__link sweetdelete', 'data-name' => $openingHour->time_of_week, 'confirm' => __('Tem certeza que deseja apagar o horário {0}?', $openingHour->time_of_week)]); ?></li>
+                                <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'OpeningHours', 'action' => 'delete', $openingHour->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o horário das '.$openingHour->time_of_week.':00H', 'confirm' => __('Tem certeza que deseja apagar o horário {0}:00H?', $openingHour->time_of_week)]); ?></li>
                             <?php endif; ?>
 
                             <?php if ($this->AppView->visible('OpeningHours', 'edit')) : ?>

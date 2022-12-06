@@ -215,40 +215,20 @@ class UsersController extends AppController {
 
     public function dashboard() {
         try {
-            $all = 0;
-            $payments = $this->Users->Schedules->TypesOfPayments->find('all')->toList();
-            $services = $this->Users->Schedules->TypesOfServices->find('all')->toList();
-
-            $this->loadModel('TypesOfServicesSchedules');
-
-            foreach ($services as $service) {
-                foreach ($payments as $payment) {
-                    $query = $this->TypesOfServicesSchedules->find('all')
-                        ->innerJoin('types_of_services', 'TypesOfServicesSchedules.types_of_service_id = types_of_services.id')
-                        ->innerJoin('Schedules', 'TypesOfServicesSchedules.schedule_id = Schedules.id')
-                        ->innerJoin('types_of_payments', 'Schedules.types_of_payment_id = types_of_payments.id');
-
-                    $count_services[] = $query->select([
-                        'types_of_payments.id', 'types_of_payments.name',
-                        'types_of_services.id', 'types_of_services.name', 'types_of_services.price',
-                        'sum' => $query->func()->count('TypesOfServicesSchedules.types_of_service_id')
-                    ])->where([
-                        'Schedules.finished' => FinishedENUM::FINISHED,
-                        'Schedules.types_of_payment_id' => $payment->id,
-                        'TypesOfServicesSchedules.types_of_service_id' => $service->id
-                    ])->first();
-                }
-            }
-
-            foreach($count_services as $service) {
-                $all += $service->sum * $service->types_of_services['price'];
-            }
-
-            $this->set(compact('count_services', 'all'));
+            $payments = $this->Users->Schedules->TypesOfPayments->sumPaymentsRealize();
+            $summation = $this->allValuesPayments($payments);
+            $this->set(compact('payments', 'summation'));
         } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
+    }
+
+    private function allValuesPayments($payments, $value = 0) {
+        foreach($payments as $payment) {
+            $value += $payment->sum;
+        }
+        return $value;
     }
 
     public function profile() {

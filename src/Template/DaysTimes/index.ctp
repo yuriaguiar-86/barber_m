@@ -43,7 +43,7 @@ use App\Controller\DaysOfWeekENUM;
 
                             <?php if ($this->AppView->visible('DaysTimes', 'delete')) : ?>
                                 <div class="delete">
-                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'DaysTimes', 'action' => 'delete', $dayTime->id], ['class' => 'action__delete sweetdelete', 'data-name' => DaysOfWeekENUM::findConstants($dayTime->day_of_week), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o dia {0}?', DaysOfWeekENUM::findConstants($dayTime->day_of_week))]); ?>
+                                    <?= $this->Form->postLink(__('<i class="fa-solid fa-trash"></i> Apagar'), ['controller' => 'DaysTimes', 'action' => 'delete', $dayTime->id], ['class' => 'action__delete sweetdelete', 'data-name' => 'o dia '.DaysOfWeekENUM::findConstants($dayTime->day_of_week), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o dia {0}?', DaysOfWeekENUM::findConstants($dayTime->day_of_week))]); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -66,7 +66,7 @@ use App\Controller\DaysOfWeekENUM;
                                                 <?php endif; ?>
 
                                                 <?php if ($this->AppView->visible('DaysTimes', 'delete')) : ?>
-                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'DaysTimes', 'action' => 'delete', $dayTime->id], ['class' => 'header__link sweetdelete', 'data-name' => DaysOfWeekENUM::findConstants($dayTime->day_of_week), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o dia {0}?', DaysOfWeekENUM::findConstants($dayTime->day_of_week))]); ?></li>
+                                                    <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'DaysTimes', 'action' => 'delete', $dayTime->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o dia '.DaysOfWeekENUM::findConstants($dayTime->day_of_week), 'escape' => false, 'confirm' => __('Tem certeza que deseja apagar o dia {0}?', DaysOfWeekENUM::findConstants($dayTime->day_of_week))]); ?></li>
                                                 <?php endif; ?>
                                             </ul>
                                         </li>
