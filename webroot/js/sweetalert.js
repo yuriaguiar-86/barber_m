@@ -18,3 +18,16 @@ $(document).on('click', '.sweetdelete', function () {
         }
     });
 });
+
+
+let checkbox = document.getElementById('menu__toggle');
+
+$('.menu__btn').click(function() {
+    if(checkbox.checked) {
+        $('.nav__actions').css('z-index', '1');
+        $('.nav__view').css('z-index', '1');
+    } else {
+        $('.nav__actions').css('z-index', '-1');
+        $('.nav__view').css('z-index', '-1');
+    }
+});

@@ -63,3 +63,5 @@
         </dl>
     </div>
 </section>
+
+<?= $this->Html->script('sweetalert'); ?>
