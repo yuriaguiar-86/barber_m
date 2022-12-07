@@ -68,7 +68,7 @@ class TypesOfPaymentsTable extends Table {
         return $validator;
     }
 
-    public function sumPaymentsRealize() {
+    public function sumPaymentsRealize($conditions) {
         $query = $this->find('all')
             ->innerJoin('schedules', 'schedules.types_of_payment_id = TypesOfPayments.id')
             ->innerJoin('types_of_services_schedules', 'types_of_services_schedules.schedule_id = schedules.id')
@@ -78,6 +78,7 @@ class TypesOfPaymentsTable extends Table {
             'TypesOfPayments.id', 'TypesOfPayments.name',
             'sum' => $query->func()->sum('types_of_services.price')
         ])->where([
+            $conditions,
             'schedules.finished' => FinishedENUM::FINISHED
         ])->group('TypesOfPayments.id')->toList();
     }

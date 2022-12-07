@@ -234,13 +234,26 @@ class UsersController extends AppController {
 
     public function dashboard() {
         try {
-            $payments = $this->Users->Schedules->TypesOfPayments->sumPaymentsRealize();
+            $conditions = $this->setConditionsDashboard();
+            $payments = $this->Users->Schedules->TypesOfPayments->sumPaymentsRealize($conditions);
             $summation = $this->allValuesPayments($payments);
             $this->set(compact('payments', 'summation'));
         } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
+    }
+
+    private function setConditionsDashboard() {
+        $conditions = [];
+
+        if (!empty($this->request->getQuery('date_init'))) {
+            $conditions[] = ['schedules.date >= ' => $this->formatData($this->request->getQuery('date_init'))];
+        }
+        if (!empty($this->request->getQuery('date_final'))) {
+            $conditions[] = ['schedules.date <= ' => $this->formatData($this->request->getQuery('date_final'))];
+        }
+        return $conditions;
     }
 
     private function allValuesPayments($payments, $value = 0) {

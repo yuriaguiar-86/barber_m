@@ -55,9 +55,15 @@ body {
     align-items: center;
 }
 
-#filter__form {
+#filter__form,
+#form__dashboard {
     min-width: 280px;
     margin-right: 10px;
+}
+
+#form__dashboard {
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 .input__filter {
@@ -83,6 +89,20 @@ body {
     outline: none;
 }
 
+/* Filtro dashboard */
+.filter__date {
+    width: 100%;
+    width: 120px;
+    padding: 10px;
+
+    border: none;
+    outline: none;
+}
+
+.final {
+    border-radius: 0 5px 5px 0;
+    margin-left: 1px;
+}
 
 .msg__success {
     background: rgba(39, 174, 95, .5);
@@ -164,5 +184,9 @@ a {
 
     #filter__form {
         min-width: 180px;
+    }
+
+    .filter__date {
+        min-width: 100px !important;
     }
 }

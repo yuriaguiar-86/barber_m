@@ -54,7 +54,7 @@ class SchedulesController extends AppController {
     private function setConditionsSchedules() {
         $conditions[] = [
             'schedules.finished' => FinishedENUM::PENDING,
-            'schedules.date >=' => date('Y-m-d')
+            // 'schedules.date >=' => date('Y-m-d')
         ];
 
         $id = $this->getIdUserLogged();
