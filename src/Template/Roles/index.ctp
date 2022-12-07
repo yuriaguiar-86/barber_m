@@ -7,13 +7,9 @@ use App\Controller\TypeRoleENUM;
     <div class="subtitle__button">
         <h1>Tipos de perfis <small>listagem</small></h1>
 
-        <div class="filter__and__add">
-            <?= $this->element('filter'); ?>
-
-            <?php if ($this->AppView->visible('Roles', 'add')) : ?>
-                <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Roles', 'action' => 'add']); ?></p>
-            <?php endif; ?>
-        </div>
+        <?php if ($this->AppView->visible('Roles', 'add')) : ?>
+            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'Roles', 'action' => 'add']); ?></p>
+        <?php endif; ?>
     </div>
 
     <?php if (!empty($roles)) : ?>

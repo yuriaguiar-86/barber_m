@@ -19,13 +19,31 @@ class ActionsController extends AppController {
      */
     public function index() {
         try {
+            $conditions = $this->setFilterConditions();
+
             $this->paginate = ['contain' => ['Controllers']];
-            $actions = $this->paginate($this->Actions);
+            $actions = $this->paginate($this->Actions->find('all')->where($conditions));
             $this->set(compact('actions'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
+    }
+
+    private function setFilterConditions() {
+        $conditions = [];
+
+        if (!empty($this->request->getQuery('filter'))) {
+            $conditions[] = [
+                'OR' => [
+                    'actions.action_map like' => '%' . $this->request->getQuery('filter') . '%',
+                    'actions.surname like' => '%' . $this->request->getQuery('filter') . '%',
+                    'controllers.name like' => '%' . $this->request->getQuery('filter') . '%',
+                    'controllers.surname like' => '%' . $this->request->getQuery('filter') . '%',
+                ]
+            ];
+        }
+        return $conditions;
     }
 
     /**

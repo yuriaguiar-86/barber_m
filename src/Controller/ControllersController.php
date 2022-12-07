@@ -19,12 +19,28 @@ class ControllersController extends AppController {
      */
     public function index() {
         try {
-            $controllers = $this->paginate($this->Controllers);
+            $conditions = $this->setFilterConditions();
+
+            $controllers = $this->paginate($this->Controllers->find('all')->where($conditions));
             $this->set(compact('controllers'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
+    }
+
+    private function setFilterConditions() {
+        $conditions = [];
+
+        if (!empty($this->request->getQuery('filter'))) {
+            $conditions[] = [
+                'OR' => [
+                    'controllers.name like' => '%' . $this->request->getQuery('filter') . '%',
+                    'controllers.surname like' => '%' . $this->request->getQuery('filter') . '%',
+                ]
+            ];
+        }
+        return $conditions;
     }
 
     /**

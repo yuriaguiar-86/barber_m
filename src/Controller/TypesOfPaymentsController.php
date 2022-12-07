@@ -19,12 +19,27 @@ class TypesOfPaymentsController extends AppController {
      */
     public function index() {
         try {
-            $typesOfPayments = $this->paginate($this->TypesOfPayments);
+            $conditions = $this->setFilterConditions();
+
+            $typesOfPayments = $this->paginate($this->TypesOfPayments->find('all')->where($conditions));
             $this->set(compact('typesOfPayments'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
+    }
+
+    private function setFilterConditions() {
+        $conditions = [];
+
+        if (!empty($this->request->getQuery('filter'))) {
+            $conditions[] = [
+                'OR' => [
+                    'TypesOfPayments.name like' => '%' . $this->request->getQuery('filter') . '%',
+                ]
+            ];
+        }
+        return $conditions;
     }
 
     /**

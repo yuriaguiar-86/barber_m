@@ -13,6 +13,7 @@ use Exception;
  * @method \App\Model\Entity\Schedule[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class SchedulesController extends AppController {
+
     public function initialize() {
         $this->loadModel('UsersOpeningHours');
         return parent::initialize();
@@ -25,30 +26,45 @@ class SchedulesController extends AppController {
      */
     public function index() {
         try {
+            $default = $this->setConditionsSchedules();
+            $conditions = $this->setFilterConditions($default);
+
             $this->paginate = ['contain' => ['Users', 'TypesOfServices']];
-            $conditions = $this->setConditionsSchedules();
-            $schedules = $this->paginate($this->Schedules->find('all')->where($conditions));
+            $schedules = $this->paginate($this->Schedules->find('all')->where([$default, $conditions]));
             $this->set(compact('schedules'));
         } catch(Exception $exc) {
-            $this->Flash->error(__('Entre em contato com o administrador!'));
+            $this->Flash->error(__('Entre em contato com o administrador!'.$exc));
             return $this->redirect($this->referer());
         }
     }
 
+    private function setFilterConditions($conditions) {
+        if (!empty($this->request->getQuery('filter'))) {
+            $conditions[] = [
+                'OR' => [
+                    'users.name like' => '%' . $this->request->getQuery('filter') . '%',
+                    'schedules.time like' => '%' . $this->request->getQuery('filter') . '%',
+                    "DATE_FORMAT(schedules.date," . "'%d/%m/%Y'" . ") like" => '%' . $this->request->getQuery('filter') . '%',
+                ]
+            ];
+        }
+        return $conditions;
+    }
+
     private function setConditionsSchedules() {
         $conditions[] = [
-            'Schedules.finished' => FinishedENUM::PENDING,
-            'Schedules.date >=' => date('Y-m-d')
+            'schedules.finished' => FinishedENUM::PENDING,
+            'schedules.date >=' => date('Y-m-d')
         ];
 
         $id = $this->getIdUserLogged();
         $user = $this->Schedules->Users->get($id, ['contain' => ['Roles']]);
 
         if($user->role->type == TypeRoleENUM::EMPLOYEE) {
-            $conditions[] = ['Schedules.employee_id' => $user->id];
+            $conditions[] = ['schedules.employee_id' => $user->id];
 
         } else if($user->role->type == TypeRoleENUM::CLIENT) {
-            $conditions[] = ['Schedules.user_id' => $user->id];
+            $conditions[] = ['schedules.user_id' => $user->id];
         }
         return $conditions;
     }

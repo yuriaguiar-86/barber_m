@@ -7,13 +7,9 @@ use App\Controller\DaysOfWeekENUM;
     <div class="subtitle__button">
         <h1>Dias da semana <small>listagem</small></h1>
 
-        <div class="filter__and__add">
-            <?= $this->element('filter'); ?>
-
-            <?php if ($this->AppView->visible('DaysTimes', 'add')) : ?>
-                <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'DaysTimes', 'action' => 'add']); ?></p>
-            <?php endif; ?>
-        </div>
+        <?php if ($this->AppView->visible('DaysTimes', 'add')) : ?>
+            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'DaysTimes', 'action' => 'add']); ?></p>
+        <?php endif; ?>
     </div>
 
     <?php if (!empty($daysTimes)) : ?>

@@ -2,13 +2,9 @@
     <div class="subtitle__button">
         <h1>Horários <small>listagem</small></h1>
 
-        <div class="filter__and__add">
-            <?= $this->element('filter'); ?>
-
-            <?php if ($this->AppView->visible('OpeningHours', 'add')) : ?>
-                <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'OpeningHours', 'action' => 'add']); ?></p>
-            <?php endif; ?>
-        </div>
+        <?php if ($this->AppView->visible('OpeningHours', 'add')) : ?>
+            <p><?= $this->Html->link(__('Cadastrar'), ['controller' => 'OpeningHours', 'action' => 'add']); ?></p>
+        <?php endif; ?>
     </div>
 
     <?php if (!empty($openingHours)) : ?>

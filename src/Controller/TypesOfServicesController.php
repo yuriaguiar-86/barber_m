@@ -19,12 +19,28 @@ class TypesOfServicesController extends AppController {
      */
     public function index() {
         try {
-            $typesOfServices = $this->paginate($this->TypesOfServices);
+            $conditions = $this->setFilterConditions();
+
+            $typesOfServices = $this->paginate($this->TypesOfServices->find('all')->where($conditions));
             $this->set(compact('typesOfServices'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
+    }
+
+    private function setFilterConditions() {
+        $conditions = [];
+
+        if (!empty($this->request->getQuery('filter'))) {
+            $conditions[] = [
+                'OR' => [
+                    'TypesOfServices.name like' => '%' . $this->request->getQuery('filter') . '%',
+                    'TypesOfServices.price like' => '%' . $this->request->getQuery('filter') . '%',
+                ]
+            ];
+        }
+        return $conditions;
     }
 
     /**

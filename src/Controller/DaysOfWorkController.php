@@ -19,12 +19,28 @@ class DaysOfWorkController extends AppController {
      */
     public function index() {
         try {
-            $daysOfWork = $this->paginate($this->DaysOfWork);
+            $conditions = $this->setFilterConditions();
+
+            $daysOfWork = $this->paginate($this->DaysOfWork->find('all')->where($conditions));
             $this->set(compact('daysOfWork'));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
+    }
+
+    private function setFilterConditions() {
+        $conditions = [];
+
+        if (!empty($this->request->getQuery('filter'))) {
+            $conditions[] = [
+                'OR' => [
+                    "DATE_FORMAT(DaysOfWork.not_work," . "'%d/%m/%Y'" . ") like" => '%' . $this->request->getQuery('filter') . '%',
+                    'DaysOfWork.description like' => '%' . $this->request->getQuery('filter') . '%',
+                ]
+            ];
+        }
+        return $conditions;
     }
 
     /**

@@ -37,13 +37,32 @@ class UsersController extends AppController {
      */
     public function index() {
         try {
+            $conditions = $this->setFilterConditions();
+
             $this->paginate = ['contain' => ['Roles']];
-            $users = $this->paginate($this->Users);
+            $users = $this->paginate($this->Users->find('all')->where($conditions));
             $this->set(compact('users'));
         } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
+    }
+
+    private function setFilterConditions() {
+        $conditions = [];
+
+        if (!empty($this->request->getQuery('filter'))) {
+            $conditions[] = [
+                'OR' => [
+                    'users.username like' => '%' . $this->request->getQuery('filter') . '%',
+                    'users.name like' => '%' . $this->request->getQuery('filter') . '%',
+                    'users.email like' => '%' . $this->request->getQuery('filter') . '%',
+                    'users.personal_phone like' => '%' . $this->request->getQuery('filter') . '%',
+                    'users.other_phone like' => '%' . $this->request->getQuery('filter') . '%',
+                ]
+            ];
+        }
+        return $conditions;
     }
 
     /**
