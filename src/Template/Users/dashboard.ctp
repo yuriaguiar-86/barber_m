@@ -13,7 +13,7 @@
             <?= $this->Form->end() ?>
 
             <?php if ($this->AppView->visible('Users', 'export')) : ?>
-                <p><?= $this->Html->link(__('Exportar'), ['controller' => 'Users', 'action' => 'export'], ['class' => 'button__export']); ?></p>
+                <p><?= $this->Html->link(__('Exportar'), ['controller' => 'Users', 'action' => 'export', 'date_final' => $this->request->getQuery('date_final'), 'date_init' => $this->request->getQuery('date_init')], ['class' => 'button__export']); ?></p>
             <?php endif; ?>
         </div>
     </div>

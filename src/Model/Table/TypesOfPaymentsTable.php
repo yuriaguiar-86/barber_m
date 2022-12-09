@@ -80,6 +80,6 @@ class TypesOfPaymentsTable extends Table {
         ])->where([
             $conditions,
             'schedules.finished' => FinishedENUM::FINISHED
-        ])->group('TypesOfPayments.id')->toList();
+        ])->group('TypesOfPayments.id');
     }
 }

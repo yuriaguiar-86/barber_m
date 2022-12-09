@@ -18,6 +18,7 @@ $(function() {
 $(document).ready(function () {
     $(".filter__dashboard").datepicker({
         changeMonth: true,
+        dateFormat: 'dd/mm/yy',
         changeYear: true,
         dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
         dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],

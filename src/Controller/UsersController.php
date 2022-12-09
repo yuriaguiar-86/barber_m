@@ -9,6 +9,7 @@ use Cake\Utility\Security;
 use App\Controller\AppController;
 use Cake\Mailer\MailerAwareTrait;
 use Cake\Http\Exception\BadRequestException;
+use Cake\ORM\TableRegistry;
 use Exception;
 
 /**
@@ -422,5 +423,71 @@ class UsersController extends AppController {
         if (empty($current)) {
             throw new BadRequestException('O link no qual está tentando acessar é inválido!');
         }
+    }
+
+    public function export() {
+        try {
+            $conditions = $this->setConditionsDashboard();
+            $this->excel($conditions);
+        } catch (Exception $exc) {
+            $this->Flash->error(__('Entre em contato com o administrador!'));
+            $this->redirect(['controller' => 'Users', 'action' => 'profile']);
+        }
+    }
+
+    private function excel($conditions) {
+        $database = $this->Users->Schedules->TypesOfPayments->sumPaymentsRealize($conditions);
+        $header = $this->createHeaderXls($database);
+        $data = $this->createBodyXls($database);
+        $this->generateXls($data, $header);
+    }
+
+    private function createHeaderXls($database) {
+        $header = '';
+
+        foreach($database as $payments) { }
+        foreach($payments->toArray() as $key => $value) {
+            $header .= $key . "\t";
+        }
+        return $header;
+    }
+
+    private function createBodyXls($database) {
+        $data = '';
+        $number_lines = $database->count();
+        $payment = $database->toArray();
+
+        for($i = 0; $i < $number_lines; $i++) {
+            $line = '';
+            $row = $payment[$i];
+
+            foreach($row->toArray() as $key => $value) {
+                if(!isset($value) || $value == '') {
+                    $value = "\t";
+                } else {
+                    $value = str_replace('"', '""', $value);
+                    $value = '"' . $value . '"' . "\t";
+                }
+                $line .= $value;
+            }
+            $data .= trim($line) . "\n";
+        }
+        $data = utf8_decode($data);
+        $data = str_replace("\r", "", $data);
+
+        return $data;
+    }
+
+    private function generateXls($data, $header) {
+        header("Content-type: application/x-msdownload");
+        header("Content-Disposition: attachment; filename=pagamento.xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        $data != '' ?
+        print "$header\n$data" :
+        print "(0) Nenhum dado encontrado!";
+
+        exit();
     }
 }
