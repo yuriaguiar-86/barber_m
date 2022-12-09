@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Controller\TypeRoleENUM;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -21,16 +22,14 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Role[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Role findOrCreate($search, callable $callback = null, $options = [])
  */
-class RolesTable extends Table
-{
+class RolesTable extends Table {
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('roles');
@@ -53,8 +52,7 @@ class RolesTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
@@ -74,5 +72,11 @@ class RolesTable extends Table
             ->allowEmptyString('description');
 
         return $validator;
+    }
+
+    public function getRolesCreated() {
+        return $this->find('list', ['valueField' => 'type'])->select(['type'])->distinct()->where([
+            'type !=' => TypeRoleENUM::OTHERS
+        ])->toList();
     }
 }

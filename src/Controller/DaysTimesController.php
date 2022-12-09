@@ -12,6 +12,12 @@ use Exception;
  * @method \App\Model\Entity\DaysTime[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class DaysTimesController extends AppController {
+
+    public function initialize() {
+        $this->loadModel('Days_Times_Opening_Hours');
+        return parent::initialize();
+    }
+
     /**
      * Index method
      *
@@ -67,7 +73,8 @@ class DaysTimesController extends AppController {
             return $this->redirect($this->referer());
         } finally {
             $openingHours = $this->DaysTimes->OpeningHours->find('all')->toList();
-            $this->set(compact('daysTime', 'openingHours'));
+            $days_in_use = $this->DaysTimes->getDaysCreated();
+            $this->set(compact('daysTime', 'openingHours', 'days_in_use'));
         }
     }
 

@@ -266,7 +266,8 @@ class UsersController extends AppController {
 
     public function profile() {
         try {
-            $user = $this->Auth->user();
+            $id = $this->getIdUserLogged();
+            $user = $this->Users->get($id);
         } catch (Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             $this->redirect(['controller' => 'Users', 'action' => 'profile']);
@@ -287,7 +288,7 @@ class UsersController extends AppController {
 
                 if ($this->Users->save($user, ['associated' => ['OpeningHours']])) {
                     $this->Flash->success(__('A conta foi editada com sucesso.'));
-                    return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+                    return $this->redirect(['controller' => 'Users', 'action' => 'profile']);
                 }
                 $this->Flash->error(__('A conta não foi editada! Por favor, tente novamente.'));
             }

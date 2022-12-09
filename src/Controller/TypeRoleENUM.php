@@ -6,12 +6,14 @@ class TypeRoleENUM {
     const ADMIN = 1;
     const CLIENT = 2;
     const EMPLOYEE = 3;
+    const OTHERS = 4;
 
     public static function findConstants($value = NULL) {
         $values = array(
             self::CLIENT => "Cliente",
             self::ADMIN => "Administrador",
-            self::EMPLOYEE => "Funcionário"
+            self::EMPLOYEE => "Funcionário",
+            self::OTHERS => "Outros"
         );
 
         if ($value != NULL) {

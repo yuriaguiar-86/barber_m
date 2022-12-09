@@ -17,7 +17,7 @@ use App\Controller\DaysOfWeekENUM;
 
     <div class="row ">
         <label>Dia <span class="fields__required">*</span></label>
-        <?= $this->Form->control('day_of_week', ['options' => DaysOfWeekENUM::findConstants(), 'label' => false, 'required']); ?>
+        <?= $this->Form->control('day_of_week', ['options' => array_diff_key(DaysOfWeekENUM::findConstants(), array_flip($days_in_use)), 'label' => false, 'required']); ?>
     </div>
 
     <section class="controllers">

@@ -99,6 +99,7 @@ class SchedulesController extends AppController {
             $schedule = $this->Schedules->newEntity();
             $daysOfWork = $this->Schedules->DaysOfWork->find('all')->toList();
 
+            $this->validateExistEmployee();
             $this->setMessageAboutDayOff($daysOfWork);
 
             if ($this->request->is('post')) {
@@ -127,8 +128,17 @@ class SchedulesController extends AppController {
             return $this->redirect($this->referer());
         } finally {
             $typesOfServices = $this->Schedules->TypesOfServices->find('all')->toList();
-            $users = $this->Schedules->Users->find('all')->where(['Users.role_id' => TypeRoleENUM::EMPLOYEE])->toList();
+            $users = $this->Schedules->Users->getUsersEmployees();
             $this->set(compact('schedule', 'users', 'typesOfServices'));
+        }
+    }
+
+    private function validateExistEmployee() {
+        $employees = $this->Schedules->Users->getUsersEmployees();
+
+        if(empty($employees)) {
+            $this->Flash->warning('Ainda não está sendo possível o agendamento, pois não existe nenhum profissional cadastrado!');
+            return $this->redirect($this->referer());
         }
     }
 
@@ -186,6 +196,7 @@ class SchedulesController extends AppController {
             $schedule = $this->Schedules->get($id);
             $daysOfWork = $this->Schedules->DaysOfWork->find('all')->toList();
 
+            $this->validateExistEmployee();
             $this->setMessageAboutDayOff($daysOfWork);
 
             if ($this->request->is(['patch', 'post', 'put'])) {
@@ -209,7 +220,7 @@ class SchedulesController extends AppController {
             return $this->redirect($this->referer());
         } finally {
             $typesOfServices = $this->Schedules->TypesOfServices->find('all')->toList();
-            $users = $this->Schedules->Users->find('all')->where(['Users.role_id' => TypeRoleENUM::EMPLOYEE])->toList();
+            $users = $this->Schedules->Users->getUsersEmployees();
             $this->set(compact('schedule', 'users', 'typesOfServices'));
         }
     }

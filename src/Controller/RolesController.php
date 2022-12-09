@@ -83,7 +83,8 @@ class RolesController extends AppController {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         } finally {
-            $this->set(compact('role', 'controllers'));
+            $roles_in_use = $this->Roles->getRolesCreated();
+            $this->set(compact('role', 'controllers', 'roles_in_use'));
         }
     }
 

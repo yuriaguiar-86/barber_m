@@ -5,7 +5,7 @@ use App\Controller\TypeRoleENUM;
 
 <section>
     <div class="subtitle__button">
-        <h1>Tipos de perfis <small>edição</small></h1>
+        <h1>Tipos de perfil <small><?= TypeRoleENUM::findConstants($role->type); ?></small></h1>
 
         <p><?= $this->Html->link(__('Listagem'), ['controller' => 'Roles', 'action' => 'index']); ?></p>
     </div>
@@ -19,10 +19,6 @@ use App\Controller\TypeRoleENUM;
         <div class="row right">
             <label>Nome <span class="fields__required">*</span></label>
             <?= $this->Form->control('name', ['label' => false, 'required', 'autocomplete' => 'off']); ?>
-        </div>
-        <div class="row ">
-            <label>Tipo de acesso <span class="fields__required">*</span></label>
-            <?= $this->Form->control('type', ['options' => TypeRoleENUM::findConstants(), 'label' => false, 'required']); ?>
         </div>
     </div>
 

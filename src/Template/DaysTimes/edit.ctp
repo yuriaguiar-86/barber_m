@@ -5,7 +5,7 @@ use App\Controller\DaysOfWeekENUM;
 
 <section>
     <div class="subtitle__button">
-        <h1>Dias da semana <small>edição</small></h1>
+        <h1>Dia da semana <small><?= DaysOfWeekENUM::findConstants($daysTime->day_of_week); ?></small></h1>
 
         <p><?= $this->Html->link(__('Listagem'), ['controller' => 'DaysTimes', 'action' => 'index']); ?></p>
     </div>
@@ -14,11 +14,6 @@ use App\Controller\DaysOfWeekENUM;
     <?= $this->Form->create($daysTime, ['class' => 'all__forms']); ?>
 
     <p><span class="fields__required">*</span> campos obrigatórios</p>
-
-    <div class="row ">
-        <label>Dia <span class="fields__required">*</span></label>
-        <?= $this->Form->control('day_of_week', ['options' => DaysOfWeekENUM::findConstants(), 'label' => false, 'required']); ?>
-    </div>
 
     <section class="controllers">
         <h2>Horários disponíveis <span class="fields__required">*</span></h2>

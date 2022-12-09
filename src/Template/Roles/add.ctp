@@ -22,7 +22,7 @@ use App\Controller\TypeRoleENUM;
         </div>
         <div class="row ">
             <label>Tipo de acesso <span class="fields__required">*</span></label>
-            <?= $this->Form->control('type', ['options' => TypeRoleENUM::findConstants(), 'label' => false, 'required']); ?>
+            <?= $this->Form->control('type', ['options' => array_diff_key(TypeRoleENUM::findConstants(), array_flip($roles_in_use)), 'label' => false, 'required']); ?>
         </div>
     </div>
 

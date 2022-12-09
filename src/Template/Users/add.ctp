@@ -76,8 +76,8 @@ use App\Controller\DaysOfWeekENUM;
                     <?php foreach ($hour->days_times as $day_week) : ?>
                         <?php if ($day_week->day_of_week == DaysOfWeekENUM::findConstants($day)) : ?>
 
-                            <input type="checkbox" id="box-<?= $hour->id; ?>" name="opening_hours[_ids][]" value="<?= $hour->id; ?>" class="checkbox__service" />
-                            <label for="box-<?= $hour->id; ?>"><?= $hour->time_of_week; ?>:00H</label>
+                            <input type="checkbox" id="box-<?= $hour->id .''. $day_week->id; ?>" name="opening_hours[_ids][]" value="<?= $hour->id; ?>" class="checkbox__service" />
+                            <label for="box-<?= $hour->id .''. $day_week->id; ?>"><?= $hour->time_of_week; ?>:00H</label>
 
                         <?php endif; ?>
                     <?php endforeach; ?>

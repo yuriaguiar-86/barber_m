@@ -2,6 +2,7 @@
 namespace App\Model\Table;
 
 use App\Controller\FinishedENUM;
+use App\Controller\TypeRoleENUM;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -135,13 +136,11 @@ class UsersTable extends Table {
     }
 
     public function findAuth($query, array $options) {
-        $query->contain(['Roles' => ['Actions' => 'Controllers']]);
-        return $query;
+        return $query->contain(['Roles' => ['Actions' => 'Controllers']]);
     }
 
     public function getUserData($user_id) {
-        $query = $this->find()->select(['id', 'name', 'email'])->where(['Users.id' => $user_id]);
-        return $query->first();
+        return $this->find()->select(['id', 'name', 'email'])->where(['Users.id' => $user_id])->first();
     }
 
     public function getForgetPassword($email) {
@@ -161,5 +160,11 @@ class UsersTable extends Table {
             ->innerJoin('schedules', 'schedules.user_id = Users.id')
             ->where(['schedules.date' => $day_free])
             ->toList();
+    }
+
+    public function getUsersEmployees() {
+        return $this->find('all')->where([
+            'Users.role_id' => TypeRoleENUM::EMPLOYEE
+        ])->toList();
     }
 }
