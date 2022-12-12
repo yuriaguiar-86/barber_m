@@ -159,7 +159,7 @@ class SchedulesController extends AppController {
 
     private function validateDayBeforeCurrent($date_schedule) {
         if(strtotime($date_schedule) < strtotime(date('Y-m-d'))) {
-            throw new BadRequestException('Para realizar o agendamento, selecione a data atual ou posterior!');
+            throw new BadRequestException('Não é possível realizar o agendamento com data anterior a atual!');
         }
     }
 
@@ -259,7 +259,8 @@ class SchedulesController extends AppController {
             $times_busy = $this->Schedules->findTimesRegistered($date_select, $employee_id);
             $day_week = date('w', strtotime($date_select)) + 1;
             $times_free = $this->UsersOpeningHours->findOpeningTimesEmployee($employee_id, $day_week);
-            $times = array_diff($times_free, $times_busy);
+            $list_times = array_diff($times_free, $times_busy);
+            $times = $this->removeTimesOfDayCurrent($list_times);
 
             return $this->response
                 ->withType('application/json')
@@ -268,10 +269,19 @@ class SchedulesController extends AppController {
         }
     }
 
-    private function validateDate() {
-        $data = explode('/', $this->request->getQuery('date'));
+    private function removeTimesOfDayCurrent($times) {
+        if(strtotime($this->formatData($this->request->getQuery('date'))) == strtotime(date('Y-m-d'))) {
+            foreach($times as $key => $value) {
+                if(strcmp($value, date('H')) <= 0) {
+                    unset($times[$key]);
+                }
+            }
+        }
+        return $times;
+    }
 
-        if(checkdate($data[1], $data[0], $data[2])) {
+    private function validateDate() {
+        if(strtotime($this->formatData($this->request->getQuery('date'))) < strtotime(date('Y-m-d'))) {
             return $this->response
                 ->withType('application/json')
                 ->withStatus(400);

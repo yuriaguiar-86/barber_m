@@ -53,7 +53,8 @@ class OpeningHoursTable extends Table {
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->integer('time_of_week')
+            ->scalar('time_of_week')
+            ->maxLength('time_of_week', 4)
             ->requirePresence('time_of_week', 'create')
             ->notEmptyString('time_of_week', 'O campo horário é obrigatório!');
 

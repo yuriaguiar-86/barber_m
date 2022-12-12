@@ -93,7 +93,7 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            html: '<p>Algo coisa deu errado.</p> <p>Tente novamente mais tarde!</p>',
+                            html: '<p>Algo coisa deu errado. Verifique a data selecionada ou tente novamente mais tarde!</p>',
                             confirmButtonColor: '#A9A9A9'
                         });
                     }

@@ -1,5 +1,5 @@
 $(function() {
-    $( ".calendar" ).datepicker({
+    $(".calendar").datepicker({
         minDate: 0,
         dateFormat: 'dd/mm/yy',
         changeMonth: true,
