@@ -39,7 +39,6 @@ class UsersController extends AppController {
     public function index() {
         try {
             $conditions = $this->setFilterConditions();
-
             $this->paginate = ['contain' => ['Roles']];
             $users = $this->paginate($this->Users->find('all')->where($conditions));
             $this->set(compact('users'));

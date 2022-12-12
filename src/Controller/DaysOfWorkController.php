@@ -20,7 +20,6 @@ class DaysOfWorkController extends AppController {
     public function index() {
         try {
             $conditions = $this->setFilterConditions();
-
             $daysOfWork = $this->paginate($this->DaysOfWork->find('all')->where($conditions));
             $this->set(compact('daysOfWork'));
         } catch(Exception $exc) {
@@ -52,10 +51,7 @@ class DaysOfWorkController extends AppController {
      */
     public function view($id = null) {
         try {
-            $daysOfWork = $this->DaysOfWork->get($id, [
-                'contain' => ['Schedules']
-            ]);
-
+            $daysOfWork = $this->DaysOfWork->get($id, ['contain' => ['Schedules']]);
             $this->set('daysOfWork', $daysOfWork);
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
@@ -76,17 +72,16 @@ class DaysOfWorkController extends AppController {
                 $daysOfWork = $this->DaysOfWork->patchEntity($daysOfWork, $this->request->getData());
                 $daysOfWork->not_work = $this->formatData($this->request->getData('not_work'));
 
-                if(!$this->validateIfExistScheduleInsid($daysOfWork)) {
-                    if ($this->DaysOfWork->save($daysOfWork)) {
-                        $this->Flash->success(__('O dia de folga foi cadastrado com sucesso.'));
-                        return $this->redirect(['controller' =>'DaysOfWork', 'action' => 'index']);
-                    }
-                    $this->Flash->error(__('O dia de folga não foi cadastrado! Por favor, tente novamente.'));
+                if ($this->DaysOfWork->save($daysOfWork)) {
+                    $this->Flash->success(__('O dia de folga foi cadastrado com sucesso.'));
+                    $this->validateIfExistScheduleInsid($daysOfWork);
+                    return $this->redirect(['controller' =>'DaysOfWork', 'action' => 'index']);
                 }
+                $this->Flash->error(__('O dia de folga não foi cadastrado! Por favor, tente novamente.'));
             }
             $this->set(compact('daysOfWork'));
         } catch(Exception $exc) {
-            $this->Flash->error(__('Entre em contato com o administrador!'.$exc));
+            $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
         }
     }
@@ -106,13 +101,12 @@ class DaysOfWorkController extends AppController {
                 $daysOfWork = $this->DaysOfWork->patchEntity($daysOfWork, $this->request->getData());
                 $daysOfWork->not_work = $this->formatData($this->request->getData('not_work'));
 
-                if(!$this->validateIfExistScheduleInsid($daysOfWork)) {
-                    if ($this->DaysOfWork->save($daysOfWork)) {
-                        $this->Flash->success(__('O dia de folga foi editado com sucesso.'));
-                        return $this->redirect(['controller' =>'DaysOfWork', 'action' => 'index']);
-                    }
-                    $this->Flash->error(__('O dia de folga não foi editado! Por favor, tente novamente.'));
+                if ($this->DaysOfWork->save($daysOfWork)) {
+                    $this->Flash->success(__('O dia de folga foi editado com sucesso.'));
+                    $this->validateIfExistScheduleInsid($daysOfWork);
+                    return $this->redirect(['controller' =>'DaysOfWork', 'action' => 'index']);
                 }
+                $this->Flash->error(__('O dia de folga não foi editado! Por favor, tente novamente.'));
             }
             $this->set(compact('daysOfWork'));
         } catch(Exception $exc) {
@@ -122,7 +116,9 @@ class DaysOfWorkController extends AppController {
     }
 
     private function validateIfExistScheduleInsid($daysOfWork) {
-        $schedules = $this->DaysOfWork->Schedules->find('all')->where(['Schedules.date' => $daysOfWork->not_work])->toList();
+        $schedules = $this->DaysOfWork->Schedules->find('all')->where([
+            'Schedules.date' => $daysOfWork->not_work
+        ])->toList();
 
         if(!empty($schedules)) {
             return $this->redirect([
@@ -131,7 +127,6 @@ class DaysOfWorkController extends AppController {
                 'day' => $daysOfWork->not_work
             ]);
         }
-        return false;
     }
 
     public function rescheduleAppointments() {

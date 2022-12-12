@@ -166,11 +166,11 @@ class SchedulesController extends AppController {
     private function setMessageAboutDayOff($daysOfWork) {
         if(!empty($daysOfWork)) {
             foreach($daysOfWork as $day) {
-                if(strtotime($day->not_work) >= strtotime(date('Y-m-d'))) {
+                if(strtotime($day->not_work->format('y-m-d')) >= strtotime(date('Y-m-d'))) {
                     $text = 'No dia ' .$day->not_work->format('d/m/Y');
                     $text .= '<br>'.$day->description;
 
-                    $this->Flash->warning(__($text), ['escape' => false]);
+                    $this->Flash->warning($text, ['escape' => false]);
                 }
             }
         }
@@ -215,6 +215,9 @@ class SchedulesController extends AppController {
                 }
                 $this->Flash->error(__('O agendamento não foi atualizado! Por favor, tente novamente.'));
             }
+        } catch(BadRequestException $exc) {
+            $this->Flash->error(__('O agendamento não foi atualizado! Por favor, revise as informações.'));
+            $this->Flash->warning(__($exc->getMessage()));
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
@@ -244,6 +247,10 @@ class SchedulesController extends AppController {
             $this->Flash->error(__('O agendamento não foi cancelado! Por favor, tente novamente.'));
 
             return $this->redirect(['controller' => 'Schedules', 'action' => 'index']);
+        } catch(BadRequestException $exc) {
+            $this->Flash->error(__('O agendamento não foi cancelado! Por favor, revise as informações.'));
+            $this->Flash->warning(__($exc->getMessage()));
+            return $this->redirect($this->referer());
         } catch(Exception $exc) {
             $this->Flash->error(__('Entre em contato com o administrador!'));
             return $this->redirect($this->referer());
@@ -271,8 +278,10 @@ class SchedulesController extends AppController {
 
     private function removeTimesOfDayCurrent($times) {
         if(strtotime($this->formatData($this->request->getQuery('date'))) == strtotime(date('Y-m-d'))) {
+            $time_current = date('H', strtotime('+3 hours'));
+
             foreach($times as $key => $value) {
-                if(strcmp($value, date('H')) <= 0) {
+                if(strcmp($value, $time_current) <= 0) {
                     unset($times[$key]);
                 }
             }

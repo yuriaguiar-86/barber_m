@@ -13,7 +13,7 @@ use App\Controller\TypeRoleENUM;
             <?php endif; ?>
 
             <?php if ($this->AppView->visible('Schedules', 'delete')) : ?>
-                <?= $this->Form->postLink(__('Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') . ' ás ' . $schedule->time . ':00H', 'confirm' => __('Tem certeza que deseja apagar o agendamento do dia {0}?', $schedule->name)]); ?>
+                <?= $this->Form->postLink(__('Cancelar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'delete_in_view sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') . ' ás ' . $schedule->time . ':00H', 'confirm' => __('Tem certeza que deseja cancelar o agendamento do dia {0}?', $schedule->name)]); ?>
             <?php endif; ?>
 
             <?php if ($this->AppView->visible('Schedules', 'edit')) : ?>
@@ -31,7 +31,7 @@ use App\Controller\TypeRoleENUM;
                             <?php endif; ?>
 
                             <?php if ($this->AppView->visible('Schedules', 'delete')) : ?>
-                                <li><?= $this->Form->postLink(__('Apagar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') . ' ás ' . $schedule->time . ':00H', 'confirm' => __('Tem certeza que deseja apagar o agendamento do dia {0}?', $schedule->name)]); ?></li>
+                                <li><?= $this->Form->postLink(__('Cancelar'), ['controller' => 'Schedules', 'action' => 'delete', $schedule->id], ['class' => 'header__link sweetdelete', 'data-name' => 'o agendamento do dia ' . $schedule->date->format('d/m/Y') . ' ás ' . $schedule->time . ':00H', 'confirm' => __('Tem certeza que deseja cancelar o agendamento do dia {0}?', $schedule->name)]); ?></li>
                             <?php endif; ?>
 
                             <?php if ($this->AppView->visible('Schedules', 'edit')) : ?>
